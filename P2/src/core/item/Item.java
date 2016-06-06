@@ -1,5 +1,7 @@
 package core.item;
 
+import core.personagem.Profissao;
+
 public abstract class Item {
 
 	private final String nome;
@@ -12,5 +14,5 @@ public abstract class Item {
 		return this.nome;
 	}
 	
-	public abstract boolean isEquipavel();
+	public abstract boolean isEquipavel(Profissao p);
 }
