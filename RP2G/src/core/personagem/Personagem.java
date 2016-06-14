@@ -10,9 +10,9 @@ import exception.NotEnoughManaException;
 
 public class Personagem {
 	public static enum Stat {
-		MAX_HP,
-		MAX_MP,
-		ST,
+		HP_MAX,
+		MP_MAX,
+		FOR,
 		INT,
 		DEX;
 	}
@@ -54,9 +54,9 @@ public class Personagem {
 				return a.getNome().compareTo(b.getNome());
 			}
 		);
-		this.setStat(Stat.MAX_HP, maxHp);
-		this.setStat(Stat.MAX_MP, maxMp);
-		this.setStat(Stat.ST, ist);
+		this.setStat(Stat.HP_MAX, maxHp);
+		this.setStat(Stat.MP_MAX, maxMp);
+		this.setStat(Stat.FOR, ist);
 		this.setStat(Stat.INT, iint);
 		this.setStat(Stat.DEX, idex);
 		// TODO ícone
@@ -76,7 +76,7 @@ public class Personagem {
 	}
 	
 	public void setHp(int hp) {
-		if (hp > this.getStat(Stat.MAX_HP))
+		if (hp > this.getStat(Stat.HP_MAX))
 			throw new IllegalArgumentException("Valor de HP acima do máximo");
 		if (hp < 0)
 			throw new IllegalArgumentException("Valor de HP negativo");
@@ -85,7 +85,7 @@ public class Personagem {
 	}
 	
 	public void setMp(int mp) {
-		if (mp > this.getStat(Stat.MAX_MP))
+		if (mp > this.getStat(Stat.MP_MAX))
 			throw new IllegalArgumentException("Valor de MP acima do máximo");
 		if (mp < 0)
 			throw new IllegalArgumentException("Valor de MP negativo");
@@ -125,8 +125,8 @@ public class Personagem {
 	}
 	
 	public void curar(int c) {
-		if (this.getStat(Stat.MAX_HP) - this.hp < c)
-			this.setHp(this.getStat(Stat.MAX_HP));
+		if (this.getStat(Stat.HP_MAX) - this.hp < c)
+			this.setHp(this.getStat(Stat.HP_MAX));
 		else
 			this.setHp(this.hp + c);
 	}
@@ -139,8 +139,8 @@ public class Personagem {
 	}
 	
 	public void recuperar(int m) {
-		if (this.getStat(Stat.MAX_MP) - this.mp < m)
-			this.setMp(this.getStat(Stat.MAX_MP));
+		if (this.getStat(Stat.MP_MAX) - this.mp < m)
+			this.setMp(this.getStat(Stat.MP_MAX));
 		else
 			this.setMp(this.mp + m);
 	}
