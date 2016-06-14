@@ -25,7 +25,7 @@ public class Espada extends Arma {
 	@Override
 	public int calcularDano(Personagem pA, Personagem pB) {
 		//(((ForcaA - ForcaB) / 5) * danoBase) + danoBase;
-		return (((pA.getStat(Stat.ST) - pB.getStat(Stat.ST))/5)+1) * danoBase;
+		return (((pA.getStat(Stat.FOR) - pB.getStat(Stat.FOR))/5)+1) * danoBase;
 	}
 
 	@Override
