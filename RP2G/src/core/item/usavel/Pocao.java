@@ -1,4 +1,5 @@
-package core.item;
+package core.item.usavel;
+
 
 public abstract class Pocao extends ItemUsavel {
 
