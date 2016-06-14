@@ -1,4 +1,4 @@
-package c;
+package core.mapa;
 import core.personagem.Personagem;
 
 
