@@ -1,13 +1,13 @@
 package core.item.arma;
 
 import core.personagem.Personagem;
-import core.personagem.Personagem.Stat;
 import core.personagem.Profissao;
+import core.personagem.Personagem.Stat;
 import core.utils.Dado;
 
-public class Espada extends Arma {
-		
-	public Espada (String nome, int danoBase, int alcance){
+public class Livro extends Arma {
+
+	public Livro(String nome, int danoBase, int alcance){
 		super(nome, danoBase, alcance);
 	}
 	
