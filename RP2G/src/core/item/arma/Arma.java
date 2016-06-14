@@ -1,7 +1,6 @@
 package core.item.arma;
 
 import core.item.Item;
-import core.personagem.Profissao;
 import core.personagem.Personagem;
 
 public abstract class Arma extends Item {
