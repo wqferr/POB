@@ -1,4 +1,4 @@
-import core.Posicao;
+package c;
 import core.personagem.Personagem;
 
 
@@ -15,11 +15,11 @@ public class Quadrado {
 	}
 		
 	public Quadrado(Posicao posicao){
-		this(posicao, false, new Personagem());
+		this(posicao, false);
 	}
 	
 	public Quadrado(Posicao posicao, boolean transponivel){
-		this(posicao, transponivel, new Personagem());
+		this(posicao, transponivel, null);
 	}
 	
 	public Posicao getPosicao(){

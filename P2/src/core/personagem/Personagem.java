@@ -4,8 +4,8 @@ import java.awt.image.BufferedImage;
 import java.util.Map;
 import java.util.TreeMap;
 
-import core.Posicao;
-import core.item.Item;
+import coreore.Posicao;
+import coreore.item.Item;
 import exception.NotEnoughManaException;
 
 public class Personagem {

@@ -1,4 +1,4 @@
-import core.Posicao;
+package c;
 
 
 public class Mapa {
