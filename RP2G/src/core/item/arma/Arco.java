@@ -13,13 +13,14 @@ public class Arco extends Arma {
 
 	@Override
 	public int calcularDano(Personagem pA, Personagem pB) {
-		//(((ForcaA - ForcaB) / 5) * danoBase) + danoBase;
-		return (((pA.getStat(Stat.FOR) - pB.getStat(Stat.FOR))/5)+1) * this.danoBase;
+		double dif = ((pA.getStat(Stat.FOR)/2.0 + pA.getStat(Stat.DEX)) - (pB.getStat(Stat.FOR)/2.0 + pB.getStat(Stat.DEX)))/5.0;
+		if (dif>=0) return (int)Math.ceil(this.danoBase * (dif+1));
+		else return (int)Math.ceil(this.danoBase /(-(dif-1))); 
 	}
 
 	@Override
 	public boolean isEquipavel(Profissao p) {
-		return (p == Profissao.GUERREIRO);
+		return (p == Profissao.ARQUEIRO);
 	}
 
 }

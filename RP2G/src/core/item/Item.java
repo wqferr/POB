@@ -1,6 +1,6 @@
 package core.item;
 
-public abstract class Item {
+public abstract class Item implements Comparable{
 
 	private final String nome;
 	
