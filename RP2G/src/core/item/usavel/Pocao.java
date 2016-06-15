@@ -1,10 +1,20 @@
 package core.item.usavel;
 
+import core.personagem.Personagem;
 
-public abstract class Pocao extends ItemUsavel {
 
-	public Pocao(String nome) {
+public class Pocao extends ItemUsavel {
+	
+	private int eficacia;
+
+	public Pocao(String nome, int eficacia) {
 		super(nome);
+		this.eficacia = eficacia;
+	}
+	
+	@Override
+	public void usar(Personagem p) {
+		p.curar(this.eficacia);
 	}
 
 }
