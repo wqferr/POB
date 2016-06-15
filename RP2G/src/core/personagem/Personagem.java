@@ -106,7 +106,7 @@ public class Personagem {
 	}
 	
 	public void ferir(int d) {
-		if (this.hp > d)
+		if (this.hp < d)
 			this.setHp(0);
 		else
             this.setHp(this.hp - d);
