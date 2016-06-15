@@ -10,6 +10,7 @@ import core.item.usavel.ItemUsavel;
 import core.mapa.Posicao;
 import core.utils.Dado;
 import exception.ItemInvalidoException;
+import exception.ItensInsuficientesException;
 
 public class Personagem {
 	public static enum Stat {
@@ -84,6 +85,10 @@ public class Personagem {
 		return this.inventario.getOrDefault(i, 0);
 	}
 	
+	public int getNroItens(String s) {
+		return this.getNroItens(Item.get(s));
+	}
+	
 	public String getNome() {
 		return this.nome;
 	}
@@ -122,21 +127,34 @@ public class Personagem {
 		this.inventario.put(i, this.getNroItens(i) + q);
 	}
 	
-	public int remover(Item i) {
-		return this.remover(i, 1);
+	public void adicionar(String s) {
+		this.adicionar(Item.get(s));
+	}
+	
+	public void adicionar(String s, int q) {
+		this.adicionar(Item.get(s), q);
+	}
+	
+	public void remover(Item i) throws ItensInsuficientesException {
+		this.remover(i, 1);
 	}
 	
 	// Retorna quantos itens foram removidos de fato
-	public int remover(Item i, int q) {
+	public void remover(Item i, int q) throws ItensInsuficientesException {
 		int qtdAtual = this.getNroItens(i);
 		int qtdNova;
 		if (qtdAtual < q)
-			qtdNova = 0;
+			throw new ItensInsuficientesException(i.getNome());
 		else
-			qtdNova = qtdAtual - q;
-		this.inventario.put(i, qtdNova);
-
-		return qtdAtual - qtdNova;
+            this.inventario.put(i, qtdAtual - q);
+	}
+	
+	public void remover(String s) throws ItensInsuficientesException {
+		this.remover(Item.get(s));
+	}
+	
+	public void remover(String s, int q) throws ItensInsuficientesException {
+		this.remover(Item.get(s), q);
 	}
 	
 	public void atacar(Personagem pB) {
@@ -149,14 +167,14 @@ public class Personagem {
 		pB.ferir(dano);
 	}
 	
-	public void setArma(Arma arma) throws ItemInvalidoException {
+	public void setArma(Arma arma) throws ItemInvalidoException, ItensInsuficientesException {
 		Arma anterior = this.arma;
 
 		if (arma == null) {
 			this.arma = null;
-        } else if (arma.isEquipavel(this.profissao) && this.getNroItens(arma) > 0) {
-            this.arma = arma;
+        } else if (arma.isEquipavel(this.profissao)) {
             this.remover(arma);
+            this.arma = arma;
 		} else {
 			throw new ItemInvalidoException(arma.getNome());
 		}
