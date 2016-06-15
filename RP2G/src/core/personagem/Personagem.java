@@ -139,10 +139,8 @@ public class Personagem {
 		this.remover(i, 1);
 	}
 	
-	// Retorna quantos itens foram removidos de fato
 	public void remover(Item i, int q) throws ItensInsuficientesException {
 		int qtdAtual = this.getNroItens(i);
-		int qtdNova;
 		if (qtdAtual < q)
 			throw new ItensInsuficientesException(i.getNome());
 		else
