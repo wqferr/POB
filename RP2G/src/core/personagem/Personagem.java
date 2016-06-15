@@ -180,12 +180,29 @@ public class Personagem {
         this.adicionar(anterior);
 	}
 	
+	public void setArma(String nome) throws ItemInvalidoException {
+		try {
+			this.setArma((Arma) Item.get(nome));
+		} catch (ClassCastException e) {
+			throw new ItemInvalidoException(nome + " não é uma arma");
+		}
+	}
+	
 	public Arma getArma() {
 		return this.arma;
 	}
 	
 	public void usar(ItemUsavel item) {
-		item.usar(this);
+        this.remover(item);
+        item.usar(this);
+	}
+	
+	public void usar(String nome) throws ItemInvalidoException {
+		try {
+			this.usar((ItemUsavel) Item.get(nome));
+		} catch (ClassCastException e) {
+			throw new ItemInvalidoException(nome + " não é usável");
+		}
 	}
 	
 }
