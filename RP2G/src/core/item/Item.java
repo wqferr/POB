@@ -3,6 +3,7 @@ package core.item;
 import java.util.Map;
 import java.util.TreeMap;
 
+import exception.ItemInexistenteException;
 import exception.NomeRepetidoException;
 
 public abstract class Item implements Comparable<Item> {
@@ -27,6 +28,9 @@ public abstract class Item implements Comparable<Item> {
 	}
 	
 	public static Item get(String nome) {
-		return registro.get(nome);
+		Item i = registro.get(nome);
+		if (i == null)
+			throw new ItemInexistenteException();
+		return i;
 	}
 }
