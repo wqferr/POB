@@ -1,6 +1,6 @@
 package exception;
 
-public class ItensInsuficientesException extends Exception {
+public class ItensInsuficientesException extends RuntimeException {
 
 	private static final long serialVersionUID = -5746623830208457615L;
 

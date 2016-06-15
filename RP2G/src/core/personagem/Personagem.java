@@ -135,11 +135,11 @@ public class Personagem {
 		this.adicionar(Item.get(s), q);
 	}
 	
-	public void remover(Item i) throws ItensInsuficientesException {
+	public void remover(Item i) {
 		this.remover(i, 1);
 	}
 	
-	public void remover(Item i, int q) throws ItensInsuficientesException {
+	public void remover(Item i, int q) {
 		int qtdAtual = this.getNroItens(i);
 		if (qtdAtual < q)
 			throw new ItensInsuficientesException(i.getNome());
@@ -147,11 +147,11 @@ public class Personagem {
             this.inventario.put(i, qtdAtual - q);
 	}
 	
-	public void remover(String s) throws ItensInsuficientesException {
+	public void remover(String s) {
 		this.remover(Item.get(s));
 	}
 	
-	public void remover(String s, int q) throws ItensInsuficientesException {
+	public void remover(String s, int q) {
 		this.remover(Item.get(s), q);
 	}
 	
@@ -165,7 +165,7 @@ public class Personagem {
 		pB.ferir(dano);
 	}
 	
-	public void setArma(Arma arma) throws ItemInvalidoException, ItensInsuficientesException {
+	public void setArma(Arma arma) throws ItemInvalidoException {
 		Arma anterior = this.arma;
 
 		if (arma == null) {
