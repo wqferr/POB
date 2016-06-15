@@ -4,16 +4,16 @@ import java.awt.image.BufferedImage;
 import java.util.Map;
 import java.util.TreeMap;
 
+import core.item.Item;
+import core.item.arma.Arma;
+import core.item.usavel.ItemUsavel;
 import core.mapa.Posicao;
 import core.utils.Dado;
-import core.item.Item;
-import exception.NotEnoughManaException;
-import core.item.arma.Arma;
+import exception.ItemInvalidoException;
 
 public class Personagem {
 	public static enum Stat {
 		HP_MAX,
-		MP_MAX,
 		FOR,
 		INT,
 		DEX;
@@ -24,7 +24,6 @@ public class Personagem {
 	private Profissao profissao;
 	private Posicao pos;
 	private int hp;
-	private int mp;
 	private Map<Stat, Integer> stats;
 	private Map<Item, Integer> inventario;
 	private Arma arma;
@@ -35,26 +34,24 @@ public class Personagem {
 	}
 	
 	public Personagem(String nome, Profissao prof) {
-		this(nome, prof, 10, 10);
+		this(nome, prof, 10);
 	}
 	
-	public Personagem(String nome, Profissao prof, int maxHp, int maxMp) {
-		this(nome, prof, maxHp, maxMp, 5, 5, 5);
+	public Personagem(String nome, Profissao prof, int maxHp) {
+		this(nome, prof, maxHp, 5, 5, 5);
 	}
 	
-	public Personagem(String nome, Profissao prof, int maxHp, int maxMp, int ist, int iint, int idex) {
-		this(nome, prof, maxHp, maxMp, ist, iint, idex, null);
+	public Personagem(String nome, Profissao prof, int maxHp, int ist, int iint, int idex) {
+		this(nome, prof, maxHp, ist, iint, idex, null);
 	}
 	
-	public Personagem(String nome, Profissao prof, int maxHp, int maxMp, int ist, int iint, int idex, BufferedImage icone) {
+	public Personagem(String nome, Profissao prof, int maxHp, int ist, int iint, int idex, BufferedImage icone) {
 		this.nome = nome;
 		this.profissao = prof;
 		this.hp = maxHp;
-		this.mp = maxMp;
 		this.stats = new TreeMap<Stat, Integer>();
 		this.inventario = new TreeMap<Item, Integer>();
 		this.setStat(Stat.HP_MAX, maxHp);
-		this.setStat(Stat.MP_MAX, maxMp);
 		this.setStat(Stat.FOR, ist);
 		this.setStat(Stat.INT, iint);
 		this.setStat(Stat.DEX, idex);
@@ -83,15 +80,6 @@ public class Personagem {
 		this.hp = hp;
 	}
 	
-	public void setMp(int mp) {
-		if (mp > this.getStat(Stat.MP_MAX))
-			throw new IllegalArgumentException("Valor de MP acima do máximo");
-		if (mp < 0)
-			throw new IllegalArgumentException("Valor de MP negativo");
-		
-		this.mp = mp;
-	}
-	
 	public int getNroItens(Item i) {
 		return this.inventario.getOrDefault(i, 0);
 	}
@@ -112,7 +100,7 @@ public class Personagem {
 		return this.pos;
 	}
 	
-	public void danificar(int d) {
+	public void ferir(int d) {
 		if (this.hp > d)
 			this.setHp(0);
 		else
@@ -126,26 +114,29 @@ public class Personagem {
 			this.setHp(this.hp + c);
 	}
 	
-	public void gastar(int m) throws NotEnoughManaException {
-		if (this.mp >= m)
-			this.setMp(this.mp - m);
-		else
-			throw new NotEnoughManaException();
+	public void adicionar(Item i) {
+		this.adicionar(i, 1);
 	}
 	
-	public void recuperar(int m) {
-		if (this.getStat(Stat.MP_MAX) - this.mp < m)
-			this.setMp(this.getStat(Stat.MP_MAX));
-		else
-			this.setMp(this.mp + m);
-	}
-	
-	public void dar(Item i) {
-		this.dar(i, 1);
-	}
-	
-	public void dar(Item i, int q) {
+	public void adicionar(Item i, int q) {
 		this.inventario.put(i, this.getNroItens(i) + q);
+	}
+	
+	public int remover(Item i) {
+		return this.remover(i, 1);
+	}
+	
+	// Retorna quantos itens foram removidos de fato
+	public int remover(Item i, int q) {
+		int qtdAtual = this.getNroItens(i);
+		int qtdNova;
+		if (qtdAtual < q)
+			qtdNova = 0;
+		else
+			qtdNova = qtdAtual - q;
+		this.inventario.put(i, qtdNova);
+
+		return qtdAtual - qtdNova;
 	}
 	
 	public void atacar(Personagem pB) {
@@ -155,15 +146,30 @@ public class Personagem {
 		//Funcao linear onde f(1) = 1/3 e f(20) = 3
 		double bonus = (((3.0 - (1.0/3.0)) / 19.0) * d20.getLado()) + ((1.0/3.0) - ((3.0 - (1.0/3.0)) / 19.0));
 		int dano = (int) Math.ceil(this.arma.calcularDano(this, pB) * bonus);
-		pB.danificar(dano);
+		pB.ferir(dano);
 	}
 	
-	public void setArma(){
+	public void setArma(Arma arma) throws ItemInvalidoException {
+		Arma anterior = this.arma;
+
+		if (arma == null) {
+			this.arma = null;
+        } else if (arma.isEquipavel(this.profissao) && this.getNroItens(arma) > 0) {
+            this.arma = arma;
+            this.remover(arma);
+		} else {
+			throw new ItemInvalidoException(arma.getNome());
+		}
 		
+        this.adicionar(anterior);
 	}
 	
-	public Arma getArma(){
-		
+	public Arma getArma() {
+		return this.arma;
+	}
+	
+	public void usar(ItemUsavel item) {
+		item.usar(this);
 	}
 	
 }
