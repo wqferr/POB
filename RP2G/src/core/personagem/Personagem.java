@@ -52,11 +52,7 @@ public class Personagem {
 		this.hp = maxHp;
 		this.mp = maxMp;
 		this.stats = new TreeMap<Stat, Integer>();
-		this.inventario = new TreeMap<Item, Integer>(
-			(a, b) -> {
-				return a.getNome().compareTo(b.getNome());
-			}
-		);
+		this.inventario = new TreeMap<Item, Integer>();
 		this.setStat(Stat.HP_MAX, maxHp);
 		this.setStat(Stat.MP_MAX, maxMp);
 		this.setStat(Stat.FOR, ist);

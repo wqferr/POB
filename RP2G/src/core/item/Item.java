@@ -1,6 +1,6 @@
 package core.item;
 
-public abstract class Item implements Comparable{
+public abstract class Item implements Comparable<Item> {
 
 	private final String nome;
 	
@@ -10,5 +10,10 @@ public abstract class Item implements Comparable{
 	
 	public String getNome() {
 		return this.nome;
+	}
+	
+	@Override
+	public int compareTo(Item outro) {
+		return this.nome.compareTo(outro.nome);
 	}
 }
