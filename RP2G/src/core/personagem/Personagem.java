@@ -155,14 +155,14 @@ public class Personagem {
 		this.remover(Item.get(s), q);
 	}
 	
-	public void atacar(Personagem pB) {
+	public void atacar(Personagem p) {
 		Dado d20 = new Dado(20);
 		d20.rolar();
 		
 		//Funcao linear onde f(1) = 1/3 e f(20) = 3
 		double bonus = (((3.0 - (1.0/3.0)) / 19.0) * d20.getLado()) + ((1.0/3.0) - ((3.0 - (1.0/3.0)) / 19.0));
-		int dano = (int) Math.ceil(this.arma.calcularDano(this, pB) * bonus);
-		pB.ferir(dano);
+		int dano = (int) Math.ceil(this.arma.calcularDano(this, p) * bonus);
+		p.ferir(dano);
 	}
 	
 	public void setArma(Arma arma) throws ItemInvalidoException {
