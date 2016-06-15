@@ -132,7 +132,7 @@ public class ListaCircular<E> extends AbstractSequentialList<E> {
 
 	@Override
 	public ListIterator<E> listIterator(int arg0) {
-		if (arg0 < 0 || arg0 >= this.tamanho)
+		if (arg0 < 0 || arg0 > this.tamanho)
 			throw new IndexOutOfBoundsException(String.valueOf(arg0));
 		ListIterator<E> li = new Iterador();
 		while (arg0 > 0) {
@@ -145,6 +145,12 @@ public class ListaCircular<E> extends AbstractSequentialList<E> {
 	@Override
 	public int size() {
 		return this.tamanho;
+	}
+	
+	@Override
+	public void clear() {
+		this.cabeca = new No();
+		this.tamanho = 0;
 	}
 
 }
