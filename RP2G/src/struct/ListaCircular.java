@@ -4,6 +4,19 @@ import java.util.AbstractSequentialList;
 import java.util.Collection;
 import java.util.ListIterator;
 
+/**
+ * @author William Quelho Ferreira
+ * Uma lista ordenada em que o último precede o primeiro.
+ * Uma chamada a {@link ListIterator#next()} após o último elemento ter sido
+ * retornado resulta no iterador voltar ao primeiro elemento. Analogamente,
+ * uma chamada a {@link ListIterator#previous()} após o primeiro elemento ter
+ * sido retornado, ou em seu estado inicial, resulta no iterador avançar ao
+ * último elemento.
+ * {@link ListIterator#hasNext()} e {@link ListIterator#hasPrevious()} sempre
+ * retornam {@code true}.
+ *
+ * @param <E> A classe dos elementos da lista.
+ */
 public class ListaCircular<E> extends AbstractSequentialList<E> {
 	
 	private class No {
@@ -117,11 +130,19 @@ public class ListaCircular<E> extends AbstractSequentialList<E> {
 	private No cabeca;
 	private int tamanho;
 
+	/**
+	 * Constrói uma lista circular vazia.
+	 */
 	public ListaCircular() {
 		this.cabeca = new No();
 		this.tamanho = 0;
 	}
 	
+	/**
+	 * Constrói uma lista circular com os elementos de {@code c}.
+	 * Os elementos são adicionados na ordem gerada por {@link Collection#forEach(java.util.function.Consumer)}.
+	 * @param c A coleção dos elementos a serem adicionados.
+	 */
 	public ListaCircular(Collection<? extends E> c) {
 		this();
 		No n = this.cabeca;
