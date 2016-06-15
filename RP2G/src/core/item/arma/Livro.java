@@ -1,9 +1,8 @@
 package core.item.arma;
 
 import core.personagem.Personagem;
-import core.personagem.Profissao;
 import core.personagem.Personagem.Stat;
-import core.utils.Dado;
+import core.personagem.Profissao;
 
 public class Livro extends Arma {
 
