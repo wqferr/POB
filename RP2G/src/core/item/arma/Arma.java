@@ -3,12 +3,13 @@ package core.item.arma;
 import core.item.Item;
 import core.personagem.Personagem;
 import core.personagem.Profissao;
+import exception.NomeRepetidoException;
 
 public abstract class Arma extends Item {
 	protected int danoBase;
 	protected int alcance;
 	
-	public Arma(String nome, int danoBase, int alcance){
+	public Arma(String nome, int danoBase, int alcance) throws NomeRepetidoException {
 		super(nome);
 		this.danoBase = danoBase;
 		this.alcance = alcance;

@@ -2,6 +2,7 @@ package core.item.usavel;
 
 import core.personagem.Personagem;
 import core.personagem.Personagem.Stat;
+import exception.NomeRepetidoException;
 
 public class Aprimoramento extends ItemUsavel {
 	
@@ -9,7 +10,7 @@ public class Aprimoramento extends ItemUsavel {
 	private final int bonusDex;
 	private final int bonusInt;
 	
-	public Aprimoramento(String nome, int bf, int bd, int bi) {
+	public Aprimoramento(String nome, int bf, int bd, int bi) throws NomeRepetidoException {
 		super(nome);
 		this.bonusFor = bf;
 		this.bonusDex = bd;

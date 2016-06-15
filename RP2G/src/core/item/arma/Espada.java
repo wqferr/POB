@@ -3,10 +3,11 @@ package core.item.arma;
 import core.personagem.Personagem;
 import core.personagem.Personagem.Stat;
 import core.personagem.Profissao;
+import exception.NomeRepetidoException;
 
 public class Espada extends Arma {
 		
-	public Espada(String nome, int danoBase, int alcance){
+	public Espada(String nome, int danoBase, int alcance) throws NomeRepetidoException {
 		super(nome, danoBase, alcance);
 	}
 	
