@@ -6,7 +6,6 @@ import java.util.TreeMap;
 
 import core.item.Item;
 import core.item.arma.Arma;
-import core.item.usavel.ItemUsavel;
 import core.mapa.Posicao;
 import core.utils.Dado;
 import exception.ItemInexistenteException;
@@ -402,29 +401,29 @@ public class Personagem {
 	
 	/**
 	 * Tenta usar o item como este personagem.
-	 * O item é removido do inventário do personagem ao usá-lo.
+	 * O item é removido do inventário do personagem após usá-lo com sucesso.
 	 * @param item O item a ser usado.
-	 * @throws ItensInsuficientesException Se o personagem não possuir esse item.
+	 * @return Se foi possível usar o item.
 	 */
-	public void usar(ItemUsavel item) {
-        this.remover(item);
-        item.usar(this);
+	public boolean usar(Item item) {
+        if (item.usar(this)) {
+            this.remover(item);
+            return true;
+        }
+        return false;
 	}
 	
 	/**
 	 * Tenta usar o item como este personagem.
-	 * O item é removido do inventário do personagem ao usá-lo.
+	 * O item é removido do inventário do personagem após usá-lo.
 	 * @param nome O nome do item a ser usado.
+	 * @return Se foi possivel usar o item.
 	 * @throws ItemInexistenteException Se não existir item com esse nome.
 	 * @throws ItensInsuficientesException Se o personagem não possuir esse item.
 	 * @throws ItemInvalidoException Se o item especificado pelo nome não for usável.
 	 */
-	public void usar(String nome) throws ItemInvalidoException {
-		try {
-			this.usar((ItemUsavel) Item.get(nome));
-		} catch (ClassCastException e) {
-			throw new ItemInvalidoException(nome + " não é usável");
-		}
+	public boolean usar(String nome) {
+        return this.usar(Item.get(nome));
 	}
 	
 }
