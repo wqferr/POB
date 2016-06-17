@@ -14,6 +14,11 @@ public class Mapa {
 	
 	
 	public Mapa(boolean[][] bool) {
+		if (bool.length == 0)
+			throw new IllegalArgumentException("Mapa deve ter ao menos 1 linha");
+		if (bool[0].length == 0)
+			throw new IllegalArgumentException("Mapa deve ter ao menos 1 coluna");
+		
 		for(int i = 0; i < bool.length; i++) {
 			if (bool[i].length != bool[0].length)
 				throw new IllegalArgumentException("Mapa não retangular");
@@ -54,11 +59,16 @@ public class Mapa {
 			
 			visitados.add(p);
 			for (Posicao v : p.getVisinhos())
-				if (!visitados.contains(v))
+				if (this.contem(v) && !visitados.contains(v) && this.getQuadrado(v).isTransponivel())
                     proximas.add(new Par<>(v, d+1));
 		}
 		
 		return -1;
+	}
+	
+	public boolean contem(Posicao p) {
+		return p.getLinha() >= 0 && p.getLinha() < this.getNLinhas()
+				&& p.getColuna() >= 0 && p.getColuna() < this.getNColunas();
 	}
 
 }
