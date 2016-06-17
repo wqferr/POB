@@ -16,8 +16,8 @@ public class Espada extends Arma {
 		//ForcaA > ForcaB -> (((ForcaA - ForcaB) / 5) * danoBase) + danoBase;
 		//else -> -danoBase * (1/(ForcaB - ForcaA - 1))
 		double dif = (pA.getStat(Stat.FOR) - pB.getStat(Stat.FOR))/5.0;
-		if (dif>=0) return (int)Math.ceil(this.danoBase * (dif+1));
-		else return (int)Math.ceil(this.danoBase /(-(dif-1))); 
+		if (dif>=0) return (int)Math.ceil(this.getDanoBase() * (dif+1));
+		else return (int)Math.ceil(this.getDanoBase() /(-(dif-1))); 
 	}
 
 	@Override

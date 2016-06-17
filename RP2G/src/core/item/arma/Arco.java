@@ -14,8 +14,8 @@ public class Arco extends Arma {
 	@Override
 	public int calcularDano(Personagem pA, Personagem pB) {
 		double dif = ((pA.getStat(Stat.FOR)/2.0 + pA.getStat(Stat.DEX)) - (pB.getStat(Stat.FOR)/2.0 + pB.getStat(Stat.DEX)))/5.0;
-		if (dif>=0) return (int)Math.ceil(this.danoBase * (dif+1));
-		else return (int)Math.ceil(this.danoBase /(-(dif-1))); 
+		if (dif>=0) return (int)Math.ceil(this.getDanoBase() * (dif+1));
+		else return (int)Math.ceil(this.getDanoBase() /(-(dif-1))); 
 	}
 
 	@Override

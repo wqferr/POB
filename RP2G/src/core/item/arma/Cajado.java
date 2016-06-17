@@ -14,7 +14,7 @@ public class Cajado extends Arma {
 	@Override
 	public int calcularDano(Personagem pA, Personagem pB) {
 		double dif = (pA.getStat(Stat.INT) +(pB.getStat(Stat.FOR)/2.0))/5.0;
-		return (int)Math.ceil(this.danoBase * (dif+1));
+		return (int)Math.ceil(this.getDanoBase() * (dif+1));
 	}
 
 	@Override

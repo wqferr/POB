@@ -9,8 +9,8 @@ import core.personagem.Profissao;
 import exception.NomeRepetidoException;
 
 public abstract class Arma extends Item {
-	protected int danoBase;
-	protected int alcance;
+	private int danoBase;
+	private int alcance;
 	private final List<Profissao> equipantes;
 	
 	public Arma(String nome, int danoBase, int alcance, Profissao... e) throws NomeRepetidoException {
