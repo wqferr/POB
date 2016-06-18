@@ -30,6 +30,10 @@ public class TratadorCliente implements Runnable {
 		this.out.writeObject(m);
 	}
 	
+	public void notificar(Evento e) throws IOException {
+		this.enviar(new Mensagem(e));
+	}
+	
 	public Mensagem receber() throws IOException {
 		try {
             return (Mensagem) this.in.readObject();
