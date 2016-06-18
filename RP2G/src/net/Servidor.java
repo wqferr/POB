@@ -3,6 +3,7 @@ package net;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
 import net.msg.Mensagem;
 import net.msg.Mensagem.Evento;
@@ -28,7 +29,7 @@ public class Servidor {
 		this.ss.close();
 	}
 
-	public void start() {
+	public void start() throws IOException {
 		int i = 0;
 		while (i < this.clientes.length) {
 			try {
@@ -47,10 +48,72 @@ public class Servidor {
 		// TODO mandar informações sobre mapa
 		System.err.println("Enviando itens.");
 		// TODO mandar arquivo de itens.
-		System.err.println("Recebendo personagens.");
+		System.err.println("Enviando personagens.");
 		// TODO mandar informações sobre personagens
 		
 		// TODO criar objeto jogo
+		boolean acabou = false;
+		int vez = 0;
+		
+		while (!acabou) {
+			Mensagem msg = null;
+			try {
+                msg = this.clientes[vez].receber();
+			} catch (IOException e) {
+				try {
+					this.notificarTodos(Evento.QUEDA_CONEXAO, true);
+				} catch (IOException ex) {}
+				
+				System.err.println("Queda do cliente " + vez + ". Abortando.");
+                throw new IOException("Queda do cliente " + vez);
+			}
+			Scanner s = new Scanner(msg.getMsg());
+			int j;
+			
+			switch (msg.getEvento()) {
+                case MOVIMENTO:
+                	i = s.nextInt();
+                	j = s.nextInt();
+                	
+                	// if (mover(p, i, j)) {
+                        this.sinalizarTodosExceto(msg, vez);
+                        boolean conf = false;
+                        try {
+                            conf = this.confirmarTodosExceto(Evento.COMANDO_FEITO, vez);
+                        } catch (IOException e) {
+                            this.notificarTodos(Evento.QUEDA_CONEXAO, true);
+                        }
+                        if (conf)
+                            this.clientes[vez].notificar(Evento.COMANDO_FEITO);
+                        else
+                            this.notificarTodos(Evento.DESSINCRONIA, true);
+                    // } else {
+                        this.notificarTodos(Evento.DESSINCRONIA, true);
+                    // }
+                        
+                    break;
+                    
+                case ATAQUE:
+                	i = s.nextInt();
+                	j = s.nextInt();
+                	// seguir modelo de MOVER
+                	// (testar MOVER antes de copiar)
+                    break;
+                    
+                case FIM_TURNO:
+                    break;
+                    
+                case COMANDO_FEITO:
+                    break;
+                    
+                case DESSINCRONIA:
+                    break;
+                    
+                default:
+                    break;
+			}
+			s.close();
+		}
 		
 		// enquanto não acabou
 		//		receber mensagem do jogador atual
@@ -76,6 +139,39 @@ public class Servidor {
 	public void sinalizar(Mensagem m) throws IOException {
 		for (TratadorCliente tc : this.clientes)
 			tc.enviar(m);
+	}
+	
+	public void sinalizarTodosExceto(Mensagem m, int c) throws IOException {
+		for (int i = 0; i < c; i++)
+			this.clientes[i].enviar(m);
+		for (int i = c+1; i < this.clientes.length; i++)
+			this.clientes[i].enviar(m);
+	}
+	
+	public boolean confirmarTodosExceto(Evento e, int c) throws IOException {
+		boolean confirmado = true;
+		for (int i = 0; i < c; i++) {
+			Mensagem m = this.clientes[i].receber();
+			if (m.getEvento() != e)
+				confirmado = false;
+			if (m.getEvento() == Evento.DESSINCRONIA)
+				throw new IOException("Dessincronia");
+		}
+		for (int i = c+1; i < this.clientes.length; i++) {
+			Mensagem m = this.clientes[i].receber();
+			if (m.getEvento() != e)
+				confirmado = false;
+			if (m.getEvento() == Evento.DESSINCRONIA)
+				throw new IOException("Dessincronia");
+		}
+		return confirmado;
+	}
+	
+	public void notificarTodosExceto(Evento e, int c) throws IOException {
+		for (int i = 0; i < c; i++)
+			this.clientes[i].notificar(e);
+		for (int i = c+1; i < this.clientes.length; i++)
+			this.clientes[i].notificar(e);
 	}
 	
 	public void notificarTodos(Evento e) throws IOException {
