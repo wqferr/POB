@@ -7,11 +7,13 @@ public class Mensagem implements Serializable {
 	
 	public static enum Evento {
 		INICIO_CONEXAO,
-		FIM_CONEXAO,
+		COMANDO_FEITO,
 		QUEDA_CONEXAO,
-		TROCA_VEZ,
-		MOVER,
-		ATACAR
+		DESSINCRONIA,
+		
+		MOVIMENTO,
+		ATAQUE,
+		FIM_TURNO
 	}
 	
 	private final Evento evento;
