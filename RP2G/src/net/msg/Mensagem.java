@@ -5,6 +5,8 @@ import java.util.Objects;
 
 public class Mensagem implements Serializable {
 	
+	private static final long serialVersionUID = -7296895061227631046L;
+
 	public static enum Evento {
 		INICIO_CONEXAO,
 		COMANDO_FEITO,
