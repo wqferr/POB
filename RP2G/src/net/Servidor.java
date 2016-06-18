@@ -57,16 +57,19 @@ public class Servidor {
 		
 		//			mover (opcional)
 		//				verificar se válido
+		//					executar
 		//					atualizar outro jogador
 		//				verificar desync
 		
 		//			atacar (opcional)
 		//				verificar se válido
+		//					executar
 		//					atualizar outro jogador
 		//				verificar desync
 		
 		//			fim de turno
 		//				atualizar outro jogador
+		//				trocar para proximo personagem
 	}
 	
 	public void sinalizar(Mensagem m) throws IOException {
