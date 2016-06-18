@@ -58,7 +58,7 @@ public class Mapa {
 				return d;
 			
 			visitados.add(p);
-			for (Posicao v : p.getVisinhos())
+			for (Posicao v : p.getVizinhos())
 				if (this.contem(v) && !visitados.contains(v) && this.getQuadrado(v).isTransponivel())
                     proximas.add(new Par<>(v, d+1));
 		}
