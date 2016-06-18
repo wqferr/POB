@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import net.msg.Mensagem;
+import net.msg.Mensagem.Evento;
 
 public class Servidor {
 	
@@ -75,6 +76,21 @@ public class Servidor {
 	public void sinalizar(Mensagem m) throws IOException {
 		for (TratadorCliente tc : this.clientes)
 			tc.enviar(m);
+	}
+	
+	public void notificarTodos(Evento e) throws IOException {
+		this.notificarTodos(e, false);
+	}
+	
+	public void notificarTodos(Evento e, boolean ignorarExcecao) throws IOException {
+		for (TratadorCliente tc : this.clientes) {
+			try {
+				tc.notificar(e);
+			} catch (IOException exc) {
+				if (!ignorarExcecao)
+					throw exc;
+			}
+		}
 	}
 
 }
