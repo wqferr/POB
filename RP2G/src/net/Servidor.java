@@ -37,12 +37,36 @@ public class Servidor {
                 i++;
 			} catch(IOException e) {}
 		}
-		System.err.println("Clientes conectados: iniciando sessão.");
+		System.err.println("Clientes conectados.");
 		
 		for (TratadorCliente tc : this.clientes)
 			new Thread(tc).start();
 	
-		// TODO jogo
+		System.err.println("Enviando mapa.");
+		// TODO mandar informações sobre mapa
+		System.err.println("Enviando itens.");
+		// TODO mandar arquivo de itens.
+		System.err.println("Recebendo personagens.");
+		// TODO mandar informações sobre personagens
+		
+		// TODO criar objeto jogo
+		
+		// enquanto não acabou
+		//		receber mensagem do jogador atual
+		//			verificar queda
+		
+		//			mover (opcional)
+		//				verificar se válido
+		//					atualizar outro jogador
+		//				verificar desync
+		
+		//			atacar (opcional)
+		//				verificar se válido
+		//					atualizar outro jogador
+		//				verificar desync
+		
+		//			fim de turno
+		//				atualizar outro jogador
 	}
 	
 	public void sinalizar(Mensagem m) throws IOException {
