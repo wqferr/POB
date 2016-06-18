@@ -40,12 +40,6 @@ public class TratadorCliente implements Runnable {
 
 	@Override
 	public void run() {
-		try {
-			this.conexao.close();
-		} catch (IOException e) {
-			try {
-				this.servidor.sinalizar(new Mensagem(Evento.QUEDA_CONEXAO));
-			} catch (IOException ex) {}
-		}
+		
 	}
 }
