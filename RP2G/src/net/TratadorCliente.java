@@ -5,7 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import net.evento.Mensagem;
+import net.msg.Mensagem;
 
 public class TratadorCliente implements Runnable {
 	

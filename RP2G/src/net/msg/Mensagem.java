@@ -1,4 +1,4 @@
-package net.evento;
+package net.msg;
 
 import java.io.Serializable;
 import java.util.Objects;
