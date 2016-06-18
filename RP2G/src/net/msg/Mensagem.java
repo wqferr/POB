@@ -28,7 +28,7 @@ public class Mensagem implements Serializable {
 		this.msg = Objects.requireNonNull(msg);
 	}
 	
-	public Evento getTipo() {
+	public Evento getEvento() {
 		return this.evento;
 	}
 	
