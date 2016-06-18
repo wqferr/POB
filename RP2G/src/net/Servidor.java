@@ -45,11 +45,9 @@ public class Servidor {
 		// TODO jogo
 	}
 	
-	public void sinalizarQueda() {
+	public void sinalizar(Mensagem m) throws IOException {
 		for (TratadorCliente tc : this.clientes)
-			try {
-                tc.enviar(new Mensagem(Mensagem.Evento.QUEDA_CONEXAO));
-			} catch (IOException e) {}
+			tc.enviar(m);
 	}
 
 }

@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import net.msg.Mensagem;
+import net.msg.Mensagem.Evento;
 
 public class TratadorCliente implements Runnable {
 	
@@ -42,7 +43,9 @@ public class TratadorCliente implements Runnable {
 		try {
 			this.conexao.close();
 		} catch (IOException e) {
-			this.servidor.sinalizarQueda();
+			try {
+				this.servidor.sinalizar(new Mensagem(Evento.QUEDA_CONEXAO));
+			} catch (IOException ex) {}
 		}
 	}
 }
