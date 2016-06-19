@@ -16,7 +16,6 @@ import javax.swing.JTextField;
 import core.item.Aprimoramento;
 import core.item.Pocao;
 import core.item.arma.Arco;
-import core.item.arma.Arma;
 import core.item.arma.Cajado;
 import core.item.arma.Espada;
 import core.item.arma.Livro;
@@ -24,6 +23,8 @@ import core.personagem.Personagem;
 import core.personagem.Profissao;
 
 public class JanelaMain extends JFrame implements ActionListener{
+	private static final long serialVersionUID = -398592414626114074L;
+	
 	private JPanel panel;
 	private JComboBox<String> tipoDropDown;
 	private JComboBox<String> armaDropDown;
