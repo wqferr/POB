@@ -25,19 +25,21 @@ public class Quadrado {
 	public Posicao getPosicao(){
 		return this.posicao;
 	} 
+	
 	public Personagem getOcupante(){
 		return this.ocupante;
 	}
+	
+	public void setOcupante(Personagem p) {
+		this.ocupante = p;
+	}
+	
 	public boolean isTransponivel(){
 		return this.transponivel;
 	}
+	
 	public boolean isOcupado(){
 		return this.ocupante != null;
-	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

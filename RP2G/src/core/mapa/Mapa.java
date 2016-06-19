@@ -1,7 +1,7 @@
 package core.mapa;
 
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
@@ -72,9 +72,34 @@ public class Mapa {
 		return p.getLinha() >= 0 && p.getLinha() < this.getNLinhas()
 				&& p.getColuna() >= 0 && p.getColuna() < this.getNColunas();
 	}
+	
+	public boolean alcancavel(Posicao origem, Posicao destino) {
+		return this.distancia(origem, destino) >= 0;
+	}
+	
+	public boolean alcancavel(Posicao origem, Posicao destino, int max) {
+		int d = this.distancia(origem, destino);
+		return 0 <= d && d <= max;
+	}
+	
+	public boolean isOcupado(Posicao p) {
+		return this.getQuadrado(p).isOcupado();
+	}
+	
+	public void setOcupante(Posicao pos, Personagem p) {
+		this.getQuadrado(pos).setOcupante(p);
+	}
 
-	public Collection<Personagem> getPersonagens() {
-		return null;
+	public List<Personagem> getPersonagens() {
+		List<Personagem> l = new LinkedList<>();
+		for (int i = 0; i < this.getNLinhas(); i++) {
+			for (int j = 0; j < this.getNColunas(); j++) {
+				Quadrado q = this.topologia[i][j];
+				if (q.isOcupado())
+					l.add(q.getOcupante());
+			}
+		}
+		return l;
 	}
 
 }
