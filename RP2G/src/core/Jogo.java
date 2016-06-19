@@ -27,12 +27,12 @@ public class Jogo {
 	}
 	
 	public Personagem proximoPersonagem() {
-		pAtual = pIter.next();
-		return pAtual;
+		this.pAtual = pIter.next();
+		return this.pAtual;
 	}
 	
 	public Personagem personagemAtual() {
-		return pAtual;
+		return this.pAtual;
 	}
 	
 	public boolean mover(Posicao nova) {
