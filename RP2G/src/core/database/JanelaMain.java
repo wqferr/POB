@@ -1,4 +1,4 @@
-package database;
+package core.database;
 
 import java.awt.ComponentOrientation;
 import java.awt.event.ActionEvent;
@@ -16,7 +16,6 @@ import javax.swing.JTextField;
 import core.item.Aprimoramento;
 import core.item.Pocao;
 import core.item.arma.Arco;
-import core.item.arma.Arma;
 import core.item.arma.Cajado;
 import core.item.arma.Espada;
 import core.item.arma.Livro;

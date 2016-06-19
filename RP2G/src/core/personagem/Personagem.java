@@ -7,10 +7,10 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import utils.Dado;
 import core.item.Item;
 import core.item.arma.Arma;
 import core.mapa.Posicao;
-import core.utils.Dado;
 import exception.ItemInexistenteException;
 import exception.ItemInvalidoException;
 import exception.ItensInsuficientesException;

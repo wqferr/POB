@@ -1,4 +1,4 @@
-package core.utils;
+package utils;
 
 public class Dado {
 	private int lados;

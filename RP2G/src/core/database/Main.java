@@ -1,4 +1,4 @@
-package database;
+package core.database;
 
 import javax.swing.JFrame;
 
