@@ -45,7 +45,13 @@ public class Personagem {
 		/**
 		 * A dextreza do personagem.
 		 */
-		DEX;
+		DEX,
+		
+		/**
+		 * A velocidade do personagem.
+		 * Determina quantas unidades por turno o personagem pode mover.
+		 */
+		VEL;
 	}
 	
 	private String nome;
@@ -76,7 +82,7 @@ public class Personagem {
 	 * @param prof A profissão do personagem.
 	 */
 	public Personagem(String nome, Profissao prof) {
-		this(nome, prof, 10);
+		this(nome, prof, 10, 3);
 	}
 	
 	/**
@@ -85,9 +91,10 @@ public class Personagem {
 	 * @param nome O nome do personagem.
 	 * @param prof A profissão do personagem.
 	 * @param maxHp O HP máximo do personagem.
+	 * @param vel A velocidade do personagem.
 	 */
-	public Personagem(String nome, Profissao prof, int maxHp) {
-		this(nome, prof, maxHp, 5, 5, 5);
+	public Personagem(String nome, Profissao prof, int maxHp, int vel) {
+		this(nome, prof, maxHp, vel, 5, 5, 5);
 	}
 	
 	/**
@@ -96,12 +103,13 @@ public class Personagem {
 	 * @param nome O nome do personagem.
 	 * @param prof A profissão do personagem.
 	 * @param maxHp O HP máximo do personagem.
+	 * @param vel A velocidade do personagem.
 	 * @param ist A força inicial do personagem.
 	 * @param iint A inteligência inicial do personagem.
 	 * @param idex A dextreza inicial do personagem.
 	 */
-	public Personagem(String nome, Profissao prof, int maxHp, int ist, int iint, int idex) {
-		this(nome, prof, maxHp, ist, iint, idex, null);
+	public Personagem(String nome, Profissao prof, int maxHp, int vel, int ist, int iint, int idex) {
+		this(nome, prof, maxHp, vel, ist, iint, idex, null);
 	}
 	
 	/**
@@ -110,18 +118,20 @@ public class Personagem {
 	 * @param nome O nome do personagem.
 	 * @param prof A profissão do personagem.
 	 * @param maxHp O HP máximo do personagem.
+	 * @param vel A velocidade do personagem.
 	 * @param ist A força inicial do personagem.
 	 * @param iint A inteligência inicial do personagem.
 	 * @param idex A dextreza inicial do personagem.
 	 * @param icone O ícone usado para representar o personagem na interface gráfica.
 	 */
-	public Personagem(String nome, Profissao prof, int maxHp, int ist, int iint, int idex, BufferedImage icone) {
+	public Personagem(String nome, Profissao prof, int maxHp, int vel, int ist, int iint, int idex, BufferedImage icone) {
 		this.nome = nome;
 		this.profissao = prof;
 		this.hp = maxHp;
 		this.stats = new TreeMap<Stat, Integer>();
 		this.inventario = new TreeMap<Item, Integer>();
 		this.setStat(Stat.HP_MAX, maxHp);
+		this.setStat(Stat.VEL, vel);
 		this.setStat(Stat.FOR, ist);
 		this.setStat(Stat.INT, iint);
 		this.setStat(Stat.DEX, idex);

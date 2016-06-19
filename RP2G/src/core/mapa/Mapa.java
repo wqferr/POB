@@ -1,11 +1,13 @@
 package core.mapa;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
 
 import struct.Par;
+import core.personagem.Personagem;
 
 
 public class Mapa {
@@ -69,6 +71,42 @@ public class Mapa {
 	public boolean contem(Posicao p) {
 		return p.getLinha() >= 0 && p.getLinha() < this.getNLinhas()
 				&& p.getColuna() >= 0 && p.getColuna() < this.getNColunas();
+	}
+	
+	public boolean alcancavel(Posicao origem, Posicao destino) {
+		return this.distancia(origem, destino) >= 0;
+	}
+	
+	public boolean alcancavel(Posicao origem, Posicao destino, int max) {
+		int d = this.distancia(origem, destino);
+		return 0 <= d && d <= max;
+	}
+	
+	public void mover(Posicao origem, Posicao destino) {
+		Quadrado qOrig = this.getQuadrado(origem),
+				 qDest = this.getQuadrado(destino);
+		qDest.setOcupante(qOrig.getOcupante());
+		qOrig.setOcupante(null);
+	}
+	
+	public boolean isOcupado(Posicao p) {
+		return this.getQuadrado(p).isOcupado();
+	}
+	
+	public void setOcupante(Posicao pos, Personagem p) {
+		this.getQuadrado(pos).setOcupante(p);
+	}
+
+	public List<Personagem> getPersonagens() {
+		List<Personagem> l = new LinkedList<>();
+		for (int i = 0; i < this.getNLinhas(); i++) {
+			for (int j = 0; j < this.getNColunas(); j++) {
+				Quadrado q = this.topologia[i][j];
+				if (q.isOcupado())
+					l.add(q.getOcupante());
+			}
+		}
+		return l;
 	}
 
 }
