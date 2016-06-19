@@ -1,11 +1,13 @@
 package core.mapa;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
 
 import struct.Par;
+import core.personagem.Personagem;
 
 
 public class Mapa {
@@ -69,6 +71,10 @@ public class Mapa {
 	public boolean contem(Posicao p) {
 		return p.getLinha() >= 0 && p.getLinha() < this.getNLinhas()
 				&& p.getColuna() >= 0 && p.getColuna() < this.getNColunas();
+	}
+
+	public Collection<Personagem> getPersonagens() {
+		return null;
 	}
 
 }

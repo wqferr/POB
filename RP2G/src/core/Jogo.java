@@ -1,8 +1,9 @@
 package core;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.ListIterator;
 
+import struct.ListaCircular;
 import core.item.Item;
 import core.mapa.Mapa;
 import core.mapa.Posicao;
@@ -11,17 +12,20 @@ import core.personagem.Personagem;
 public class Jogo {
 	
 	private Mapa mapa;
-	private List<Personagem> personagens;
+	private ListaCircular<Personagem> personagens;
 	private Personagem pAtual;
 	private ListIterator<Personagem> pIter;
 
-	public Jogo() {
-		// TODO
+	public Jogo(Mapa m) {
+		this.mapa = m;
+		this.personagens = new ListaCircular<>(m.getPersonagens());
+		this.pIter = this.personagens.listIterator();
+		this.pAtual = pIter.next();
 	}
 	
-	public void update() {
-		// TODO lógica do jogo
+	public Personagem proximoPersonagem() {
 		pAtual = pIter.next();
+		return pAtual;
 	}
 	
 	public Personagem personagemAtual() {
