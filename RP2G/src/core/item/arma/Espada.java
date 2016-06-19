@@ -8,7 +8,7 @@ import exception.NomeRepetidoException;
 public class Espada extends Arma {
 		
 	public Espada(String nome, int danoBase, int alcance) throws NomeRepetidoException {
-		super(nome, danoBase, alcance);
+		super(nome, danoBase, alcance, Profissao.GUERREIRO);
 	}
 	
 	@Override

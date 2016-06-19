@@ -32,6 +32,10 @@ public abstract class Arma extends Item {
 		return this.equipantes.contains(p);
 	}
 	
+	public boolean usar(Personagem p) {
+		return false;
+	}
+	
 	public abstract int calcularDano(Personagem pA, Personagem pB);
 	
 }
