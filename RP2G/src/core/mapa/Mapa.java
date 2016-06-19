@@ -82,6 +82,13 @@ public class Mapa {
 		return 0 <= d && d <= max;
 	}
 	
+	public void mover(Posicao origem, Posicao destino) {
+		Quadrado qOrig = this.getQuadrado(origem),
+				 qDest = this.getQuadrado(destino);
+		qDest.setOcupante(qOrig.getOcupante());
+		qOrig.setOcupante(null);
+	}
+	
 	public boolean isOcupado(Posicao p) {
 		return this.getQuadrado(p).isOcupado();
 	}
