@@ -59,8 +59,8 @@ public class JanelaMain extends JFrame implements ActionListener{
 		this.armaDropDown = new JComboBox<String>(new String[]{"Espada", "Arco", "Livro", "Cajado"});
 		this.profissoesDropDown = new JComboBox<String>(new String[]{"GUERREIRO", "MAGO", "ARQUEIRO", "SACERDOTE"});
 		
-		this.textBox = new JTextField[6];
-		for (int i=0; i<6; i++) textBox[i] = new JTextField(8);
+		this.textBox = new JTextField[10];
+		for (int i=0; i<10; i++) textBox[i] = new JTextField(8);
 		
 		this.dataHandler = new DatabaseHandler(fileName);
 		
@@ -90,6 +90,8 @@ public class JanelaMain extends JFrame implements ActionListener{
 				this.panel.add(this.textBox[4]);
 				this.panel.add(new JLabel("Inteligência :"));
 				this.panel.add(this.textBox[5]);
+				this.panel.add(new JLabel("Velocidade :"));
+				this.panel.add(this.textBox[6]);
 			}
 			else if (this.tipoDropDown.getSelectedItem().equals("Arma")){
 				this.panel.add(new JLabel("Tipo de Arma :"));
@@ -110,6 +112,8 @@ public class JanelaMain extends JFrame implements ActionListener{
 				this.panel.add(this.textBox[2]);
 				this.panel.add(new JLabel("Bônus Inteligência :"));
 				this.panel.add(this.textBox[3]);
+				this.panel.add(new JLabel("Bônus Velocidade :"));
+				this.panel.add(this.textBox[4]);
 			}
 			
 			this.add(this.adicionarButton);
@@ -129,7 +133,7 @@ public class JanelaMain extends JFrame implements ActionListener{
 			if (valid){
 				if (this.tipoDropDown.getSelectedItem().equals("Personagem")){
 					Profissao prof = Profissao.GUERREIRO;
-					int hp = 0, forc=0, dext=0, inte=0;
+					int hp = 0, forc=0, dext=0, inte=0, vel=0;
 					try{
 						//TODO ICONE
 						prof = Profissao.valueOf((String)this.profissoesDropDown.getSelectedItem());
@@ -137,16 +141,17 @@ public class JanelaMain extends JFrame implements ActionListener{
 						forc = Integer.parseInt(this.textBox[3].getText());
 						dext = Integer.parseInt(this.textBox[4].getText());
 						inte = Integer.parseInt(this.textBox[5].getText());
+						vel = Integer.parseInt(this.textBox[6].getText());
 					}catch(Exception e){ System.err.println(e);}
 	
-					try { obj = new Personagem(nome, prof, hp, forc, dext, inte); }
+					try { obj = new Personagem(nome, prof, hp, vel, forc, dext, inte); }
 					catch(Exception e){ System.err.println(e); valid = false;}
 				}
 				else if (this.tipoDropDown.getSelectedItem().equals("Arma")){
 					int dano = 0, alcance = 0;
 					try{
-						dano = Integer.parseInt(this.textBox[2].getText());
-						alcance = Integer.parseInt(this.textBox[3].getText());
+						dano = Integer.parseInt(this.textBox[1].getText());
+						alcance = Integer.parseInt(this.textBox[2].getText());
 					}catch(Exception e){ System.err.println(e); }
 					
 					try{
@@ -162,21 +167,22 @@ public class JanelaMain extends JFrame implements ActionListener{
 				}
 				else if (this.tipoDropDown.getSelectedItem().equals("Poção")){
 					int potencia = 0;
-					try{ potencia = Integer.parseInt(this.textBox[2].getText());
+					try{ potencia = Integer.parseInt(this.textBox[1].getText());
 					}catch(Exception e){ System.err.println(e); }
 	
 					try { obj = new Pocao(nome, potencia); }
 					catch(Exception e){ System.err.println(e); valid = false;}
 				}
 				else if (this.tipoDropDown.getSelectedItem().equals("Aprimoramento")){
-					int bonFor = 0, bonDex = 0, bonInt = 0;
+					int bonFor = 0, bonDex = 0, bonInt = 0, bonVel = 0;
 					try{
-						bonFor = Integer.parseInt(this.textBox[2].getText());
-						bonDex = Integer.parseInt(this.textBox[3].getText());
+						bonFor = Integer.parseInt(this.textBox[1].getText());
+						bonDex = Integer.parseInt(this.textBox[2].getText());
 						bonInt = Integer.parseInt(this.textBox[3].getText());
+						bonVel = Integer.parseInt(this.textBox[4].getText());
 					}catch(Exception e){ System.err.println(e); }
 					
-					try { obj = new Aprimoramento(nome, bonFor, bonDex, bonInt); }
+					try { obj = new Aprimoramento(nome, bonFor, bonDex, bonInt, bonVel); }
 					catch(Exception e){ System.err.println(e); valid = false;}
 				}
 			}
