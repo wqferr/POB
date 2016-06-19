@@ -15,6 +15,7 @@ import exception.DesyncException;
 public class Servidor {
 	
 	private ServerSocket ss;
+	private boolean ativo;
 	private TratadorCliente[] clientes;
 	
 	public Servidor() {
@@ -34,6 +35,7 @@ public class Servidor {
 	}
 
 	public void start() throws IOException {
+		this.ativo = true;
 		int i = 0;
 		while (i < this.clientes.length) {
 			try {
@@ -64,11 +66,8 @@ public class Servidor {
 		
 		while (!acabou) {
 			Mensagem msg = null;
-			try {
-                msg = this.clientes[vez].receber();
-			} catch (IOException e) {
-				this.notificarQueda();
-			}
+            msg = this.clientes[vez].receber();
+            
 			Scanner s = new Scanner(msg.getMsg());
 			int j;
 			
@@ -84,8 +83,6 @@ public class Servidor {
                             conf = this.confirmarTodosExceto(Evento.COMANDO_FEITO, vez);
                         } catch (DesyncException e) {
                         	this.notificarDessincronia();
-                        } catch (IOException e) {
-                        	this.notificarQueda();
                         }
                         if (conf)
                             this.clientes[vez].notificar(Evento.COMANDO_FEITO);
@@ -108,13 +105,13 @@ public class Servidor {
                             conf = this.confirmarTodosExceto(Evento.COMANDO_FEITO, vez);
                         } catch (DesyncException e) {
                         	this.notificarDessincronia();
-                        } catch (IOException e) {
-                        	this.notificarQueda();
                         }
                         if (conf)
                             this.clientes[vez].notificar(Evento.COMANDO_FEITO);
                         else
                             this.notificarDessincronia();
+                        
+                        // TODO verificar fim do jogo
                     } else {
                         this.notificarDessincronia();
                     }
@@ -135,25 +132,7 @@ public class Servidor {
 			s.close();
 		}
 		
-		// enquanto não acabou
-		//		receber mensagem do jogador atual
-		//			verificar queda
-		
-		//			mover (opcional)
-		//				verificar se válido
-		//					executar
-		//					atualizar outro jogador
-		//				verificar desync
-		
-		//			atacar (opcional)
-		//				verificar se válido
-		//					executar
-		//					atualizar outro jogador
-		//				verificar desync
-		
-		//			fim de turno
-		//				atualizar outro jogador
-		//				trocar para proximo personagem
+		this.ativo = false;
 	}
 	
 	public void sinalizar(Mensagem m) throws IOException {
@@ -168,7 +147,7 @@ public class Servidor {
 			this.clientes[i].enviar(m);
 	}
 	
-	public boolean confirmarTodosExceto(Evento e, int c) throws IOException {
+	public boolean confirmarTodosExceto(Evento e, int c) throws DesyncException {
 		boolean confirmado = true;
 		for (int i = 0; i < c; i++) {
 			Mensagem m = this.clientes[i].receber();
@@ -219,6 +198,10 @@ public class Servidor {
 		this.notificarTodos(Evento.QUEDA_CONEXAO, true);
 		
 		throw new IOException("Queda de um ou mais clientes.");
+	}
+	
+	public boolean isAtivo() {
+		return this.ativo;
 	}
 	
 }

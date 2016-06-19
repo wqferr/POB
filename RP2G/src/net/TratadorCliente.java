@@ -38,7 +38,7 @@ public class TratadorCliente implements Runnable {
 		this.enviar(new Mensagem(e));
 	}
 	
-	public Mensagem receber() throws IOException {
+	public Mensagem receber() {
 		if (this.buffer.isEmpty())
 			return null;
 		return this.buffer.remove();
@@ -54,6 +54,11 @@ public class TratadorCliente implements Runnable {
                     this.servidor.notificarDessincronia();
 				} catch (IOException ex) {}
 			}
+		}
+		if (this.servidor.isAtivo()) {
+			try {
+                this.servidor.notificarQueda();
+			} catch (IOException e) {}
 		}
 	}
 }
