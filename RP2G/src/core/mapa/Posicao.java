@@ -27,6 +27,11 @@ public class Posicao implements Comparable<Posicao> {
 		};
 	}
 	
+	public int distancia(Posicao p) {
+		return Math.abs(p.linha - this.linha)
+				+ Math.abs(p.coluna - this.coluna);
+	}
+	
 	@Override
 	public int compareTo(Posicao p) {
 		int c = Integer.compare(this.linha, p.linha);
