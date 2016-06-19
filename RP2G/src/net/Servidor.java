@@ -5,9 +5,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-import exception.DesyncException;
 import net.msg.Mensagem;
 import net.msg.Mensagem.Evento;
+import core.Jogo;
+import core.mapa.Posicao;
+import exception.DesyncException;
 
 public class Servidor {
 	
@@ -52,6 +54,7 @@ public class Servidor {
 		System.err.println("Enviando personagens.");
 		// TODO mandar informações sobre personagens
 		
+		Jogo jogo = null;
 		// TODO criar objeto jogo
 		boolean acabou = false;
 		int vez = 0;
@@ -71,7 +74,7 @@ public class Servidor {
                 	i = s.nextInt();
                 	j = s.nextInt();
                 	
-                	// if (mover(p, i, j)) {
+                	if (jogo.mover(new Posicao(i, j))) {
                         this.sinalizarTodosExceto(msg, vez);
                         boolean conf = false;
                         try {
@@ -85,9 +88,9 @@ public class Servidor {
                             this.clientes[vez].notificar(Evento.COMANDO_FEITO);
                         else
                             this.notificarDessincronia();
-                    // } else {
+                    } else {
                         this.notificarDessincronia();
-                    // }
+                    }
                         
                     break;
                     
