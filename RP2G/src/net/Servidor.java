@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
+import exception.DesyncException;
 import net.msg.Mensagem;
 import net.msg.Mensagem.Evento;
 
@@ -60,12 +61,7 @@ public class Servidor {
 			try {
                 msg = this.clientes[vez].receber();
 			} catch (IOException e) {
-				try {
-					this.notificarTodos(Evento.QUEDA_CONEXAO, true);
-				} catch (IOException ex) {}
-				
-				System.err.println("Queda do cliente " + vez + ". Abortando.");
-                throw new IOException("Queda do cliente " + vez);
+				this.notificarQueda();
 			}
 			Scanner s = new Scanner(msg.getMsg());
 			int j;
@@ -80,15 +76,17 @@ public class Servidor {
                         boolean conf = false;
                         try {
                             conf = this.confirmarTodosExceto(Evento.COMANDO_FEITO, vez);
+                        } catch (DesyncException e) {
+                        	this.notificarDessincronia();
                         } catch (IOException e) {
-                            this.notificarTodos(Evento.QUEDA_CONEXAO, true);
+                        	this.notificarQueda();
                         }
                         if (conf)
                             this.clientes[vez].notificar(Evento.COMANDO_FEITO);
                         else
-                            this.notificarTodos(Evento.DESSINCRONIA, true);
+                            this.notificarDessincronia();
                     // } else {
-                        this.notificarTodos(Evento.DESSINCRONIA, true);
+                        this.notificarDessincronia();
                     // }
                         
                     break;
@@ -96,8 +94,8 @@ public class Servidor {
                 case ATAQUE:
                 	i = s.nextInt();
                 	j = s.nextInt();
-                	// seguir modelo de MOVER
-                	// (testar MOVER antes de copiar)
+                	// seguir modelo de MOVIMENTO
+                	// (testar MOVIMENTO antes de copiar)
                     break;
                     
                 case FIM_TURNO:
@@ -107,6 +105,7 @@ public class Servidor {
                     break;
                     
                 case DESSINCRONIA:
+                	this.notificarDessincronia();
                     break;
                     
                 default:
@@ -155,14 +154,14 @@ public class Servidor {
 			if (m.getEvento() != e)
 				confirmado = false;
 			if (m.getEvento() == Evento.DESSINCRONIA)
-				throw new IOException("Dessincronia");
+				throw new DesyncException();
 		}
 		for (int i = c+1; i < this.clientes.length; i++) {
 			Mensagem m = this.clientes[i].receber();
 			if (m.getEvento() != e)
 				confirmado = false;
 			if (m.getEvento() == Evento.DESSINCRONIA)
-				throw new IOException("Dessincronia");
+				throw new DesyncException();
 		}
 		return confirmado;
 	}
@@ -188,5 +187,17 @@ public class Servidor {
 			}
 		}
 	}
-
+	
+	public void notificarDessincronia() throws IOException {
+		this.notificarTodos(Evento.DESSINCRONIA, true);
+		
+		throw new DesyncException();
+	}
+	
+	public void notificarQueda() throws IOException {
+		this.notificarTodos(Evento.QUEDA_CONEXAO, true);
+		
+		throw new IOException("Queda de um ou mais clientes.");
+	}
+	
 }
