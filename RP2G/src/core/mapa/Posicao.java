@@ -18,13 +18,18 @@ public class Posicao implements Comparable<Posicao> {
 		return this.coluna;
 	}
 	
-	public Posicao[] getVisinhos() {
+	public Posicao[] getVizinhos() {
 		return new Posicao[] {
 			new Posicao(this.linha, this.coluna+1),
 			new Posicao(this.linha, this.coluna-1),
 			new Posicao(this.linha+1, this.coluna),
 			new Posicao(this.linha-1, this.coluna)
 		};
+	}
+	
+	public int distancia(Posicao p) {
+		return Math.abs(p.linha - this.linha)
+				+ Math.abs(p.coluna - this.coluna);
 	}
 	
 	@Override
