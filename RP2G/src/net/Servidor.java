@@ -8,6 +8,7 @@ import java.util.Scanner;
 import net.msg.Mensagem;
 import net.msg.Mensagem.Evento;
 import core.Jogo;
+import core.mapa.Mapa;
 import core.mapa.Posicao;
 import exception.DesyncException;
 
@@ -54,8 +55,10 @@ public class Servidor {
 		System.err.println("Enviando personagens.");
 		// TODO mandar informações sobre personagens
 		
-		Jogo jogo = null;
-		// TODO criar objeto jogo
+		// TODO carregar um mapa
+		Mapa m = null;
+		Jogo jogo = new Jogo(m);
+		
 		boolean acabou = false;
 		int vez = 0;
 		
@@ -97,21 +100,36 @@ public class Servidor {
                 case ATAQUE:
                 	i = s.nextInt();
                 	j = s.nextInt();
-                	// seguir modelo de MOVIMENTO
-                	// (testar MOVIMENTO antes de copiar)
+                	
+                	if (jogo.atacar(new Posicao(i, j))) {
+                        this.sinalizarTodosExceto(msg, vez);
+                        boolean conf = false;
+                        try {
+                            conf = this.confirmarTodosExceto(Evento.COMANDO_FEITO, vez);
+                        } catch (DesyncException e) {
+                        	this.notificarDessincronia();
+                        } catch (IOException e) {
+                        	this.notificarQueda();
+                        }
+                        if (conf)
+                            this.clientes[vez].notificar(Evento.COMANDO_FEITO);
+                        else
+                            this.notificarDessincronia();
+                    } else {
+                        this.notificarDessincronia();
+                    }
+                	
                     break;
                     
                 case FIM_TURNO:
-                    break;
-                    
-                case COMANDO_FEITO:
-                    break;
-                    
-                case DESSINCRONIA:
-                	this.notificarDessincronia();
+                	jogo.proximoPersonagem();
+                	this.notificarTodosExceto(Evento.FIM_TURNO, vez);
+                	vez = (vez+1) % this.clientes.length;
                     break;
                     
                 default:
+                	// Pacote fora do protocolo
+                	this.notificarDessincronia();
                     break;
 			}
 			s.close();
