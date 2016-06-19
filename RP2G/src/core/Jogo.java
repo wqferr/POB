@@ -1,6 +1,7 @@
 package core;
 
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.ListIterator;
 
 import struct.ListaCircular;
@@ -18,7 +19,9 @@ public class Jogo {
 
 	public Jogo(Mapa m) {
 		this.mapa = m;
-		this.personagens = new ListaCircular<>(m.getPersonagens());
+		List<Personagem> p = m.getPersonagens();
+		Collections.shuffle(p);
+		this.personagens = new ListaCircular<>(p);
 		this.pIter = this.personagens.listIterator();
 		this.pAtual = pIter.next();
 	}
