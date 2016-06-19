@@ -8,7 +8,7 @@ import exception.NomeRepetidoException;
 public class Arco extends Arma {
 
 	public Arco (String nome, int danoBase, int alcance) throws NomeRepetidoException {
-		super(nome, danoBase, alcance);
+		super(nome, danoBase, alcance, Profissao.ARQUEIRO);
 	}
 
 	@Override

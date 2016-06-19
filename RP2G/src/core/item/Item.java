@@ -1,30 +1,29 @@
 package core.item;
 
+import java.io.Serializable;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import core.personagem.Personagem;
 import exception.ItemInexistenteException;
 import exception.NomeRepetidoException;
 
-public abstract class Item implements Comparable<Item> {
-
+public abstract class Item implements Comparable<Item>, Serializable {
+		
+	private static final long serialVersionUID = 652636748467672L;
+	
 	private final String nome;
 	private static final Map<String, Item> registro = new TreeMap<>();
 	
 	public Item(String nome) throws NomeRepetidoException {
-		if (registro.get(nome) != null)
-			throw new NomeRepetidoException(nome);
 		this.nome = nome;
-		registro.put(nome, this);
+		Item.add(this);
 	}
 	
 	public String getNome() {
 		return this.nome;
-	}
-	
-	public boolean usar(Personagem p) {
-		return false;
 	}
 	
 	@Override
@@ -33,9 +32,20 @@ public abstract class Item implements Comparable<Item> {
 	}
 	
 	public static Item get(String nome) {
-		Item i = registro.get(nome);
-		if (i == null)
-			throw new ItemInexistenteException();
+		Item i = Item.registro.get(nome);
+		if (i == null) throw new ItemInexistenteException();
+		
 		return i;
 	}
+	
+	public static void add(Item item) throws NomeRepetidoException {
+		if (Item.registro.putIfAbsent(item.getNome(), item) != null)
+			throw new NomeRepetidoException(item.getNome());
+	}
+	
+	public static Iterator<Entry<String, Item>> getIterator(){
+		return Item.registro.entrySet().iterator();
+	}
+	
+	public abstract boolean usar(Personagem p);
 }
