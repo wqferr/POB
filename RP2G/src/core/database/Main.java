@@ -1,4 +1,4 @@
-package database;
+package core.database;
 
 public class Main {
 
