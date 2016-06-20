@@ -1,5 +1,6 @@
 package core.mapa;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -10,7 +11,9 @@ import struct.Par;
 import core.personagem.Personagem;
 
 
-public class Mapa {
+public class Mapa implements Serializable {
+	
+	private static final long serialVersionUID = 2102495729801838463L;
 	
 	private Quadrado[][] topologia;
 	
