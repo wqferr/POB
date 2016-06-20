@@ -137,14 +137,21 @@ public class Mapa implements Serializable{
 		this.getQuadrado(pos).setOcupante(p);
 	}
 
-	public List<Personagem> getPersonagens() {
+	public List<Personagem> getPersonagensTime1() {
 		List<Personagem> l = new LinkedList<>();
-		for (int i = 0; i < this.getNLinhas(); i++) {
-			for (int j = 0; j < this.getNColunas(); j++) {
-				Quadrado q = this.topologia[i][j];
+		for (Posicao p : this.getSpawnPointsTime1()) {
+			Quadrado q = this.getQuadrado(p);
 				if (q.isOcupado())
 					l.add(q.getOcupante());
-			}
+		}
+		return l;
+	}
+	public List<Personagem> getPersonagensTime2() {
+		List<Personagem> l = new LinkedList<>();
+		for (Posicao p : this.getSpawnPointsTime2()) {
+			Quadrado q = this.getQuadrado(p);
+				if (q.isOcupado())
+					l.add(q.getOcupante());
 		}
 		return l;
 	}
