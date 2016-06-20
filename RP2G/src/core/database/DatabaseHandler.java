@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import core.item.Item;
+import core.mapa.Mapa;
 import core.personagem.Personagem;
 
 public class DatabaseHandler {
@@ -73,6 +74,11 @@ public class DatabaseHandler {
 						Item.add(item);
 						System.out.println("Lido : " + ((Item)obj).getNome());
 					}
+					else if (obj instanceof Mapa){
+						Mapa mapa = (Mapa) obj;
+						Mapa.add(mapa);
+						System.out.println("Lido : " + ((Mapa)obj).getNome());
+					}
 				}
 				catch(Exception e){ System.err.println(e); }
 			}
@@ -95,9 +101,11 @@ public class DatabaseHandler {
 		List<Object> allData = new LinkedList<Object>();
 		Iterator<Entry<String, Item>> itemIt = Item.getIterator();
 		Iterator<Entry<String, Personagem>> persIt = Personagem.getIterator();
+		Iterator<Entry<String, Mapa>> mapIt = Mapa.getIterator();
 		
 		while(itemIt.hasNext()) allData.add(Item.get(itemIt.next().getKey()));
 		while(persIt.hasNext()) allData.add(Personagem.get(persIt.next().getKey()));
+		while(mapIt.hasNext()) allData.add(Mapa.get(mapIt.next().getKey()));
 		
 		try{
 			Iterator<Object> it = allData.iterator();

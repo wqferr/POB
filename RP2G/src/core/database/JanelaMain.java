@@ -1,17 +1,21 @@
 package core.database;
 
-import java.awt.ComponentOrientation;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import core.item.Aprimoramento;
 import core.item.Pocao;
@@ -19,6 +23,7 @@ import core.item.arma.Arco;
 import core.item.arma.Cajado;
 import core.item.arma.Espada;
 import core.item.arma.Livro;
+import core.mapa.Mapa;
 import core.personagem.Personagem;
 import core.personagem.Profissao;
 
@@ -30,11 +35,12 @@ public class JanelaMain extends JFrame implements ActionListener{
 	private JComboBox<String> armaDropDown;
 	private JComboBox<String> profissoesDropDown;
 	private JTextField textBox[];
+	private JFileChooser mapaChooser;
 	private JButton adicionarButton;
 	private DatabaseHandler dataHandler;
 	
 	public JanelaMain(){
-		this("Adicionar Elemento", 300, 400);
+		this("Adicionar Elemento", 500, 600);
 	}
 	
 	public JanelaMain(String windowName, int height, int width){
@@ -47,9 +53,10 @@ public class JanelaMain extends JFrame implements ActionListener{
 		this.panel = (JPanel) this.getContentPane();
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.PAGE_AXIS));
 		this.panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-		this.panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		this.panel.setPreferredSize(new Dimension(width, height));
+		//this.panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		
-		this.tipoDropDown = new JComboBox<String>(new String[]{"Personagem", "Arma", "Poção", "Aprimoramento"});;
+		this.tipoDropDown = new JComboBox<String>(new String[]{"Personagem", "Arma", "Poção", "Aprimoramento", "Mapa"});
 		this.tipoDropDown.addActionListener(this);
 		this.tipoDropDown.setActionCommand("escolhaTipo");
 		
@@ -60,6 +67,9 @@ public class JanelaMain extends JFrame implements ActionListener{
 		this.armaDropDown = new JComboBox<String>(new String[]{"Espada", "Arco", "Livro", "Cajado"});
 		this.profissoesDropDown = new JComboBox<String>(new String[]{"GUERREIRO", "MAGO", "ARQUEIRO", "SACERDOTE"});
 		
+		this.mapaChooser = new JFileChooser();
+		this.mapaChooser.setFileFilter(new FileNameExtensionFilter("*.png, *.bpm", "png", "bpm"));
+		
 		this.textBox = new JTextField[10];
 		for (int i=0; i<10; i++) textBox[i] = new JTextField(8);
 		
@@ -67,7 +77,6 @@ public class JanelaMain extends JFrame implements ActionListener{
 		
 		this.panel.add(new JLabel("Tipo de Elemento :"));
 		this.panel.add(this.tipoDropDown);
-		this.setVisible(true);
 	}
 	
 	public void actionPerformed(ActionEvent event){
@@ -115,6 +124,10 @@ public class JanelaMain extends JFrame implements ActionListener{
 				this.panel.add(this.textBox[3]);
 				this.panel.add(new JLabel("Bônus Velocidade :"));
 				this.panel.add(this.textBox[4]);
+			}
+			else if (this.tipoDropDown.getSelectedItem().equals("Mapa")){
+				this.panel.add(new JLabel("Imagem do mapa"));
+				this.panel.add(this.mapaChooser);
 			}
 			
 			this.add(this.adicionarButton);
@@ -184,6 +197,15 @@ public class JanelaMain extends JFrame implements ActionListener{
 					}catch(Exception e){ System.err.println(e); }
 					
 					try { obj = new Aprimoramento(nome, bonFor, bonDex, bonInt, bonVel); }
+					catch(Exception e){ System.err.println(e); valid = false;}
+				}
+				else if (this.tipoDropDown.getSelectedItem().equals("Mapa")){
+					File imagem = null;
+					try{
+						imagem = this.mapaChooser.getSelectedFile();
+					}catch(Exception e){ System.err.println(e);}
+					
+					try { obj = new Mapa(nome, ImageIO.read(imagem)); }
 					catch(Exception e){ System.err.println(e); valid = false;}
 				}
 			}
