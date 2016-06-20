@@ -81,6 +81,7 @@ public class Servidor {
 			} catch (IOException e) {
 				this.notificarQueda();
 			}
+			System.err.println(vez + ": " + msg);
             
 			Scanner s = new Scanner(msg.getMsg());
 			int j;
