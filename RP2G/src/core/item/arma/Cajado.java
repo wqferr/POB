@@ -8,7 +8,7 @@ import exception.NomeRepetidoException;
 public class Cajado extends Arma {
 
 	public Cajado(String nome, int danoBase, int alcance) throws NomeRepetidoException {
-		super(nome, danoBase, alcance);
+		super(nome, danoBase, alcance, Profissao.SACERDOTE);
 	}
 
 	@Override

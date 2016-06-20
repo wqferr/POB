@@ -3,7 +3,6 @@ import java.io.Serializable;
 
 import core.personagem.Personagem;
 
-
 public class Quadrado implements Serializable {
 
 	private static final long serialVersionUID = 1366852158355341746L;

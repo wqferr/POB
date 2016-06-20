@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Posicao implements Comparable<Posicao>, Serializable {
 	
-	private static final long serialVersionUID = -4645842974687046478L;
+	private static final long serialVersionUID = 2379129387123897L;
 	
 	private final int linha;
 	private final int coluna;
