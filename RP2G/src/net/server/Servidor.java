@@ -5,8 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-import net.msg.Mensagem;
-import net.msg.Mensagem.Evento;
+import net.Mensagem;
+import net.Mensagem.Evento;
 import core.Jogo;
 import core.mapa.Mapa;
 import core.mapa.Posicao;

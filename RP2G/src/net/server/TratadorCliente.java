@@ -7,8 +7,8 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import net.msg.Mensagem;
-import net.msg.Mensagem.Evento;
+import net.Mensagem;
+import net.Mensagem.Evento;
 
 public class TratadorCliente implements Runnable {
 	

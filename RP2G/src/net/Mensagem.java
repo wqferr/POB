@@ -1,4 +1,4 @@
-package net.msg;
+package net;
 
 import java.io.Serializable;
 import java.util.Objects;
