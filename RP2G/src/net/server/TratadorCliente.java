@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import net.Mensagem;
 import net.Mensagem.Evento;
@@ -16,14 +14,12 @@ public class TratadorCliente implements Runnable {
 	private Socket conexao;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
-	private Queue<Mensagem> buffer;
 
 	public TratadorCliente(Servidor servidor, Socket conexao) throws IOException {
 		this.servidor = servidor;
 		this.conexao = conexao;
 		this.in = new ObjectInputStream(this.conexao.getInputStream());
 		this.out = new ObjectOutputStream(this.conexao.getOutputStream());
-		this.buffer = new LinkedList<>();
 	}
 	
 	public boolean isConectado() {
@@ -38,23 +34,18 @@ public class TratadorCliente implements Runnable {
 		this.enviar(new Mensagem(e));
 	}
 	
-	public Mensagem receber() {
-		if (this.buffer.isEmpty())
+	public Mensagem receber() throws IOException {
+		try {
+            return (Mensagem) this.in.readObject();
+		} catch (ClassNotFoundException e) {
 			return null;
-		return this.buffer.remove();
+		}
 	}
 
 	@Override
 	public void run() {
-		while (!this.conexao.isClosed()) {
-			try {
-				this.buffer.add((Mensagem) this.in.readObject());
-			} catch (ClassNotFoundException | IOException e) {
-				try {
-                    this.servidor.notificarDessincronia();
-				} catch (IOException ex) {}
-			}
-		}
+		while (!this.conexao.isClosed());
+		
 		if (this.servidor.isAtivo()) {
 			try {
                 this.servidor.notificarQueda();

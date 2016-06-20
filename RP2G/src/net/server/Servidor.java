@@ -71,7 +71,11 @@ public class Servidor {
 		
 		while (!acabou) {
 			Mensagem msg = null;
-            msg = this.clientes[vez].receber();
+			try {
+                msg = this.clientes[vez].receber();
+			} catch (IOException e) {
+				this.notificarQueda();
+			}
             
 			Scanner s = new Scanner(msg.getMsg());
 			int j;
@@ -88,6 +92,8 @@ public class Servidor {
                             conf = this.confirmarTodosExceto(Evento.COMANDO_FEITO, vez);
                         } catch (DesyncException e) {
                         	this.notificarDessincronia();
+                        } catch (IOException e) {
+                        	this.notificarQueda();
                         }
                         if (conf)
                             this.clientes[vez].notificar(Evento.COMANDO_FEITO);
@@ -110,6 +116,8 @@ public class Servidor {
                             conf = this.confirmarTodosExceto(Evento.COMANDO_FEITO, vez);
                         } catch (DesyncException e) {
                         	this.notificarDessincronia();
+                        } catch (IOException e) {
+                        	this.notificarQueda();
                         }
                         if (conf)
                             this.clientes[vez].notificar(Evento.COMANDO_FEITO);
@@ -152,7 +160,7 @@ public class Servidor {
 			this.clientes[i].enviar(m);
 	}
 	
-	public boolean confirmarTodosExceto(Evento e, int c) throws DesyncException {
+	public boolean confirmarTodosExceto(Evento e, int c) throws IOException {
 		boolean confirmado = true;
 		for (int i = 0; i < c; i++) {
 			Mensagem m = this.clientes[i].receber();
