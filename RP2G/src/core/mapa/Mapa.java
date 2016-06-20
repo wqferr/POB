@@ -24,13 +24,15 @@ public class Mapa implements Serializable{
 	
 	private String nome;
 	private Quadrado[][] topologia;
-	private List<Posicao> spawnPoints;
+	private List<Posicao> spawnPointsTime1;
+	private List<Posicao> spawnPointsTime2;
 	private static final Map<String, Mapa> registro = new TreeMap<>();
 	
 	public Mapa(String nome, Quadrado[][] topologia) throws NomeRepetidoException{
 		this.nome = nome;
 		this.topologia = topologia;
-		this.spawnPoints = new LinkedList<Posicao>();
+		this.spawnPointsTime1 = new LinkedList<Posicao>();
+		this.spawnPointsTime2 = new LinkedList<Posicao>();
 		Mapa.add(this);
 	}
 	
@@ -46,19 +48,22 @@ public class Mapa implements Serializable{
 				this.topologia[i][j] = new Quadrado(new Posicao(i, j), bool[i][j]);
 		}
 		
-		this.spawnPoints = new LinkedList<Posicao>();
+		this.spawnPointsTime1 = new LinkedList<Posicao>();
+		this.spawnPointsTime2 = new LinkedList<Posicao>();
 		Mapa.add(this);
 	}
 	
 	public Mapa(String nome, BufferedImage imagem) throws NomeRepetidoException{
 		this.nome = nome;
 		this.topologia = new Quadrado[imagem.getHeight()][imagem.getWidth()];
-		this.spawnPoints = new LinkedList<Posicao>();
+		this.spawnPointsTime1 = new LinkedList<Posicao>();
+		this.spawnPointsTime2 = new LinkedList<Posicao>();
 		for (int i=0; i<imagem.getWidth(); i++){
 			for (int j=0; j<imagem.getHeight(); j++){
 				Pixel curPix = new Pixel(imagem.getRGB(i, j));
 				this.topologia[j][i] = new Quadrado(new Posicao(j, i), !curPix.isWhite());
-				if (curPix.isRed()) this.spawnPoints.add(new Posicao(j, i));
+				if (curPix.isRed()) this.spawnPointsTime1.add(new Posicao(j, i));
+				else if (curPix.isBlue()) this.spawnPointsTime2.add(new Posicao(j, i));
 			}
 		}
 		
@@ -144,10 +149,13 @@ public class Mapa implements Serializable{
 		return l;
 	}
 	
-	public List<Posicao> getSpawnPoints(){
-		return this.spawnPoints;
+	public List<Posicao> getSpawnPointsTime1(){
+		return this.spawnPointsTime1;
 	}
 	
+	public List<Posicao> getSpawnPointsTime2(){
+		return this.spawnPointsTime2;
+	}
 	public static Mapa get(String nome) {
 		Mapa m = Mapa.registro.get(nome);
 		if (m == null) throw new MapaInexistenteException();
