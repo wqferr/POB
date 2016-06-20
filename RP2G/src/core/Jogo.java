@@ -21,18 +21,28 @@ public class Jogo {
 	private ListIterator<Personagem> pIter1;
 	private ListIterator<Personagem> pIter2;
 
-	public Jogo(Mapa m) {
+	public Jogo(Mapa m, List<Personagem> p1, List<Personagem> p2) {
 		this.mapa = m;
-		List<Personagem> p1 = m.getPersonagensTime1();
-		List<Personagem> p2 = m.getPersonagensTime2();
 		Collections.shuffle(p1);
 		Collections.shuffle(p2);
+
+		initPos(m.getSpawnPointsTime1(), p1);
+		initPos(m.getSpawnPointsTime2(), p2);
 		this.personagens1 = new ListaCircular<>(p1);
 		this.personagens2 = new ListaCircular<>(p2);
 		this.pIter1 = this.personagens1.listIterator();
 		this.pIter2 = this.personagens2.listIterator();
 		this.pAtual = pIter1.next();
 		this.proximoTime =  true;
+	}
+	
+	private static void initPos(List<Posicao> spawn, List<Personagem> per) {
+		if (spawn.size() != per.size())
+			throw new IllegalArgumentException("Lista de spawns e personagens com tamanho diferente");
+		ListIterator<Posicao> posIter = spawn.listIterator();
+		
+		for (Personagem p : per)
+			p.mover(posIter.next());
 	}
 	
 	public Personagem proximoPersonagem() {
