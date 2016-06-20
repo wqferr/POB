@@ -39,6 +39,11 @@ public class Cliente {
 			this.notificarDessincronia();
 		this.notificar(Evento.CONFIRMACAO);
 		Jogo jogo = null;
+		try {
+			jogo = (Jogo) this.in.readObject();
+		} catch (ClassNotFoundException e) {}
+		// TODO receber itens
+		// TODO receber personagens
 		boolean acabou = false;
 		
 		while (!acabou) {

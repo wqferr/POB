@@ -9,7 +9,6 @@ import java.util.Scanner;
 import net.Mensagem;
 import net.Mensagem.Evento;
 import core.Jogo;
-import core.mapa.Mapa;
 import core.mapa.Posicao;
 import exception.DesyncException;
 
@@ -21,8 +20,11 @@ public class Servidor {
 	private boolean ativo;
 	private TratadorCliente[] clientes;
 	
+	private Jogo jogo;
+	
 	public Servidor() {
 		this.clientes = new TratadorCliente[Jogo.NRO_JOGADORES];
+		// TODO inicializar jogo
 	}
 	
 	public void abrir() throws IOException {
@@ -71,11 +73,9 @@ public class Servidor {
 		if (!conf)
 			this.notificarDessincronia();
 	
-		// TODO carregar um mapa
-		Mapa m = null;
-		System.err.println("Enviando mapa.");
+		System.err.println("Enviando informações do jogo.");
 		try {
-            this.enviar(m);
+            this.enviar(this.jogo);
 		} catch (IOException e) {
 			this.notificarQueda();
 		}
@@ -84,7 +84,6 @@ public class Servidor {
 		System.err.println("Enviando personagens.");
 		// TODO mandar informações sobre personagens
 		
-		Jogo jogo = new Jogo(m);
 		
 		boolean acabou = false;
 		int vez = 0;
@@ -108,7 +107,7 @@ public class Servidor {
                 	i = s.nextInt();
                 	j = s.nextInt();
                 	
-                	if (jogo.mover(new Posicao(i, j))) {
+                	if (this.jogo.mover(new Posicao(i, j))) {
                         this.sinalizarTodosExceto(msg, vez);
                         conf = false;
                         try {
@@ -132,7 +131,7 @@ public class Servidor {
                 	i = s.nextInt();
                 	j = s.nextInt();
                 	
-                	if (jogo.atacar(new Posicao(i, j))) {
+                	if (this.jogo.atacar(new Posicao(i, j))) {
                         this.sinalizarTodosExceto(msg, vez);
                         conf = false;
                         try {
@@ -155,7 +154,7 @@ public class Servidor {
                     break;
                     
                 case FIM_TURNO:
-                	jogo.proximoPersonagem();
+                	this.jogo.proximoPersonagem();
                 	this.notificarTodosExceto(Evento.FIM_TURNO, vez);
                 	vez = (vez+1) % this.clientes.length;
                 	this.clientes[vez].notificar(Evento.INICIO_TURNO);
