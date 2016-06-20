@@ -22,7 +22,7 @@ public class Servidor {
 	private TratadorCliente[] clientes;
 	
 	public Servidor() {
-		this.clientes = new TratadorCliente[2];
+		this.clientes = new TratadorCliente[Jogo.NRO_JOGADORES];
 	}
 	
 	public void abrir() throws IOException {

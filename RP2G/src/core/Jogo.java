@@ -16,6 +16,8 @@ public class Jogo implements Serializable {
 	
 	private static final long serialVersionUID = -4082863311966571070L;
 	
+	public static final int NRO_JOGADORES = 2;
+	
 	private Mapa mapa;
 	private ListaCircular<Personagem> personagens;
 	private Personagem pAtual;
