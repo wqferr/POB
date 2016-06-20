@@ -1,4 +1,4 @@
-package net;
+package net.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -14,6 +14,8 @@ import exception.DesyncException;
 
 public class Servidor {
 	
+	public static final int PORTA_PADRAO = 4479;
+	
 	private ServerSocket ss;
 	private boolean ativo;
 	private TratadorCliente[] clientes;
@@ -22,7 +24,10 @@ public class Servidor {
 		this.clientes = new TratadorCliente[2];
 	}
 	
-
+	public void abrir() throws IOException {
+		this.abrir(PORTA_PADRAO);
+	}
+	
 	public void abrir(int porta) throws IOException {
 		if (this.ss == null)
             this.ss = new ServerSocket(porta);

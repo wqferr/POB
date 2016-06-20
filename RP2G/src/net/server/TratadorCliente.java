@@ -1,4 +1,4 @@
-package net;
+package net.server;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
