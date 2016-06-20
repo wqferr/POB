@@ -40,7 +40,7 @@ public class Servidor {
 		this.ss.close();
 	}
 
-	public void start() throws IOException {
+	public void start() throws DesyncException, IOException {
 		this.ativo = true;
 		int i = 0;
 		while (i < this.clientes.length) {
