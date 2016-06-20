@@ -1,11 +1,5 @@
 package core.mapa;
 import java.io.Serializable;
-<<<<<<< HEAD
-
-import core.personagem.Personagem;
-=======
->>>>>>> master
-
 import core.personagem.Personagem;
 
 
