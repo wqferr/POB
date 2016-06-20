@@ -32,7 +32,7 @@ public class Jogo {
 		this.pIter1 = this.personagens1.listIterator();
 		this.pIter2 = this.personagens2.listIterator();
 		this.pAtual = pIter1.next();
-		toggleador =  true;
+		this.toggleador =  true;
 	}
 	
 	public Personagem proximoPersonagem() {
