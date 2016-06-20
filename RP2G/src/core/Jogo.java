@@ -1,5 +1,6 @@
 package core;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
@@ -11,7 +12,9 @@ import core.mapa.Posicao;
 import core.personagem.Personagem;
 import core.personagem.Personagem.Stat;
 
-public class Jogo {
+public class Jogo implements Serializable {
+	
+	private static final long serialVersionUID = -4082863311966571070L;
 	
 	private Mapa mapa;
 	private ListaCircular<Personagem> personagens;

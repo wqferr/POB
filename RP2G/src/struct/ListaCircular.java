@@ -1,5 +1,6 @@
 package struct;
 
+import java.io.Serializable;
 import java.util.AbstractSequentialList;
 import java.util.Collection;
 import java.util.ListIterator;
@@ -17,9 +18,13 @@ import java.util.ListIterator;
  *
  * @param <E> A classe dos elementos da lista.
  */
-public class ListaCircular<E> extends AbstractSequentialList<E> {
+public class ListaCircular<E> extends AbstractSequentialList<E> implements Serializable {
 	
-	private class No {
+	private static final long serialVersionUID = 606785502187027264L;
+
+	private class No implements Serializable {
+		static final long serialVersionUID = 6772146105120541965L;
+		
 		No ant;
 		No prx;
 		E val;
