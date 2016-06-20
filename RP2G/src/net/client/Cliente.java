@@ -91,6 +91,7 @@ public class Cliente {
                 	this.notificarDessincronia();
                     break;
 			}
+			s.close();
 		}
 	}
 	
