@@ -20,8 +20,6 @@ public class Jogo {
 	private Personagem pAtual;
 	private ListIterator<Personagem> pIter1;
 	private ListIterator<Personagem> pIter2;
-	// TODO controlar times diferentes
-	// TODO conseguir verificar se o jogo acabou
 
 	public Jogo(Mapa m) {
 		this.mapa = m;
@@ -62,9 +60,10 @@ public class Jogo {
 			return false;
 		
 		if(alvo.distancia(this.pAtual.getPosicao()) > this.pAtual.getArma().getAlcance()){
-			pAtual.atacar(this.mapa.getQuadrado(alvo).getOcupante());
-			if(this.mapa.getQuadrado(alvo).getOcupante().isMorto())
-				this.removePersonagem(this.mapa.getQuadrado(alvo).getOcupante());
+			Personagem p = this.mapa.getQuadrado(alvo).getOcupante();
+			this.pAtual.atacar(p);
+			if(p.isMorto())
+				this.removePersonagem(p);
 			return true;
 		}
 		return false;
@@ -74,7 +73,11 @@ public class Jogo {
 		return this.pAtual.usar(item);
 	}
 	
-	public boolean isFim(){
+	public boolean usar(String item) {
+		return this.pAtual.usar(item);
+	}
+	
+	public boolean acabou(){
 		return personagens1.isEmpty() || personagens2.isEmpty();
 	}
 	/*
@@ -82,7 +85,7 @@ public class Jogo {
 	 * 1 Time 1
 	 * 2 Time 2
 	 */
-	public int whoGanhou(){
+	public int vencedor(){
 		if(personagens1.isEmpty())
 			return 2;
 		if(personagens2.isEmpty())
@@ -93,10 +96,6 @@ public class Jogo {
 	private void removePersonagem(Personagem p){
 		if (!personagens1.remove(p))
 			personagens2.remove(p);
-	}
-	
-	public boolean usar(String item) {
-		return this.pAtual.usar(item);
 	}
 
 }
