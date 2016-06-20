@@ -149,5 +149,9 @@ public class Jogo {
 		if (!personagens1.remove(p))
 			personagens2.remove(p);
 	}
+	
+	public Mapa getMapa() {
+		return this.mapa;
+	}
 
 }
