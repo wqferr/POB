@@ -14,7 +14,7 @@ import core.personagem.Personagem.Stat;
 public class Jogo {
 	
 	private Mapa mapa;
-	private boolean toggleador = true;
+	private boolean toggleador;
 	private ListaCircular<Personagem> personagens1;
 	private ListaCircular<Personagem> personagens2;
 	private Personagem pAtual;
@@ -32,6 +32,7 @@ public class Jogo {
 		this.pIter1 = this.personagens1.listIterator();
 		this.pIter2 = this.personagens2.listIterator();
 		this.pAtual = pIter1.next();
+		toggleador =  true;
 	}
 	
 	public Personagem proximoPersonagem() {
@@ -80,6 +81,7 @@ public class Jogo {
 	public boolean acabou(){
 		return personagens1.isEmpty() || personagens2.isEmpty();
 	}
+
 	/*
 	 * 0 Ninguem 
 	 * 1 Time 1
