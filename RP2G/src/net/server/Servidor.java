@@ -75,7 +75,7 @@ public class Servidor {
 		System.err.println("Enviando personagens.");
 		// TODO mandar informações sobre personagens
 		
-		Jogo jogo = new Jogo(m);
+		Jogo jogo = null;
 		
 		boolean acabou = false;
 		int vez = 0;

@@ -17,7 +17,7 @@ import core.personagem.Personagem.Stat;
  */
 public class Jogo {
 	private Mapa mapa;
-	private boolean toggleador;
+	private boolean proximoTime;
 	private ListaCircular<Personagem> personagens1;
 	private ListaCircular<Personagem> personagens2;
 	private Personagem pAtual;
@@ -26,27 +26,39 @@ public class Jogo {
 	/**
 	 * 
 	 * @param m
+	 * @param p1
+	 * @param p2
 	 */
-	public Jogo(Mapa m) {
+	public Jogo(Mapa m, List<Personagem> p1, List<Personagem> p2) {
 		this.mapa = m;
-		List<Personagem> p1 = m.getPersonagensTime1();
-		List<Personagem> p2 = m.getPersonagensTime2();
 		Collections.shuffle(p1);
 		Collections.shuffle(p2);
+
+		initPos(m.getSpawnPointsTime1(), p1);
+		initPos(m.getSpawnPointsTime2(), p2);
 		this.personagens1 = new ListaCircular<>(p1);
 		this.personagens2 = new ListaCircular<>(p2);
 		this.pIter1 = this.personagens1.listIterator();
 		this.pIter2 = this.personagens2.listIterator();
 		this.pAtual = pIter1.next();
-		this.toggleador =  true;
+		this.proximoTime =  true;
+	}
+	
+	private static void initPos(List<Posicao> spawn, List<Personagem> per) {
+		if (spawn.size() != per.size())
+			throw new IllegalArgumentException("Lista de spawns e personagens com tamanho diferente");
+		ListIterator<Posicao> posIter = spawn.listIterator();
+		
+		for (Personagem p : per)
+			p.mover(posIter.next());
 	}
 	/**
 	 * 
 	 * @return
 	 */
 	public Personagem proximoPersonagem() {
-		toggleador = !toggleador;
-		if(toggleador)
+		proximoTime = !proximoTime;
+		if(proximoTime)
 			this.pAtual = pIter1.next();
 		else
 			this.pAtual = pIter2.next();
