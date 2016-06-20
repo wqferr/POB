@@ -3,6 +3,7 @@ package net.server;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 
 import net.Mensagem;
@@ -22,8 +23,8 @@ public class TratadorCliente implements Runnable {
 		this.out = new ObjectOutputStream(this.conexao.getOutputStream());
 	}
 	
-	public void enviar(Mensagem m) throws IOException {
-		this.out.writeObject(m);
+	public void enviar(Serializable obj) throws IOException {
+		this.out.writeObject(obj);
 	}
 	
 	public void notificar(Evento e) throws IOException {
