@@ -176,11 +176,6 @@ public class Servidor {
 			tc.enviar(obj);
 	}
 	
-	private void sinalizar(Mensagem m) throws IOException {
-		for (TratadorCliente tc : this.clientes)
-			tc.enviar(m);
-	}
-	
 	private void sinalizarTodosExceto(Mensagem m, int c) throws IOException {
 		for (int i = 0; i < c; i++)
 			this.clientes[i].enviar(m);
@@ -228,10 +223,6 @@ public class Servidor {
 			this.clientes[i].notificar(e);
 		for (int i = c+1; i < this.clientes.length; i++)
 			this.clientes[i].notificar(e);
-	}
-	
-	private void notificarTodos(Evento e) throws IOException {
-		this.notificarTodos(e, false);
 	}
 	
 	private void notificarTodos(Evento e, boolean ignorarExcecao) throws IOException {
