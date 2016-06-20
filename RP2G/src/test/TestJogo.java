@@ -18,7 +18,7 @@ import exception.NomeRepetidoException;
 public class TestJogo {
 
 	public static void main(String[] args) {
-		DatabaseHandler dbh = new DatabaseHandler();
+		new DatabaseHandler();
 		
 		Personagem p1 = null, p2 = null;
 		try {
@@ -55,18 +55,16 @@ public class TestJogo {
                 desenharTabuleiro(j, p1, p2);
                 
                 String cmd = s.next(p);
-                System.err.print(cmd);
                 
                 switch (cmd) {
                     case "m":
                     	if (podeMover) {
                             l = s.nextInt();
                             c = s.nextInt();
-                    		System.err.println(" " + l + " " + c);
                             if (j.mover(new Posicao(l, c)))
                                 podeMover = false;
                             else
-                            	System.err.println("invalido");
+                            	System.out.println("movimento invalido");
                     	}
                         break;
                         
@@ -74,12 +72,11 @@ public class TestJogo {
                         l = s.nextInt();
                         c = s.nextInt();
                         if (!j.atacar(new Posicao(l, c))) {
-                        	System.err.println("invalido");
+                        	System.out.println("movimento invalido");
                         	break;
                         }
                     
                     case "f":
-                    	System.err.println();
                         podeMover = true;
                     	j.proximoPersonagem();
                     	break;
@@ -87,6 +84,7 @@ public class TestJogo {
                 
                 s.nextLine();
             }
+            System.out.println("FIM");
 		}
 	}
 	
