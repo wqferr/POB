@@ -56,11 +56,20 @@ public class Servidor {
 		for (TratadorCliente tc : this.clientes)
 			new Thread(tc).start();
 		
-		this.clientes[0].enviar(new Mensagem(Evento.INICIO_CONEXAO, "1"));
-		
-		Mensagem msg = new Mensagem(Evento.INICIO_CONEXAO, "0");
 		for (i = 1; i < this.clientes.length; i++)
-			this.clientes[i].enviar(msg);
+            this.clientes[i].notificar(Evento.INICIO_CONEXAO);
+		
+		boolean conf = false;
+		try {
+            conf = this.confirmarTodos(Evento.CONFIRMACAO);
+		} catch (DesyncException e) {
+			this.notificarDessincronia();
+		} catch (IOException e) {
+			this.notificarQueda();
+		}
+		
+		if (!conf)
+			this.notificarDessincronia();
 	
 		// TODO carregar um mapa
 		Mapa m = null;
@@ -79,6 +88,9 @@ public class Servidor {
 		
 		boolean acabou = false;
 		int vez = 0;
+		Mensagem msg = null;
+		
+		this.clientes[0].notificar(Evento.INICIO_TURNO);
 		
 		while (!acabou) {
 			try {
@@ -98,16 +110,16 @@ public class Servidor {
                 	
                 	if (jogo.mover(new Posicao(i, j))) {
                         this.sinalizarTodosExceto(msg, vez);
-                        boolean conf = false;
+                        conf = false;
                         try {
-                            conf = this.confirmarTodosExceto(Evento.COMANDO_FEITO, vez);
+                            conf = this.confirmarTodosExceto(Evento.CONFIRMACAO, vez);
                         } catch (DesyncException e) {
                         	this.notificarDessincronia();
                         } catch (IOException e) {
                         	this.notificarQueda();
                         }
                         if (conf)
-                            this.clientes[vez].notificar(Evento.COMANDO_FEITO);
+                            this.clientes[vez].notificar(Evento.CONFIRMACAO);
                         else
                             this.notificarDessincronia();
                     } else {
@@ -122,16 +134,16 @@ public class Servidor {
                 	
                 	if (jogo.atacar(new Posicao(i, j))) {
                         this.sinalizarTodosExceto(msg, vez);
-                        boolean conf = false;
+                        conf = false;
                         try {
-                            conf = this.confirmarTodosExceto(Evento.COMANDO_FEITO, vez);
+                            conf = this.confirmarTodosExceto(Evento.CONFIRMACAO, vez);
                         } catch (DesyncException e) {
                         	this.notificarDessincronia();
                         } catch (IOException e) {
                         	this.notificarQueda();
                         }
                         if (conf)
-                            this.clientes[vez].notificar(Evento.COMANDO_FEITO);
+                            this.clientes[vez].notificar(Evento.CONFIRMACAO);
                         else
                             this.notificarDessincronia();
                         
@@ -146,6 +158,7 @@ public class Servidor {
                 	jogo.proximoPersonagem();
                 	this.notificarTodosExceto(Evento.FIM_TURNO, vez);
                 	vez = (vez+1) % this.clientes.length;
+                	this.clientes[vez].notificar(Evento.INICIO_TURNO);
                     break;
                     
                 default:
@@ -174,6 +187,19 @@ public class Servidor {
 			this.clientes[i].enviar(m);
 		for (int i = c+1; i < this.clientes.length; i++)
 			this.clientes[i].enviar(m);
+	}
+	
+	public boolean confirmarTodos(Evento e) throws IOException {
+		boolean confirmado = true;
+		for (int i = 0; i < this.clientes.length; i++) {
+			Mensagem m = this.clientes[i].receber();
+			if (m.getEvento() != e)
+				confirmado = false;
+			if (m.getEvento() == Evento.DESSINCRONIA)
+				throw new DesyncException();
+		}
+			
+		return confirmado;
 	}
 	
 	public boolean confirmarTodosExceto(Evento e, int c) throws IOException {

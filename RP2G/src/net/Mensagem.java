@@ -9,10 +9,11 @@ public class Mensagem implements Serializable {
 
 	public static enum Evento {
 		INICIO_CONEXAO,
-		COMANDO_FEITO,
+		CONFIRMACAO,
 		QUEDA_CONEXAO,
 		DESSINCRONIA,
 		
+		INICIO_TURNO,
 		MOVIMENTO,
 		ATAQUE,
 		FIM_TURNO
