@@ -459,4 +459,8 @@ public class Personagem implements Serializable {
 	public static Iterator<Entry<String, Personagem>> getIterator(){
 		return Personagem.registro.entrySet().iterator();
 	}
+	
+	public boolean isMorto(){
+		return this.hp == 0;
+	}
 }
