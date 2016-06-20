@@ -116,7 +116,10 @@ public class ListaCircular<E> extends AbstractSequentialList<E> {
 			this.atual = this.ultRetorno.ant;
             this.ultRetorno.remover();
             this.ultRetorno = ListaCircular.this.cabeca;
-            this.idx = this.idx % ListaCircular.this.tamanho;
+            if (ListaCircular.this.tamanho == 0)
+            	this.idx = -1;
+            else
+                this.idx = this.idx % ListaCircular.this.tamanho;
 		}
 
 		@Override
