@@ -1,6 +1,7 @@
 package net.server;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -61,15 +62,19 @@ public class Servidor {
 		for (i = 1; i < this.clientes.length; i++)
 			this.clientes[i].enviar(msg);
 	
+		// TODO carregar um mapa
+		Mapa m = null;
 		System.err.println("Enviando mapa.");
-		// TODO mandar informações sobre mapa
+		try {
+            this.enviar(m);
+		} catch (IOException e) {
+			this.notificarQueda();
+		}
 		System.err.println("Enviando itens.");
 		// TODO mandar arquivo de itens.
 		System.err.println("Enviando personagens.");
 		// TODO mandar informações sobre personagens
 		
-		// TODO carregar um mapa
-		Mapa m = null;
 		Jogo jogo = new Jogo(m);
 		
 		boolean acabou = false;
@@ -152,6 +157,11 @@ public class Servidor {
 		}
 		
 		this.ativo = false;
+	}
+	
+	public void enviar(Serializable obj) throws IOException {
+		for (TratadorCliente tc : this.clientes)
+			tc.enviar(obj);
 	}
 	
 	public void sinalizar(Mensagem m) throws IOException {
