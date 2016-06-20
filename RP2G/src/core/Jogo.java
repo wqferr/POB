@@ -17,6 +17,8 @@ public class Jogo {
 	private ListaCircular<Personagem> personagens;
 	private Personagem pAtual;
 	private ListIterator<Personagem> pIter;
+	// TODO controlar times diferentes
+	// TODO conseguir verificar se o jogo acabou
 
 	public Jogo(Mapa m) {
 		this.mapa = m;
