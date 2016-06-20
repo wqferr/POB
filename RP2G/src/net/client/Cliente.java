@@ -5,19 +5,26 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Scanner;
 
 import net.Mensagem;
 import net.Mensagem.Evento;
 import net.server.Servidor;
 import core.Jogo;
+import core.mapa.Posicao;
 import exception.DesyncException;
 
 public class Cliente {
 	
 	private Socket conexao;
-	private boolean vez;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
+	
+	private Observador obs;
+	
+	public Cliente(Observador obs) {
+		this.obs = obs;
+	}
 	
 	public void conectar(InetAddress ip) throws IOException {
 		this.conectar(ip, Servidor.PORTA_PADRAO);
@@ -37,30 +44,51 @@ public class Cliente {
 		while (!acabou) {
 			msg = this.receber();
 			
+            Scanner s = new Scanner(msg.getMsg());
+            int i, j;
+			
 			switch (msg.getEvento()) {
                 case INICIO_TURNO:
+                	this.obs.acordar();
+                	// esperar entrada de comando de movimento
+                	//		mandar msg se existente
+                	//		verificar dessincronia
+                	// esperar entrada de comando de ataque
+                	// 		mandar msg se existente
+                	// 		verificar dessincronia
+                	this.notificar(Evento.FIM_TURNO);
                     break;
                     
                 case MOVIMENTO:
+                	i = s.nextInt();
+                	j = s.nextInt();
+                	if (jogo.mover(new Posicao(i, j)))
+                		this.notificar(Evento.CONFIRMACAO);
+                	else
+                		this.notificarDessincronia();
                     break;
                     
                 case ATAQUE:
+                	i = s.nextInt();
+                	j = s.nextInt();
+                	if (jogo.atacar(new Posicao(i, j)))
+                		this.notificar(Evento.CONFIRMACAO);
+                	else
+                		this.notificarDessincronia();
+                	// TODO verificar se jogo acabou
                     break;
                     
                 case FIM_TURNO:
                 	jogo.proximoPersonagem();
                     break;
                     
-                case CONFIRMACAO:
-                    break;
-                    
-                case DESSINCRONIA:
-                    break;
-                    
                 case QUEDA_CONEXAO:
+                	this.notificarQueda();
                     break;
                     
                 default:
+                	// mensagem fora do protocolo
+                	this.notificarDessincronia();
                     break;
 			}
 		}
@@ -92,6 +120,10 @@ public class Cliente {
 	public void notificarDessincronia() throws DesyncException, IOException {
 		this.notificar(Evento.DESSINCRONIA);
 		throw new DesyncException();
+	}
+	
+	public void notificarQueda() throws IOException {
+		throw new IOException("Queda de conexão");
 	}
 
 }
