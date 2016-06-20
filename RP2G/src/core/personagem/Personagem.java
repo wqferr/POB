@@ -18,17 +18,17 @@ import exception.NomeRepetidoException;
 import exception.PersonagemInexistenteException;
 
 /**
- * @author William Quelho Ferreira
- *
  * Unidade básica do jogo.
  * Uma das "peças" controladas por algum jogador.
+ *
+ * @author William Quelho Ferreira
  */
 public class Personagem implements Serializable {
 	/**
-	 * @author William Quelho Ferreira
-	 *
 	 * Atributos que definem o dano, HP máximo e poder de cura dos personagens,
 	 * dependendo da profissão.
+	 *
+	 * @author William Quelho Ferreira
 	 */
 	public static enum Stat {
 		/**
