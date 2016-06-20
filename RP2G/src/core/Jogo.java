@@ -10,9 +10,12 @@ import core.mapa.Mapa;
 import core.mapa.Posicao;
 import core.personagem.Personagem;
 import core.personagem.Personagem.Stat;
-
+/**
+ * 
+ * @author guilherme
+ *
+ */
 public class Jogo {
-	
 	private Mapa mapa;
 	private boolean toggleador;
 	private ListaCircular<Personagem> personagens1;
@@ -20,7 +23,10 @@ public class Jogo {
 	private Personagem pAtual;
 	private ListIterator<Personagem> pIter1;
 	private ListIterator<Personagem> pIter2;
-
+	/**
+	 * 
+	 * @param m
+	 */
 	public Jogo(Mapa m) {
 		this.mapa = m;
 		List<Personagem> p1 = m.getPersonagensTime1();
@@ -34,7 +40,10 @@ public class Jogo {
 		this.pAtual = pIter1.next();
 		this.toggleador =  true;
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public Personagem proximoPersonagem() {
 		toggleador = !toggleador;
 		if(toggleador)
@@ -43,11 +52,18 @@ public class Jogo {
 			this.pAtual = pIter2.next();
 		return this.pAtual;
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public Personagem personagemAtual() {
 		return this.pAtual;
 	}
-	
+	/**
+	 * 
+	 * @param nova
+	 * @return
+	 */
 	public boolean mover(Posicao nova) {
 		if (this.mapa.alcancavel(this.pAtual.getPosicao(), nova, this.pAtual.getStat(Stat.VEL))) {
 			this.mapa.mover(this.pAtual.getPosicao(), nova);
@@ -55,7 +71,11 @@ public class Jogo {
 		}
 		return false;
 	}
-	
+	/**
+	 * 
+	 * @param alvo
+	 * @return
+	 */
 	public boolean atacar(Posicao alvo) {
 		if (!this.mapa.isOcupado(alvo) || this.pAtual.getArma() == null)
 			return false;
@@ -69,15 +89,26 @@ public class Jogo {
 		}
 		return false;
 	}
-	
+	/**
+	 * 
+	 * @param item
+	 * @return
+	 */
 	public boolean usar(Item item) {
 		return this.pAtual.usar(item);
 	}
-	
+	/**
+	 * 
+	 * @param item
+	 * @return
+	 */
 	public boolean usar(String item) {
 		return this.pAtual.usar(item);
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean acabou(){
 		return personagens1.isEmpty() || personagens2.isEmpty();
 	}
@@ -86,6 +117,10 @@ public class Jogo {
 	 * 0 Ninguem 
 	 * 1 Time 1
 	 * 2 Time 2
+	*/
+	/**
+	 * 
+	 * @return
 	 */
 	public int vencedor(){
 		if(personagens1.isEmpty())
@@ -94,7 +129,10 @@ public class Jogo {
 			return 1;
 		return 0;
 	}
-	
+	/**
+	 * 
+	 * @param p
+	 */
 	private void removePersonagem(Personagem p){
 		if (!personagens1.remove(p))
 			personagens2.remove(p);

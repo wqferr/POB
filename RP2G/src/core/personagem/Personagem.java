@@ -443,23 +443,37 @@ public class Personagem implements Serializable {
 	public boolean usar(String nome) {
         return this.usar(Item.get(nome));
 	}
-	
+	/**
+	 * 
+	 * @param nome
+	 * @return
+	 */
 	public static Personagem get(String nome) {
 		Personagem p = Personagem.registro.get(nome);
 		if (p == null) throw new PersonagemInexistenteException();
 		
 		return p;
 	}
-	
+	/**
+	 * 
+	 * @param pers
+	 * @throws NomeRepetidoException
+	 */
 	public static void add(Personagem pers) throws NomeRepetidoException {
 		if (Personagem.registro.putIfAbsent(pers.getNome(), pers) != null)
 			throw new NomeRepetidoException(pers.getNome());
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public static Iterator<Entry<String, Personagem>> getIterator(){
 		return Personagem.registro.entrySet().iterator();
 	}
-	
+	/**
+	 *
+	 * @return
+	 */
 	public boolean isMorto(){
 		return this.hp == 0;
 	}
