@@ -92,7 +92,7 @@ public class Jogo {
 		if (!this.mapa.isOcupado(alvo) || this.pAtual.getArma() == null)
 			return false;
 		
-		if(alvo.distancia(this.pAtual.getPosicao()) > this.pAtual.getArma().getAlcance()){
+		if(alvo.distancia(this.pAtual.getPosicao()) <= this.pAtual.getArma().getAlcance()){
 			Personagem p = this.mapa.getQuadrado(alvo).getOcupante();
 			this.pAtual.atacar(p);
 			if(p.isMorto())
