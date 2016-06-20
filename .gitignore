@@ -1,3 +1,4 @@
 .metadata/*
 *.class
+*.dat
 RP2G/bin/.gitignore
