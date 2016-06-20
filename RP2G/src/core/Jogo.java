@@ -44,13 +44,13 @@ public class Jogo {
 		this.proximoTime =  true;
 	}
 	
-	private static void initPos(List<Posicao> spawn, List<Personagem> per) {
+	private void initPos(List<Posicao> spawn, List<Personagem> per) {
 		if (spawn.size() != per.size())
 			throw new IllegalArgumentException("Lista de spawns e personagens com tamanho diferente");
 		ListIterator<Posicao> posIter = spawn.listIterator();
 		
 		for (Personagem p : per)
-			p.mover(posIter.next());
+			this.mapa.getQuadrado(posIter.next()).setOcupante(p);
 	}
 	/**
 	 * 
