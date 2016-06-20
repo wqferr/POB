@@ -22,10 +22,6 @@ public class TratadorCliente implements Runnable {
 		this.out = new ObjectOutputStream(this.conexao.getOutputStream());
 	}
 	
-	public boolean isConectado() {
-		return !this.conexao.isOutputShutdown();
-	}
-	
 	public void enviar(Mensagem m) throws IOException {
 		this.out.writeObject(m);
 	}

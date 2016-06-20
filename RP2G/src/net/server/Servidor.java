@@ -201,7 +201,7 @@ public class Servidor {
 		}
 	}
 	
-	public void notificarDessincronia() throws IOException {
+	public void notificarDessincronia() throws DesyncException, IOException {
 		this.notificarTodos(Evento.DESSINCRONIA, true);
 		
 		throw new DesyncException("Dessincronia detectada.");
