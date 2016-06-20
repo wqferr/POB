@@ -242,7 +242,7 @@ public class Servidor {
 		throw new DesyncException("Dessincronia detectada.");
 	}
 	
-	private void notificarQueda() throws IOException {
+	public void notificarQueda() throws IOException {
 		this.notificarTodos(Evento.QUEDA_CONEXAO, true);
 		
 		throw new IOException("Queda de um ou mais clientes.");
