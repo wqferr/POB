@@ -27,7 +27,7 @@ import core.mapa.Mapa;
 import core.personagem.Personagem;
 import core.personagem.Profissao;
 
-public class JanelaMain extends JFrame implements ActionListener{
+public class JanelaMain extends JFrame implements ActionListener {
 	private static final long serialVersionUID = -398592414626114074L;
 	
 	private JPanel panel;
@@ -49,6 +49,7 @@ public class JanelaMain extends JFrame implements ActionListener{
 	
 	public JanelaMain(String windowName, int height, int width, String fileName){
 		super(windowName);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(height, width);
 		this.panel = (JPanel) this.getContentPane();
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.PAGE_AXIS));
