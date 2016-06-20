@@ -108,11 +108,11 @@ public class Cliente {
 		}
 	}
 	
-	public boolean confirmar(Evento e) throws DesyncException, IOException {
+	public boolean confirmar() throws DesyncException, IOException {
 		Mensagem m = this.receber();
 		if (m.getEvento() == Evento.DESSINCRONIA)
 			throw new DesyncException();
-		return m.getEvento() == e;
+		return m.getEvento() == Evento.CONFIRMACAO;
 	}
 	
 	public void enviar(Mensagem m) throws IOException {

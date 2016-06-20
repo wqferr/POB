@@ -63,7 +63,7 @@ public class Servidor {
 		
 		boolean conf = false;
 		try {
-            conf = this.confirmarTodos(Evento.CONFIRMACAO);
+            conf = this.confirmarTodos();
 		} catch (DesyncException e) {
 			this.notificarDessincronia();
 		} catch (IOException e) {
@@ -111,7 +111,7 @@ public class Servidor {
                         this.sinalizarTodosExceto(msg, vez);
                         conf = false;
                         try {
-                            conf = this.confirmarTodosExceto(Evento.CONFIRMACAO, vez);
+                            conf = this.confirmarTodosExceto(vez);
                         } catch (DesyncException e) {
                         	this.notificarDessincronia();
                         } catch (IOException e) {
@@ -135,7 +135,7 @@ public class Servidor {
                         this.sinalizarTodosExceto(msg, vez);
                         conf = false;
                         try {
-                            conf = this.confirmarTodosExceto(Evento.CONFIRMACAO, vez);
+                            conf = this.confirmarTodosExceto(vez);
                         } catch (DesyncException e) {
                         	this.notificarDessincronia();
                         } catch (IOException e) {
@@ -188,34 +188,37 @@ public class Servidor {
 			this.clientes[i].enviar(m);
 	}
 	
-	public boolean confirmarTodos(Evento e) throws DesyncException, IOException {
+	public boolean confirmarTodos() throws DesyncException, IOException {
 		boolean confirmado = true;
 		for (int i = 0; i < this.clientes.length; i++) {
 			Mensagem m = this.clientes[i].receber();
-			if (m.getEvento() != e)
+			if (m.getEvento() != Evento.CONFIRMACAO) {
 				confirmado = false;
-			if (m.getEvento() == Evento.DESSINCRONIA)
-				throw new DesyncException();
+                if (m.getEvento() == Evento.DESSINCRONIA)
+                    throw new DesyncException();
+			}
 		}
 			
 		return confirmado;
 	}
 	
-	public boolean confirmarTodosExceto(Evento e, int c) throws DesyncException, IOException {
+	public boolean confirmarTodosExceto(int c) throws DesyncException, IOException {
 		boolean confirmado = true;
 		for (int i = 0; i < c; i++) {
 			Mensagem m = this.clientes[i].receber();
-			if (m.getEvento() != e)
+			if (m.getEvento() != Evento.CONFIRMACAO) {
 				confirmado = false;
-			if (m.getEvento() == Evento.DESSINCRONIA)
-				throw new DesyncException();
+                if (m.getEvento() == Evento.DESSINCRONIA)
+                    throw new DesyncException();
+			}
 		}
 		for (int i = c+1; i < this.clientes.length; i++) {
 			Mensagem m = this.clientes[i].receber();
-			if (m.getEvento() != e)
+			if (m.getEvento() != Evento.CONFIRMACAO) {
 				confirmado = false;
-			if (m.getEvento() == Evento.DESSINCRONIA)
-				throw new DesyncException();
+                if (m.getEvento() == Evento.DESSINCRONIA)
+                    throw new DesyncException();
+			}
 		}
 		return confirmado;
 	}
