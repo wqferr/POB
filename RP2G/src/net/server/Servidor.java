@@ -54,6 +54,12 @@ public class Servidor {
 		
 		for (TratadorCliente tc : this.clientes)
 			new Thread(tc).start();
+		
+		this.clientes[0].enviar(new Mensagem(Evento.INICIO_CONEXAO, "1"));
+		
+		Mensagem msg = new Mensagem(Evento.INICIO_CONEXAO, "0");
+		for (i = 1; i < this.clientes.length; i++)
+			this.clientes[i].enviar(msg);
 	
 		System.err.println("Enviando mapa.");
 		// TODO mandar informações sobre mapa
@@ -70,7 +76,6 @@ public class Servidor {
 		int vez = 0;
 		
 		while (!acabou) {
-			Mensagem msg = null;
 			try {
                 msg = this.clientes[vez].receber();
 			} catch (IOException e) {
