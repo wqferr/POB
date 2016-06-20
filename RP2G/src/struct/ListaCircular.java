@@ -90,6 +90,8 @@ public class ListaCircular<E> extends AbstractSequentialList<E> {
 
 		@Override
 		public int nextIndex() {
+			if (ListaCircular.this.tamanho == 0)
+				return -1;
 			return (this.idx + 1) % ListaCircular.this.tamanho;
 		}
 
@@ -106,6 +108,8 @@ public class ListaCircular<E> extends AbstractSequentialList<E> {
 
 		@Override
 		public int previousIndex() {
+			if (ListaCircular.this.tamanho == 0)
+				return -1;
 			return (this.idx + ListaCircular.this.tamanho - 1) % ListaCircular.this.tamanho;
 		}
 
