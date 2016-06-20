@@ -6,10 +6,11 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
-import exception.DesyncException;
 import net.Mensagem;
 import net.Mensagem.Evento;
 import net.server.Servidor;
+import core.Jogo;
+import exception.DesyncException;
 
 public class Cliente {
 	
@@ -29,8 +30,40 @@ public class Cliente {
 		Mensagem msg = this.receber();
 		if (msg.getEvento() != Evento.INICIO_CONEXAO)
 			this.notificarDessincronia();
+		this.notificar(Evento.CONFIRMACAO);
+		Jogo jogo = null;
+		boolean acabou = false;
 		
-		this.vez = "1".equals(msg.getMsg());
+		while (!acabou) {
+			msg = this.receber();
+			
+			switch (msg.getEvento()) {
+                case INICIO_TURNO:
+                    break;
+                    
+                case MOVIMENTO:
+                    break;
+                    
+                case ATAQUE:
+                    break;
+                    
+                case FIM_TURNO:
+                	jogo.proximoPersonagem();
+                    break;
+                    
+                case CONFIRMACAO:
+                    break;
+                    
+                case DESSINCRONIA:
+                    break;
+                    
+                case QUEDA_CONEXAO:
+                    break;
+                    
+                default:
+                    break;
+			}
+		}
 	}
 	
 	public Mensagem receber() throws IOException {
@@ -39,6 +72,13 @@ public class Cliente {
 		} catch (ClassNotFoundException e) {
 			return null;
 		}
+	}
+	
+	public boolean confirmar(Evento e) throws DesyncException, IOException {
+		Mensagem m = this.receber();
+		if (m.getEvento() == Evento.DESSINCRONIA)
+			throw new DesyncException();
+		return m.getEvento() == e;
 	}
 	
 	public void enviar(Mensagem m) throws IOException {
