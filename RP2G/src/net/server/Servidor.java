@@ -171,24 +171,24 @@ public class Servidor {
 		this.ativo = false;
 	}
 	
-	public void enviar(Serializable obj) throws IOException {
+	private void enviar(Serializable obj) throws IOException {
 		for (TratadorCliente tc : this.clientes)
 			tc.enviar(obj);
 	}
 	
-	public void sinalizar(Mensagem m) throws IOException {
+	private void sinalizar(Mensagem m) throws IOException {
 		for (TratadorCliente tc : this.clientes)
 			tc.enviar(m);
 	}
 	
-	public void sinalizarTodosExceto(Mensagem m, int c) throws IOException {
+	private void sinalizarTodosExceto(Mensagem m, int c) throws IOException {
 		for (int i = 0; i < c; i++)
 			this.clientes[i].enviar(m);
 		for (int i = c+1; i < this.clientes.length; i++)
 			this.clientes[i].enviar(m);
 	}
 	
-	public boolean confirmarTodos() throws DesyncException, IOException {
+	private boolean confirmarTodos() throws DesyncException, IOException {
 		boolean confirmado = true;
 		for (int i = 0; i < this.clientes.length; i++) {
 			Mensagem m = this.clientes[i].receber();
@@ -202,7 +202,7 @@ public class Servidor {
 		return confirmado;
 	}
 	
-	public boolean confirmarTodosExceto(int c) throws DesyncException, IOException {
+	private boolean confirmarTodosExceto(int c) throws DesyncException, IOException {
 		boolean confirmado = true;
 		for (int i = 0; i < c; i++) {
 			Mensagem m = this.clientes[i].receber();
@@ -223,18 +223,18 @@ public class Servidor {
 		return confirmado;
 	}
 	
-	public void notificarTodosExceto(Evento e, int c) throws IOException {
+	private void notificarTodosExceto(Evento e, int c) throws IOException {
 		for (int i = 0; i < c; i++)
 			this.clientes[i].notificar(e);
 		for (int i = c+1; i < this.clientes.length; i++)
 			this.clientes[i].notificar(e);
 	}
 	
-	public void notificarTodos(Evento e) throws IOException {
+	private void notificarTodos(Evento e) throws IOException {
 		this.notificarTodos(e, false);
 	}
 	
-	public void notificarTodos(Evento e, boolean ignorarExcecao) throws IOException {
+	private void notificarTodos(Evento e, boolean ignorarExcecao) throws IOException {
 		for (TratadorCliente tc : this.clientes) {
 			try {
 				tc.notificar(e);
@@ -245,13 +245,13 @@ public class Servidor {
 		}
 	}
 	
-	public void notificarDessincronia() throws DesyncException, IOException {
+	private void notificarDessincronia() throws DesyncException, IOException {
 		this.notificarTodos(Evento.DESSINCRONIA, true);
 		
 		throw new DesyncException("Dessincronia detectada.");
 	}
 	
-	public void notificarQueda() throws IOException {
+	private void notificarQueda() throws IOException {
 		this.notificarTodos(Evento.QUEDA_CONEXAO, true);
 		
 		throw new IOException("Queda de um ou mais clientes.");

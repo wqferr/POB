@@ -100,7 +100,7 @@ public class Cliente {
 		}
 	}
 	
-	public Mensagem receber() throws IOException {
+	private Mensagem receber() throws IOException {
 		try {
 			return (Mensagem) this.in.readObject();
 		} catch (ClassNotFoundException e) {
@@ -108,27 +108,27 @@ public class Cliente {
 		}
 	}
 	
-	public boolean confirmar() throws DesyncException, IOException {
+	private boolean confirmar() throws DesyncException, IOException {
 		Mensagem m = this.receber();
 		if (m.getEvento() == Evento.DESSINCRONIA)
 			throw new DesyncException();
 		return m.getEvento() == Evento.CONFIRMACAO;
 	}
 	
-	public void enviar(Mensagem m) throws IOException {
+	private void enviar(Mensagem m) throws IOException {
 		this.out.writeObject(m);
 	}
 	
-	public void notificar(Evento e) throws IOException {
+	private void notificar(Evento e) throws IOException {
 		this.enviar(new Mensagem(e));
 	}
 	
-	public void notificarDessincronia() throws DesyncException, IOException {
+	private void notificarDessincronia() throws DesyncException, IOException {
 		this.notificar(Evento.DESSINCRONIA);
 		throw new DesyncException();
 	}
 	
-	public void notificarQueda() throws IOException {
+	private void notificarQueda() throws IOException {
 		throw new IOException("Queda de conexão");
 	}
 
