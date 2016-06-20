@@ -7,6 +7,8 @@ import exception.NomeRepetidoException;
 
 public class Arco extends Arma {
 
+	private static final long serialVersionUID = -4413534022371181430L;
+
 	public Arco (String nome, int danoBase, int alcance) throws NomeRepetidoException {
 		super(nome, danoBase, alcance, Profissao.ARQUEIRO);
 	}

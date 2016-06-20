@@ -7,6 +7,8 @@ import exception.NomeRepetidoException;
 
 public class Pocao extends Item {
 	
+	private static final long serialVersionUID = 4612980588432163127L;
+	
 	private int eficacia;
 
 	public Pocao(String nome, int eficacia) throws NomeRepetidoException {

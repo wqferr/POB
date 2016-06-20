@@ -6,6 +6,8 @@ import exception.NomeRepetidoException;
 
 public class Aprimoramento extends Item {
 	
+	private static final long serialVersionUID = -1448175719260056216L;
+	
 	private final int bonusFor;
 	private final int bonusDex;
 	private final int bonusInt;

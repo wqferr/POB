@@ -9,6 +9,9 @@ import core.personagem.Profissao;
 import exception.NomeRepetidoException;
 
 public abstract class Arma extends Item {
+	
+	private static final long serialVersionUID = -8971519113924851432L;
+	
 	private int danoBase;
 	private int alcance;
 	private final List<Profissao> equipantes;

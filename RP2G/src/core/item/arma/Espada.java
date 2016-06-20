@@ -7,6 +7,8 @@ import exception.NomeRepetidoException;
 
 public class Espada extends Arma {
 		
+	private static final long serialVersionUID = 5447637813030788558L;
+
 	public Espada(String nome, int danoBase, int alcance) throws NomeRepetidoException {
 		super(nome, danoBase, alcance, Profissao.GUERREIRO);
 	}

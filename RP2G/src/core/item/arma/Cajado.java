@@ -7,6 +7,8 @@ import exception.NomeRepetidoException;
 
 public class Cajado extends Arma {
 
+	private static final long serialVersionUID = -943910627499639832L;
+
 	public Cajado(String nome, int danoBase, int alcance) throws NomeRepetidoException {
 		super(nome, danoBase, alcance, Profissao.SACERDOTE);
 	}
