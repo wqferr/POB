@@ -1,13 +1,16 @@
 package core.mapa;
 import java.io.Serializable;
+<<<<<<< HEAD
+
+import core.personagem.Personagem;
+=======
+>>>>>>> master
 
 import core.personagem.Personagem;
 
 
-public class Quadrado implements Serializable {
-
-	private static final long serialVersionUID = 1366852158355341746L;
-	
+public class Quadrado implements Serializable{
+	private static final long serialVersionUID = 7279324639L;
 	private Posicao posicao;	
 	private boolean transponivel;
 	private Personagem ocupante;

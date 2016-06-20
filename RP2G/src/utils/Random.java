@@ -1,4 +1,4 @@
-package core.utils;
+package utils;
 
 public class Random {
 	private long p;

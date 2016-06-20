@@ -1,16 +1,21 @@
 package core.personagem;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
+import utils.Dado;
 import core.item.Item;
 import core.item.arma.Arma;
 import core.mapa.Posicao;
-import core.utils.Dado;
 import exception.ItemInexistenteException;
 import exception.ItemInvalidoException;
 import exception.ItensInsuficientesException;
+import exception.NomeRepetidoException;
+import exception.PersonagemInexistenteException;
 
 /**
  * @author William Quelho Ferreira
@@ -18,8 +23,7 @@ import exception.ItensInsuficientesException;
  * Unidade básica do jogo.
  * Uma das "peças" controladas por algum jogador.
  */
-public class Personagem {
-	
+public class Personagem implements Serializable {
 	/**
 	 * @author William Quelho Ferreira
 	 *
@@ -62,6 +66,8 @@ public class Personagem {
 	private Map<Stat, Integer> stats;
 	private Map<Item, Integer> inventario;
 	private Arma arma;
+	private static final long serialVersionUID = 587923567816495L;
+	private static final Map<String, Personagem> registro = new TreeMap<>();
 
 	
 	/**
@@ -70,7 +76,7 @@ public class Personagem {
 	 * 
 	 * @param nome O nome do personagem.
 	 */
-	public Personagem(String nome) {
+	public Personagem(String nome) throws NomeRepetidoException{
 		this(nome, Profissao.GUERREIRO);
 	}
 	
@@ -81,7 +87,7 @@ public class Personagem {
 	 * @param nome O nome do personagem.
 	 * @param prof A profissão do personagem.
 	 */
-	public Personagem(String nome, Profissao prof) {
+	public Personagem(String nome, Profissao prof) throws NomeRepetidoException{
 		this(nome, prof, 10, 3);
 	}
 	
@@ -93,7 +99,8 @@ public class Personagem {
 	 * @param maxHp O HP máximo do personagem.
 	 * @param vel A velocidade do personagem.
 	 */
-	public Personagem(String nome, Profissao prof, int maxHp, int vel) {
+
+	public Personagem(String nome, Profissao prof, int maxHp, int vel) throws NomeRepetidoException{
 		this(nome, prof, maxHp, vel, 5, 5, 5);
 	}
 	
@@ -108,7 +115,7 @@ public class Personagem {
 	 * @param iint A inteligência inicial do personagem.
 	 * @param idex A dextreza inicial do personagem.
 	 */
-	public Personagem(String nome, Profissao prof, int maxHp, int vel, int ist, int iint, int idex) {
+	public Personagem(String nome, Profissao prof, int maxHp, int vel, int ist, int iint, int idex) throws NomeRepetidoException{
 		this(nome, prof, maxHp, vel, ist, iint, idex, null);
 	}
 	
@@ -124,7 +131,7 @@ public class Personagem {
 	 * @param idex A dextreza inicial do personagem.
 	 * @param icone O ícone usado para representar o personagem na interface gráfica.
 	 */
-	public Personagem(String nome, Profissao prof, int maxHp, int vel, int ist, int iint, int idex, BufferedImage icone) {
+	public Personagem(String nome, Profissao prof, int maxHp, int vel, int ist, int iint, int idex, BufferedImage icone) throws NomeRepetidoException {
 		this.nome = nome;
 		this.profissao = prof;
 		this.hp = maxHp;
@@ -135,6 +142,7 @@ public class Personagem {
 		this.setStat(Stat.FOR, ist);
 		this.setStat(Stat.INT, iint);
 		this.setStat(Stat.DEX, idex);
+		Personagem.add(this);
 		// TODO ícone
 	}
 	
@@ -436,4 +444,19 @@ public class Personagem {
         return this.usar(Item.get(nome));
 	}
 	
+	public static Personagem get(String nome) {
+		Personagem p = Personagem.registro.get(nome);
+		if (p == null) throw new PersonagemInexistenteException();
+		
+		return p;
+	}
+	
+	public static void add(Personagem pers) throws NomeRepetidoException {
+		if (Personagem.registro.putIfAbsent(pers.getNome(), pers) != null)
+			throw new NomeRepetidoException(pers.getNome());
+	}
+	
+	public static Iterator<Entry<String, Personagem>> getIterator(){
+		return Personagem.registro.entrySet().iterator();
+	}
 }
