@@ -388,7 +388,8 @@ public class Personagem implements Serializable {
 			throw new ItemInvalidoException(arma.getNome());
 		}
 		
-        this.adicionar(anterior);
+		if (anterior != null)
+            this.adicionar(anterior);
 	}
 	
 	/**
