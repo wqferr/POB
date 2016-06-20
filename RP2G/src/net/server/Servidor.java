@@ -189,7 +189,7 @@ public class Servidor {
 			this.clientes[i].enviar(m);
 	}
 	
-	public boolean confirmarTodos(Evento e) throws IOException {
+	public boolean confirmarTodos(Evento e) throws DesyncException, IOException {
 		boolean confirmado = true;
 		for (int i = 0; i < this.clientes.length; i++) {
 			Mensagem m = this.clientes[i].receber();
@@ -202,7 +202,7 @@ public class Servidor {
 		return confirmado;
 	}
 	
-	public boolean confirmarTodosExceto(Evento e, int c) throws IOException {
+	public boolean confirmarTodosExceto(Evento e, int c) throws DesyncException, IOException {
 		boolean confirmado = true;
 		for (int i = 0; i < c; i++) {
 			Mensagem m = this.clientes[i].receber();
