@@ -7,7 +7,7 @@ import net.server.Servidor;
 public class TestServer {
 
 	public static void main(String[] args) {
-		Servidor s = new Servidor();
+		Servidor s = new Servidor(null);
 		try {
             s.start();
 		} catch (IOException e) {

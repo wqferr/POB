@@ -22,9 +22,9 @@ public class Servidor {
 	
 	private Jogo jogo;
 	
-	public Servidor() {
+	public Servidor(Jogo jogo) {
 		this.clientes = new TratadorCliente[Jogo.NRO_JOGADORES];
-		// TODO inicializar jogo
+		this.jogo = jogo;
 	}
 	
 	public void abrir() throws IOException {
