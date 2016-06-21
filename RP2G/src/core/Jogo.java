@@ -11,8 +11,8 @@ import core.mapa.Posicao;
 import core.personagem.Personagem;
 import core.personagem.Personagem.Stat;
 /**
- * 
- * @author guilherme
+ * Contem as mecânicas básicas para o jogo 
+ * @author
  *
  */
 public class Jogo {
@@ -24,10 +24,10 @@ public class Jogo {
 	private ListIterator<Personagem> pIter1;
 	private ListIterator<Personagem> pIter2;
 	/**
-	 * 
-	 * @param m
-	 * @param p1
-	 * @param p2
+	 * Constrói um novo jogo com o mapa e os times recebidos
+	 * @param m Mapa do jogo
+	 * @param p1 Lista de personagens do time um 
+	 * @param p2 Lista de personagens do time dois
 	 */
 	public Jogo(Mapa m, List<Personagem> p1, List<Personagem> p2) {
 		this.mapa = m;
@@ -43,7 +43,11 @@ public class Jogo {
 		this.pAtual = pIter1.next();
 		this.proximoTime =  true;
 	}
-	
+	/**
+	 * Inicializa o mapa, colocando os personagens da lista recebida, nas posições recebidas pela lista de Posições de Spawn	 
+	 * * @param spawn Lista com as posições iniciais para os personagens
+	 * @param per Lista com os personagens
+	 */
 	private void initPos(List<Posicao> spawn, List<Personagem> per) {
 		if (spawn.size() != per.size())
 			throw new IllegalArgumentException("Lista de spawns e personagens com tamanho diferente");
@@ -53,8 +57,8 @@ public class Jogo {
 			this.mapa.getQuadrado(posIter.next()).setOcupante(p);
 	}
 	/**
-	 * 
-	 * @return
+	 * Retorna o personagem que pode agir no próimo turno
+	 * @return Personagem que pode agir no próximo turno 
 	 */
 	public Personagem proximoPersonagem() {
 		proximoTime = !proximoTime;
@@ -65,16 +69,16 @@ public class Jogo {
 		return this.pAtual;
 	}
 	/**
-	 * 
-	 * @return
+	 * Retorna o personagem que pode agir no turno atual
+	 * @return Personagem que pode agir no turno atual
 	 */
 	public Personagem personagemAtual() {
 		return this.pAtual;
 	}
 	/**
-	 * 
-	 * @param nova
-	 * @return
+	 * Função para retornar 
+	 * @param nova Posição para qual o personagem deve ser movido
+	 * @return se foi possível mover o personagem para a posição desejada
 	 */
 	public boolean mover(Posicao nova) {
 		if (this.mapa.alcancavel(this.pAtual.getPosicao(), nova, this.pAtual.getStat(Stat.VEL))) {
@@ -84,9 +88,9 @@ public class Jogo {
 		return false;
 	}
 	/**
-	 * 
-	 * @param alvo
-	 * @return
+	 * Ataca, caso houver, o personagem que está na posição alvo
+	 * @param alvo Posição que deve ser atacada
+	 * @return se foi possível atacar
 	 */
 	public boolean atacar(Posicao alvo) {
 		if (!this.mapa.isOcupado(alvo) || this.pAtual.getArma() == null)
@@ -102,24 +106,24 @@ public class Jogo {
 		return false;
 	}
 	/**
-	 * 
-	 * @param item
-	 * @return
+	 * Usa o item recebido
+	 * @param item Item que deve ser usado
+	 * @return Se foi possível usar o item
 	 */
 	public boolean usar(Item item) {
 		return this.pAtual.usar(item);
 	}
 	/**
-	 * 
-	 * @param item
-	 * @return
+	 * Usa o item com o nome recebido
+	 * @param item String com nome do item que deve ser usado
+	 * @return Se foi possível usar o item
 	 */
 	public boolean usar(String item) {
 		return this.pAtual.usar(item);
 	}
 	/**
-	 * 
-	 * @return
+	 * Retorna se o jogo acabou ou não
+	 * @return Se o jogo acabou
 	 */
 	public boolean acabou(){
 		return personagens1.isEmpty() || personagens2.isEmpty();
@@ -131,8 +135,8 @@ public class Jogo {
 	 * 2 Time 2
 	*/
 	/**
-	 * 
-	 * @return
+	 * Retorna qual o time vencedor ou 0 caso nenhum tenha ganho
+	 * @return Time vencedor: 0 Nenhum, 1 Time 1, 2 Time 2
 	 */
 	public int vencedor(){
 		if(personagens1.isEmpty())
@@ -142,14 +146,17 @@ public class Jogo {
 		return 0;
 	}
 	/**
-	 * 
-	 * @param p
+	 * Remove um personagem do jogo
+	 * @param p Personagem que deve ser removido
 	 */
 	private void removePersonagem(Personagem p){
 		if (!personagens1.remove(p))
 			personagens2.remove(p);
 	}
-	
+	/**
+	 *Retorna o mapa do jogo
+	 * @return Mapa
+	 */
 	public Mapa getMapa() {
 		return this.mapa;
 	}
