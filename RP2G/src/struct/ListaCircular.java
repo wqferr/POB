@@ -70,12 +70,12 @@ public class ListaCircular<E> extends AbstractSequentialList<E> {
 
 		@Override
 		public boolean hasNext() {
-			return ListaCircular.this.tamanho > 0;
+			return this.atual.prx != cabeca;
 		}
 
 		@Override
 		public boolean hasPrevious() {
-			return ListaCircular.this.tamanho > 0;
+			return this.atual != cabeca;
 		}
 
 		@Override
