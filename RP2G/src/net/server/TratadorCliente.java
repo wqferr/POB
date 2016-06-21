@@ -7,18 +7,17 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 
+import core.database.DatabaseHandler;
 import net.Mensagem;
 import net.Mensagem.Evento;
 
 public class TratadorCliente implements Runnable, Closeable {
 	
-	private Servidor servidor;
 	private Socket conexao;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 
-	public TratadorCliente(Servidor servidor, Socket conexao) throws IOException {
-		this.servidor = servidor;
+	public TratadorCliente(Socket conexao) throws IOException {
 		this.conexao = conexao;
 		this.in = new ObjectInputStream(this.conexao.getInputStream());
 		this.out = new ObjectOutputStream(this.conexao.getOutputStream());
@@ -47,12 +46,7 @@ public class TratadorCliente implements Runnable, Closeable {
 
 	@Override
 	public void run() {
-		while (!this.conexao.isClosed());
-		
-		if (this.servidor.isAtivo()) {
-			try {
-                this.servidor.notificarQueda();
-			} catch (IOException e) {}
-		}
+		DatabaseHandler.writeToStream(this.out);
 	}
+	
 }

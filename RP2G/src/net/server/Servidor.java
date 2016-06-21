@@ -48,15 +48,12 @@ public class Servidor {
 		while (i < this.clientes.length) {
 			try {
 				Socket s = this.ss.accept();
-                this.clientes[i] = new TratadorCliente(this, s);
+                this.clientes[i] = new TratadorCliente(s);
                 System.err.println("Conexão nova com " + s.getInetAddress() + ";");
                 i++;
 			} catch(IOException e) {}
 		}
 		System.err.println("Clientes conectados.");
-		
-		for (TratadorCliente tc : this.clientes)
-			new Thread(tc).start();
 		
 		for (i = 1; i < this.clientes.length; i++)
             this.clientes[i].notificar(Evento.INICIO_CONEXAO);
@@ -73,17 +70,26 @@ public class Servidor {
 		if (!conf)
 			this.notificarDessincronia();
 	
+		System.out.println("Enviando database.");
+		Thread threads[] = new Thread[this.clientes.length];
+		for (i = 0; i < this.clientes.length; i++) {
+			threads[i] = new Thread(this.clientes[i]);
+			threads[i].start();
+		}
+		for (Thread t : threads) {
+			try {
+				t.join((int) 3e5);
+				if (t.isAlive())
+					this.notificarQueda();
+			} catch (InterruptedException e) {}
+		}
+		
 		System.err.println("Enviando informações do jogo.");
 		try {
             this.enviar(this.jogo);
 		} catch (IOException e) {
 			this.notificarQueda();
 		}
-		System.err.println("Enviando itens.");
-		// TODO mandar arquivo de itens.
-		System.err.println("Enviando personagens.");
-		// TODO mandar informações sobre personagens
-		
 		
 		int vez = 0;
 		Mensagem msg = null;

@@ -40,12 +40,13 @@ public class Cliente {
 		if (msg.getEvento() != Evento.INICIO_CONEXAO)
 			this.notificarDessincronia();
 		this.notificar(Evento.CONFIRMACAO);
+		
+		DatabaseHandler.readAllStream(this.in);
+		
 		Jogo jogo = null;
 		try {
 			jogo = (Jogo) this.in.readObject();
 		} catch (ClassNotFoundException e) {}
-		
-		DatabaseHandler.readAllStream(this.in);
 		
 		while (!jogo.acabou()) {
 			msg = this.receber();
