@@ -62,7 +62,7 @@ public class Cliente {
                 case INICIO_TURNO:
                 	Ordem o;
                 	do {
-                        o = this.controlador.proximoComando(jogo);
+                        o = this.controlador.proximaOrdem(jogo);
                         this.enviar(o.empacotar());
                         if (!this.confirmar())
                         	this.notificarDessincronia();
