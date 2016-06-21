@@ -15,18 +15,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import core.Jogo;
-import core.database.TileGUI;
+import core.mapa.Posicao;
 
 public class JanelaJogo extends JFrame implements ActionListener, MouseListener {
 	private static final long serialVersionUID = -398592414626114074L;
 	
 	private JPanel panel;
 	private Jogo jogo;
-	private TileGUI[][] mapaGUI;
+	private QuadradoUI[][] mapaGUI;
 	
 	public JanelaJogo(Jogo jogo){
 		this(jogo, "Water Emblem Tactics Online II - Revengence of the Lich King", 700, 600);
-		//this.pack();
 	}
 	
 	public JanelaJogo(Jogo jogo, String windowName, int height, int width){
@@ -36,9 +35,9 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener 
 		this.panel = (JPanel) this.getContentPane();
 		
 		this.panel.setLayout(new GridBagLayout());
-		
+
 		this.jogo = jogo;
-		this.mapaGUI = new TileGUI[this.jogo.getMapa().getNLinhas()][this.jogo.getMapa().getNColunas()];
+		this.mapaGUI = new QuadradoUI[this.jogo.getMapa().getNLinhas()][this.jogo.getMapa().getNColunas()];
 		BufferedImage im = null;
 		try{
 			im = ImageIO.read(new File("/home/wheatley/Desktop/mapa2.png"));
@@ -47,7 +46,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener 
 		GridBagConstraints gcons = new GridBagConstraints();
 		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++){
 			for (int j=0; j<this.jogo.getMapa().getNColunas(); j++){
-				mapaGUI[i][j] = new TileGUI(i, j, im, this);
+				mapaGUI[i][j] = new QuadradoUI(jogo.getMapa().getQuadrado(new Posicao(i, j)), this);
 				mapaGUI[i][j].setName((""+i) + (" "+ j));
 				mapaGUI[i][j].setPreferredSize(new Dimension(30, 30));
 				

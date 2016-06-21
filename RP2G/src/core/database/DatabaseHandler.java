@@ -20,7 +20,7 @@ public class DatabaseHandler {
 	private String fileName;
 	
 	public DatabaseHandler(){
-		this("registro.dat");
+		this("db/registry.dat");
 	}
 	
 	public DatabaseHandler(String fileName){
