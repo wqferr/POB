@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import net.Mensagem;
 import net.Mensagem.Evento;
+import net.client.Comando.Ordem;
 import net.server.Servidor;
 import core.Jogo;
 import core.mapa.Posicao;
@@ -20,10 +21,10 @@ public class Cliente {
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	
-	private Observador obs;
+	private Controlador controlador;
 	
-	public Cliente(Observador obs) {
-		this.obs = obs;
+	public Cliente(Controlador con) {
+		this.controlador = con;
 	}
 	
 	public void conectar(InetAddress ip) throws IOException {
@@ -54,14 +55,13 @@ public class Cliente {
 			
 			switch (msg.getEvento()) {
                 case INICIO_TURNO:
-                	this.obs.acordar();
-                	// esperar entrada de comando de movimento
-                	//		mandar msg se existente
-                	//		verificar dessincronia
-                	// esperar entrada de comando de ataque
-                	// 		mandar msg se existente
-                	// 		verificar dessincronia
-                	this.notificar(Evento.FIM_TURNO);
+                	Comando c;
+                	do {
+                        c = this.controlador.proximoComando();
+                        this.enviar(c.empacotar());
+                        if (!this.confirmar())
+                        	this.notificarDessincronia();
+                	} while (c.getOrdem() != Ordem.ENCERRAR);
                     break;
                     
                 case MOVIMENTO:
