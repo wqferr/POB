@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 import net.Mensagem;
 import net.Mensagem.Evento;
-import net.client.Comando.Ordem;
+import net.client.Ordem.Comando;
 import net.server.Servidor;
 import core.Jogo;
 import core.database.DatabaseHandler;
@@ -56,13 +56,13 @@ public class Cliente {
 			
 			switch (msg.getEvento()) {
                 case INICIO_TURNO:
-                	Comando c;
+                	Ordem o;
                 	do {
-                        c = this.controlador.proximoComando();
-                        this.enviar(c.empacotar());
+                        o = this.controlador.proximoComando(jogo);
+                        this.enviar(o.empacotar());
                         if (!this.confirmar())
                         	this.notificarDessincronia();
-                	} while (c.getOrdem() != Ordem.ENCERRAR);
+                	} while (o.getComando() != Comando.ENCERRAR);
                     break;
                     
                 case MOVIMENTO:
