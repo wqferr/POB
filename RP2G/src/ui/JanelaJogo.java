@@ -1,4 +1,4 @@
-package core;
+package ui;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import core.Jogo;
 import core.database.TileGUI;
 
 public class JanelaJogo extends JFrame implements ActionListener, MouseListener {

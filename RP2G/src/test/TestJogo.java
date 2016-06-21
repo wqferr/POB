@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import core.JanelaJogo;
+import ui.JanelaJogo;
 import core.Jogo;
 import core.database.DatabaseHandler;
 import core.mapa.Mapa;
