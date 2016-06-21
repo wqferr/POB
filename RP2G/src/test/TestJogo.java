@@ -23,9 +23,9 @@ public class TestJogo {
 		
 		Personagem p1 = null, p2 = null;
 		try {
-			p1 = new Personagem("guerreiro", Profissao.GUERREIRO, 10, 2, 3, 1, 1);
-			p2 = new Personagem("mago", Profissao.MAGO, 10, 2, 1, 3, 1);
-		} catch (NomeRepetidoException e) {}
+			p1 = Personagem.get("guerreiro");
+			p2 = Personagem.get("mago");
+		} catch (Exception e) {}
 		
 		try {
 			p1.adicionar("Espada Bastarda");
@@ -36,7 +36,7 @@ public class TestJogo {
             System.out.println(p2.getArma().getDanoBase());
 		} catch (ItemInvalidoException e) {}
 		
-		Mapa m = Mapa.get("mapa1");
+		Mapa m = Mapa.get("Map1");
 		for (Posicao p : m.getSpawnPointsTime1())
 			System.err.println(p);
 		System.err.println();

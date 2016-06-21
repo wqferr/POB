@@ -1,4 +1,4 @@
-package core.database;
+package ui;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -20,6 +21,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import core.database.DatabaseHandler;
 import core.item.Aprimoramento;
 import core.item.Item;
 import core.item.Pocao;
@@ -49,7 +51,7 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 	}
 	
 	public JanelaDatabase(String windowName, int height, int width){
-		this(windowName, height, width, "registro.dat");
+		this(windowName, height, width, "db/registry.dat");
 	}
 	
 	public JanelaDatabase(String windowName, int height, int width, String fileName){
@@ -159,10 +161,12 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 			if (valid){
 				if (this.tipoDropDown.getSelectedItem().equals("Personagem")){
 					Profissao prof = Profissao.GUERREIRO;
+					ImageIcon icone = null;
 					int hp = 0, forc=0, dext=0, inte=0, vel=0;
 					try{
 						//TODO ICONE
 						prof = Profissao.valueOf((String)this.profissoesDropDown.getSelectedItem());
+						icone = new ImageIcon(ImageIO.read(new File(this.textBox[1].getText())));
 						hp = Integer.parseInt(this.textBox[2].getText());
 						forc = Integer.parseInt(this.textBox[3].getText());
 						dext = Integer.parseInt(this.textBox[4].getText());
@@ -170,7 +174,7 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 						vel = Integer.parseInt(this.textBox[6].getText());
 					}catch(Exception e){ System.err.println(e);}
 	
-					try { obj = new Personagem(nome, prof, hp, vel, forc, dext, inte); }
+					try { obj = new Personagem(nome, prof, hp, vel, forc, dext, inte, icone); }
 					catch(Exception e){ System.err.println(e); valid = false;}
 				}
 				else if (this.tipoDropDown.getSelectedItem().equals("Arma")){

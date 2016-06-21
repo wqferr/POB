@@ -1,9 +1,10 @@
-package core.database;
+package test;
 
+import ui.JanelaDatabase;
 import core.mapa.Mapa;
 import core.mapa.Posicao;
 
-public class Main {
+public class TestDatabase {
 
 	public static void main(String[] args){
 		JanelaDatabase win = new JanelaDatabase();
