@@ -18,17 +18,25 @@ import core.personagem.Personagem;
 import exception.MapaInexistenteException;
 import exception.NomeRepetidoException;
 
-
-public class Mapa implements Serializable {
-	
-	private static final long serialVersionUID = 2102495729801838463L;
+/**
+ *
+ * @author guilherme
+ *
+ */
+public class Mapa implements Serializable{
+	private static final long serialVersionUID = 63278163812368321L;
 	
 	private String nome;
 	private Quadrado[][] topologia;
 	private List<Posicao> spawnPointsTime1;
 	private List<Posicao> spawnPointsTime2;
 	private static final Map<String, Mapa> registro = new TreeMap<>();
-	
+	/**
+	 * 
+	 * @param nome
+	 * @param topologia
+	 * @throws NomeRepetidoException
+	 */
 	public Mapa(String nome, Quadrado[][] topologia) throws NomeRepetidoException{
 		this.nome = nome;
 		this.topologia = topologia;
@@ -36,7 +44,12 @@ public class Mapa implements Serializable {
 		this.spawnPointsTime2 = new LinkedList<Posicao>();
 		Mapa.add(this);
 	}
-	
+	/**
+	 * 
+	 * @param nome
+	 * @param bool
+	 * @throws NomeRepetidoException
+	 */
 	public Mapa(String nome, boolean[][] bool) throws NomeRepetidoException{
 		this.nome = nome;
 		if (bool.length == 0) throw new IllegalArgumentException("Mapa deve ter ao menos 1 linha");
@@ -53,7 +66,12 @@ public class Mapa implements Serializable {
 		this.spawnPointsTime2 = new LinkedList<Posicao>();
 		Mapa.add(this);
 	}
-	
+	/**
+	 * 
+	 * @param nome
+	 * @param imagem
+	 * @throws NomeRepetidoException
+	 */
 	public Mapa(String nome, BufferedImage imagem) throws NomeRepetidoException{
 		this.nome = nome;
 		this.topologia = new Quadrado[imagem.getHeight()][imagem.getWidth()];
@@ -70,23 +88,41 @@ public class Mapa implements Serializable {
 		
 		Mapa.add(this);
 	}
-	
+	/**
+	 * 
+	 * @param posicao
+	 * @return
+	 */
 	public Quadrado getQuadrado(Posicao posicao) {
 		return this.topologia[posicao.getLinha()][posicao.getColuna()];
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getNLinhas() {
 		return this.topologia.length;
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getNColunas() {
 		return this.topologia[0].length;
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getNome(){
 		return this.nome;
 	}
-	
+	/**
+	 * 
+	 * @param p1
+	 * @param p2
+	 * @return
+	 */
 	public int distancia(Posicao p1, Posicao p2) {
 		Queue<Par<Posicao, Integer>> proximas = new LinkedList<>();
 		Set<Posicao> visitados = new TreeSet<>();
@@ -108,36 +144,66 @@ public class Mapa implements Serializable {
 		
 		return -1;
 	}
-	
+	/**
+	 * 
+	 * @param p
+	 * @return
+	 */
 	public boolean contem(Posicao p) {
 		return p.getLinha() >= 0 && p.getLinha() < this.getNLinhas()
 				&& p.getColuna() >= 0 && p.getColuna() < this.getNColunas();
 	}
-	
+	/**
+	 * 
+	 * @param origem
+	 * @param destino
+	 * @return
+	 */
 	public boolean alcancavel(Posicao origem, Posicao destino) {
 		return this.distancia(origem, destino) >= 0;
 	}
-	
+	/**
+	 * 
+	 * @param origem
+	 * @param destino
+	 * @param max
+	 * @return
+	 */
 	public boolean alcancavel(Posicao origem, Posicao destino, int max) {
 		int d = this.distancia(origem, destino);
 		return 0 <= d && d <= max;
 	}
-	
+	/**
+	 * 
+	 * @param origem
+	 * @param destino
+	 */
 	public void mover(Posicao origem, Posicao destino) {
 		Quadrado qOrig = this.getQuadrado(origem),
 				 qDest = this.getQuadrado(destino);
 		qDest.setOcupante(qOrig.getOcupante());
 		qOrig.setOcupante(null);
 	}
-	
+	/**
+	 * 
+	 * @param p
+	 * @return
+	 */
 	public boolean isOcupado(Posicao p) {
 		return this.getQuadrado(p).isOcupado();
 	}
-	
+	/**
+	 * 
+	 * @param pos
+	 * @param p
+	 */
 	public void setOcupante(Posicao pos, Personagem p) {
 		this.getQuadrado(pos).setOcupante(p);
 	}
-
+	/**
+	 * 
+	 * @return
+	 */
 	public List<Personagem> getPersonagensTime1() {
 		List<Personagem> l = new LinkedList<>();
 		for (Posicao p : this.getSpawnPointsTime1()) {
@@ -147,6 +213,10 @@ public class Mapa implements Serializable {
 		}
 		return l;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	public List<Personagem> getPersonagensTime2() {
 		List<Personagem> l = new LinkedList<>();
 		for (Posicao p : this.getSpawnPointsTime2()) {
@@ -156,26 +226,44 @@ public class Mapa implements Serializable {
 		}
 		return l;
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<Posicao> getSpawnPointsTime1(){
 		return this.spawnPointsTime1;
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<Posicao> getSpawnPointsTime2(){
 		return this.spawnPointsTime2;
 	}
+	/**
+	 * 
+	 * @param nome
+	 * @return
+	 */
 	public static Mapa get(String nome) {
 		Mapa m = Mapa.registro.get(nome);
 		if (m == null) throw new MapaInexistenteException();
 		
 		return m;
 	}
-	
+	/**
+	 * 
+	 * @param mapa
+	 * @throws NomeRepetidoException
+	 */
 	public static void add(Mapa mapa) throws NomeRepetidoException {
 		if (Mapa.registro.putIfAbsent(mapa.getNome(), mapa) != null)
 			throw new NomeRepetidoException(mapa.getNome());
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public static Iterator<Entry<String, Mapa>> getIterator(){
 		return Mapa.registro.entrySet().iterator();
 	}

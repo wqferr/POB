@@ -75,12 +75,12 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 
 		@Override
 		public boolean hasNext() {
-			return ListaCircular.this.tamanho > 0;
+			return this.atual.prx != cabeca;
 		}
 
 		@Override
 		public boolean hasPrevious() {
-			return ListaCircular.this.tamanho > 0;
+			return this.atual != cabeca;
 		}
 
 		@Override
@@ -95,6 +95,8 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 
 		@Override
 		public int nextIndex() {
+			if (ListaCircular.this.tamanho == 0)
+				return -1;
 			return (this.idx + 1) % ListaCircular.this.tamanho;
 		}
 
@@ -111,6 +113,8 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 
 		@Override
 		public int previousIndex() {
+			if (ListaCircular.this.tamanho == 0)
+				return -1;
 			return (this.idx + ListaCircular.this.tamanho - 1) % ListaCircular.this.tamanho;
 		}
 
@@ -121,7 +125,10 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 			this.atual = this.ultRetorno.ant;
             this.ultRetorno.remover();
             this.ultRetorno = ListaCircular.this.cabeca;
-            this.idx = this.idx % ListaCircular.this.tamanho;
+            if (ListaCircular.this.tamanho == 0)
+            	this.idx = -1;
+            else
+                this.idx = this.idx % ListaCircular.this.tamanho;
 		}
 
 		@Override

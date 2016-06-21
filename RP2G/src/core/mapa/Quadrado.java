@@ -35,6 +35,8 @@ public class Quadrado implements Serializable {
 	
 	public void setOcupante(Personagem p) {
 		this.ocupante = p;
+		if (p != null)
+            p.mover(this.posicao);
 	}
 	
 	public boolean isTransponivel() {

@@ -26,7 +26,7 @@ public class Random {
 	 * @param seed
 	 */
 	public Random(long seed, long p, long m, long a){
-		this.xi = seed;
+		this.xi = (seed % p);
 		this.p = p;
 		this.m = m;
 		this.a = a;
