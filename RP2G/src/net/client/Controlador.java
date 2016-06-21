@@ -1,9 +1,10 @@
 package net.client;
 
+import core.Jogo;
 
 @FunctionalInterface
 public interface Controlador {
 
-	public Comando proximoComando();
+	public Ordem proximaOrdem(Jogo j);
 	
 }

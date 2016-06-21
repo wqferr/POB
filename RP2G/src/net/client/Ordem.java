@@ -3,16 +3,16 @@ package net.client;
 import net.Mensagem;
 import net.Mensagem.Evento;
 
-public class Comando {
+public class Ordem {
 	
-	public static enum Ordem {
+	public static enum Comando {
 		MOVER(Evento.MOVIMENTO),
 		ATACAR(Evento.ATAQUE),
 		ENCERRAR(Evento.FIM_TURNO);
 		
 		private Evento correspondente;
 		
-		private Ordem(Evento e) {
+		private Comando(Evento e) {
 			this.correspondente = e;
 		}
 		
@@ -21,26 +21,26 @@ public class Comando {
 		}
 	}
 
-	private Ordem o;
+	private Comando c;
 	private int i;
 	private int j;
 	
-	public Comando(Ordem o) {
+	public Ordem(Comando o) {
 		this(o, 0, 0);
 	}
 	
-	public Comando(Ordem o, int i, int j) {
-		this.o = o;
+	public Ordem(Comando o, int i, int j) {
+		this.c = o;
 		this.i = i;
 		this.j = j;
 	}
 	
-	public Ordem getOrdem() {
-		return this.o;
+	public Comando getComando() {
+		return this.c;
 	}
 	
 	public Mensagem empacotar() {
-		return new Mensagem(this.o.getCorrespondente(), String.format("%d %d", this.i, this.j));
+		return new Mensagem(this.c.getCorrespondente(), String.format("%d %d", this.i, this.j));
 	}
 
 }

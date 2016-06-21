@@ -5,7 +5,8 @@ import java.net.InetAddress;
 import java.util.Scanner;
 
 import net.client.Cliente;
-import net.client.Comando;
+import net.client.Ordem;
+import net.client.Ordem.Comando;
 import net.server.Servidor;
 import core.Jogo;
 
