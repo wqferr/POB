@@ -54,6 +54,28 @@ public class DatabaseHandler {
 		catch (EOFException eof) {}
 		catch(Exception e){ System.err.println(e);}
 		
+		DatabaseHandler.readAllStream(objectInStream);
+		
+		try{ objectInStream.close(); }
+		catch (NullPointerException nullP){}
+		catch(Exception e){ System.err.println(e); }
+	}
+	
+	public void writeToDatabase(Object obj){
+		FileOutputStream fileOutStream = null;
+		ObjectOutputStream objectOutStream = null;
+		try{
+			fileOutStream  = new FileOutputStream(this.fileName);
+			objectOutStream = new ObjectOutputStream(fileOutStream);
+		}catch(Exception e){ System.err.println(e); }
+		
+		DatabaseHandler.writeToStream(objectOutStream);
+		
+		try { objectOutStream.close(); }
+		catch(Exception e){ System.err.println(e); }
+	}
+	
+	public static void readAllStream(ObjectInputStream objectInStream){
 		Object obj = null;
 		boolean notEOF = true;
 		while (notEOF){
@@ -84,20 +106,9 @@ public class DatabaseHandler {
 			}
 			else notEOF = false;
 		}
-		
-		try{ objectInStream.close(); }
-		catch (NullPointerException nullP){}
-		catch(Exception e){ System.err.println(e); }
 	}
 	
-	public void writeToDatabase(Object obj){
-		FileOutputStream fileOutStream = null;
-		ObjectOutputStream objectOutStream = null;
-		try{
-			fileOutStream  = new FileOutputStream(this.fileName);
-			objectOutStream = new ObjectOutputStream(fileOutStream);
-		}catch(Exception e){ System.err.println(e); }
-		
+	public static void writeToStream(ObjectOutputStream objectOutStream){
 		List<Object> allData = new LinkedList<Object>();
 		Iterator<Entry<String, Item>> itemIt = Item.getIterator();
 		Iterator<Entry<String, Personagem>> persIt = Personagem.getIterator();
@@ -111,8 +122,5 @@ public class DatabaseHandler {
 			Iterator<Object> it = allData.iterator();
 			while(it.hasNext()) objectOutStream.writeObject(it.next());
 		}catch(Exception e){ System.err.println(e); }
-		
-		try { objectOutStream.close(); }
-		catch(Exception e){ System.err.println(e); }
 	}
 }

@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -14,10 +16,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import core.item.Aprimoramento;
+import core.item.Item;
 import core.item.Pocao;
 import core.item.arma.Arco;
 import core.item.arma.Cajado;
@@ -34,6 +38,7 @@ public class JanelaMain extends JFrame implements ActionListener {
 	private JComboBox<String> tipoDropDown;
 	private JComboBox<String> armaDropDown;
 	private JComboBox<String> profissoesDropDown;
+	private JTextArea databaseText;
 	private JTextField textBox[];
 	private JFileChooser mapaChooser;
 	private JButton adicionarButton;
@@ -68,6 +73,8 @@ public class JanelaMain extends JFrame implements ActionListener {
 		this.armaDropDown = new JComboBox<String>(new String[]{"Espada", "Arco", "Livro", "Cajado"});
 		this.profissoesDropDown = new JComboBox<String>(new String[]{"GUERREIRO", "MAGO", "ARQUEIRO", "SACERDOTE"});
 		
+		this.databaseText = new JTextArea();
+		
 		this.mapaChooser = new JFileChooser();
 		this.mapaChooser.setFileFilter(new FileNameExtensionFilter("*.png, *.bpm", "png", "bpm"));
 		
@@ -78,6 +85,9 @@ public class JanelaMain extends JFrame implements ActionListener {
 		
 		this.panel.add(new JLabel("Tipo de Elemento :"));
 		this.panel.add(this.tipoDropDown);
+		this.showDatabase();
+		this.panel.add(new JLabel("Banco de Dados Atual :"));
+		this.panel.add(this.databaseText);
 	}
 	
 	public void actionPerformed(ActionEvent event){
@@ -132,6 +142,7 @@ public class JanelaMain extends JFrame implements ActionListener {
 			}
 			
 			this.add(this.adicionarButton);
+			this.panel.add(this.databaseText);
 			this.panel.revalidate();
 			this.panel.repaint();
 		}
@@ -213,7 +224,21 @@ public class JanelaMain extends JFrame implements ActionListener {
 			
 			if (valid) this.dataHandler.writeToDatabase(obj);
 			else System.err.println("Elemento Invalido");
+			this.showDatabase();
 		}
 	}
+	
+	
+	public void showDatabase(){
+		this.databaseText.setText("");
+		Iterator<Entry<String, Item>> itemIt = Item.getIterator();
+		Iterator<Entry<String, Personagem>> persIt = Personagem.getIterator();
+		Iterator<Entry<String, Mapa>> mapIt = Mapa.getIterator();
+	
+		while(itemIt.hasNext()) this.databaseText.setText(this.databaseText.getText() + "Item -> " + itemIt.next().getKey() + "\n");
+		while(persIt.hasNext()) this.databaseText.setText(this.databaseText.getText() + "Personagem -> " + persIt.next().getKey() + "\n");
+		while(mapIt.hasNext()) this.databaseText.setText(this.databaseText.getText() + "Mapa -> " +  mapIt.next().getKey() + "\n");
+	}
+	
 	
 }
