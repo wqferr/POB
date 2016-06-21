@@ -45,9 +45,8 @@ public class Cliente {
 		} catch (ClassNotFoundException e) {}
 		// TODO receber itens
 		// TODO receber personagens
-		boolean acabou = false;
 		
-		while (!acabou) {
+		while (!jogo.acabou()) {
 			msg = this.receber();
 			
             Scanner s = new Scanner(msg.getMsg());
@@ -80,7 +79,6 @@ public class Cliente {
                 		this.notificar(Evento.CONFIRMACAO);
                 	else
                 		this.notificarDessincronia();
-                	// TODO verificar se jogo acabou
                     break;
                     
                 case FIM_TURNO:

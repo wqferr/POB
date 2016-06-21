@@ -85,13 +85,12 @@ public class Servidor {
 		// TODO mandar informações sobre personagens
 		
 		
-		boolean acabou = false;
 		int vez = 0;
 		Mensagem msg = null;
 		
 		this.clientes[0].notificar(Evento.INICIO_TURNO);
 		
-		while (!acabou) {
+		while (!jogo.acabou()) {
 			try {
                 msg = this.clientes[vez].receber();
 			} catch (IOException e) {
@@ -145,8 +144,6 @@ public class Servidor {
                             this.clientes[vez].notificar(Evento.CONFIRMACAO);
                         else
                             this.notificarDessincronia();
-                        
-                        // TODO verificar fim do jogo
                     } else {
                         this.notificarDessincronia();
                     }
