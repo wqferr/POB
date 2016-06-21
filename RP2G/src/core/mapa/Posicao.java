@@ -54,5 +54,10 @@ public class Posicao implements Comparable<Posicao>, Serializable {
 		
 		return this.linha == p.linha && this.coluna == p.coluna;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("[%d, %d]", this.linha, this.coluna);
+	}
 
 }
