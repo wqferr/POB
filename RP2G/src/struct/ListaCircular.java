@@ -55,7 +55,9 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 		}
 	}
 	
-	private class Iterador implements ListIterator<E> {
+	private class Iterador implements ListIterator<E>, Serializable {
+		
+		private static final long serialVersionUID = -7623555157932589100L;
 		
 		No atual;
 		No ultRetorno;

@@ -38,19 +38,26 @@ public class Cliente {
 	
 	public void conectar() throws IOException {
 		this.conexao = new Socket(this.ip, this.porta);
-		this.in = new ObjectInputStream(this.conexao.getInputStream());
+		this.conexao.getOutputStream().flush();
 		this.out = new ObjectOutputStream(this.conexao.getOutputStream());
+		this.out.flush(); // mandar header de inicialização
+		
+		this.in = new ObjectInputStream(this.conexao.getInputStream());
 		Mensagem msg = this.receber();
 		if (msg.getEvento() != Evento.INICIO_CONEXAO)
 			this.notificarDessincronia();
 		this.notificar(Evento.CONFIRMACAO);
 		
+		System.err.println("Recebendo database.");
 		DatabaseHandler.readAllStream(this.in);
+		this.confirmar();
 		
+		System.err.println("Recebendo jogo.");
 		Jogo jogo = null;
 		try {
 			jogo = (Jogo) this.in.readObject();
 		} catch (ClassNotFoundException e) {}
+		this.confirmar();
 		
 		while (!jogo.acabou()) {
 			msg = this.receber();
@@ -107,7 +114,9 @@ public class Cliente {
 	
 	private Mensagem receber() throws IOException {
 		try {
-			return (Mensagem) this.in.readObject();
+			Mensagem msg = (Mensagem) this.in.readObject();
+			System.err.println(msg);
+			return msg;
 		} catch (ClassNotFoundException e) {
 			return null;
 		}

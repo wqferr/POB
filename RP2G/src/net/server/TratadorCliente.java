@@ -7,11 +7,10 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 
-import core.database.DatabaseHandler;
 import net.Mensagem;
 import net.Mensagem.Evento;
 
-public class TratadorCliente implements Runnable, Closeable {
+public class TratadorCliente implements Closeable {
 	
 	private Socket conexao;
 	private ObjectInputStream in;
@@ -33,7 +32,9 @@ public class TratadorCliente implements Runnable, Closeable {
 	
 	public Mensagem receber() throws IOException {
 		try {
-            return (Mensagem) this.in.readObject();
+			Mensagem msg = (Mensagem) this.in.readObject();
+			System.err.println(msg);
+            return msg;
 		} catch (ClassNotFoundException e) {
 			return null;
 		}
@@ -44,9 +45,8 @@ public class TratadorCliente implements Runnable, Closeable {
 		this.conexao.close();
 	}
 
-	@Override
-	public void run() {
-		DatabaseHandler.writeToStream(this.out);
+	public ObjectOutputStream getObjectOutputStream() throws IOException {
+		return this.out;
 	}
 	
 }

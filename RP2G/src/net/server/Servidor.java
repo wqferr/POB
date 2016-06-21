@@ -9,6 +9,7 @@ import java.util.Scanner;
 import net.Mensagem;
 import net.Mensagem.Evento;
 import core.Jogo;
+import core.database.DatabaseHandler;
 import core.mapa.Posicao;
 import exception.DesyncException;
 
@@ -19,44 +20,39 @@ public class Servidor {
 	private ServerSocket ss;
 	private boolean ativo;
 	private TratadorCliente[] clientes;
+	private int porta;
 	
 	private Jogo jogo;
 	
 	public Servidor(Jogo jogo) {
+		this(jogo, PORTA_PADRAO);
+	}
+	
+	public Servidor(Jogo jogo, int porta) {
 		this.clientes = new TratadorCliente[Jogo.NRO_JOGADORES];
 		this.jogo = jogo;
+		this.porta = porta;
 	}
 	
-	public void abrir() throws IOException {
-		this.abrir(PORTA_PADRAO);
-	}
-	
-	public void abrir(int porta) throws IOException {
-		if (this.ss == null)
-            this.ss = new ServerSocket(porta);
-		else
-			throw new IOException("Servidor já aberto");
-	}
-	
-	public void fechar() throws IOException {
-		this.ss.close();
-	}
-
 	public void start() throws DesyncException, IOException {
+        this.ss = new ServerSocket(this.porta);
 		this.ativo = true;
 		int i = 0;
+		System.err.println("Abrindo servidor.");
 		while (i < this.clientes.length) {
 			try {
 				Socket s = this.ss.accept();
-                this.clientes[i] = new TratadorCliente(s);
                 System.err.println("Conexão nova com " + s.getInetAddress() + ";");
+                this.clientes[i] = new TratadorCliente(s);
                 i++;
-			} catch(IOException e) {}
+			} catch(IOException e) {
+				System.err.println("ERRO");
+			}
 		}
 		System.err.println("Clientes conectados.");
 		
-		for (i = 1; i < this.clientes.length; i++)
-            this.clientes[i].notificar(Evento.INICIO_CONEXAO);
+		for (TratadorCliente tc : this.clientes)
+            tc.notificar(Evento.INICIO_CONEXAO);
 		
 		boolean conf = false;
 		try {
@@ -70,26 +66,22 @@ public class Servidor {
 		if (!conf)
 			this.notificarDessincronia();
 	
-		System.out.println("Enviando database.");
-		Thread threads[] = new Thread[this.clientes.length];
-		for (i = 0; i < this.clientes.length; i++) {
-			threads[i] = new Thread(this.clientes[i]);
-			threads[i].start();
-		}
-		for (Thread t : threads) {
-			try {
-				t.join((int) 3e5);
-				if (t.isAlive())
-					this.notificarQueda();
-			} catch (InterruptedException e) {}
-		}
+		System.err.println("Enviando database.");
+		for (TratadorCliente tc : this.clientes)
+			DatabaseHandler.writeToStream(tc.getObjectOutputStream());
+		this.confirmarTodos();
 		
 		System.err.println("Enviando informações do jogo.");
 		try {
             this.enviar(this.jogo);
+            System.err.println("hue");
 		} catch (IOException e) {
+			System.err.println("huehue");
 			this.notificarQueda();
 		}
+		this.confirmarTodos();
+		System.err.println("Informações transmitidas com êxito.");
+		System.err.println("Iniciando jogo.");
 		
 		int vez = 0;
 		Mensagem msg = null;
@@ -176,6 +168,7 @@ public class Servidor {
 			tc.close();
 		
 		this.ativo = false;
+		this.ss.close();
 	}
 	
 	private void enviar(Serializable obj) throws IOException {
