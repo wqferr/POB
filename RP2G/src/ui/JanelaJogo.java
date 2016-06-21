@@ -3,30 +3,27 @@ package ui;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import core.Jogo;
-import core.database.TileGUI;
+import core.mapa.Posicao;
 
 public class JanelaJogo extends JFrame implements ActionListener, MouseListener {
 	private static final long serialVersionUID = -398592414626114074L;
 	
 	private JPanel panel;
 	private Jogo jogo;
-	private TileGUI[][] mapaGUI;
+	private QuadradoUI[][] mapaGUI;
 	
 	public JanelaJogo(Jogo jogo){
 		this(jogo, "Water Emblem Tactics Online II - Revengence of the Lich King", 700, 600);
-		//this.pack();
 	}
 	
 	public JanelaJogo(Jogo jogo, String windowName, int height, int width){
@@ -36,25 +33,20 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener 
 		this.panel = (JPanel) this.getContentPane();
 		
 		this.panel.setLayout(new GridBagLayout());
-		
+
 		this.jogo = jogo;
-		this.mapaGUI = new TileGUI[this.jogo.getMapa().getNLinhas()][this.jogo.getMapa().getNColunas()];
-		BufferedImage im = null;
-		try{
-			im = ImageIO.read(new File("/home/wheatley/Desktop/mapa2.png"));
-		}
-		catch(Exception e) {}
+		this.mapaGUI = new QuadradoUI[this.jogo.getMapa().getNLinhas()][this.jogo.getMapa().getNColunas()];
 		GridBagConstraints gcons = new GridBagConstraints();
+		gcons.insets = new Insets(0, 0, 0, 0);
 		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++){
 			for (int j=0; j<this.jogo.getMapa().getNColunas(); j++){
-				mapaGUI[i][j] = new TileGUI(i, j, im, this);
+				mapaGUI[i][j] = new QuadradoUI(jogo.getMapa().getQuadrado(new Posicao(i, j)), this);
 				mapaGUI[i][j].setName((""+i) + (" "+ j));
-				mapaGUI[i][j].setPreferredSize(new Dimension(30, 30));
+				mapaGUI[i][j].setPreferredSize(new Dimension(40, 40));
 				
 				gcons.gridx = i;
 				gcons.gridy = j;
 				this.panel.add(mapaGUI[i][j], gcons);
-				System.out.printf("%d %d\n", i, j);
 			}
 		}
 	}

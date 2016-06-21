@@ -1,11 +1,12 @@
 package core.personagem;
 
-import java.awt.Image;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+
+import javax.swing.ImageIcon;
 
 import utils.Dado;
 import core.item.Item;
@@ -59,7 +60,7 @@ public class Personagem implements Serializable {
 	}
 	
 	private String nome;
-	private Image icone;
+	private ImageIcon icone;
 	private Profissao profissao;
 	private Posicao pos;
 	private int hp;
@@ -131,7 +132,7 @@ public class Personagem implements Serializable {
 	 * @param idex A dextreza inicial do personagem.
 	 * @param icone O ícone usado para representar o personagem na interface gráfica.
 	 */
-	public Personagem(String nome, Profissao prof, int maxHp, int vel, int ist, int iint, int idex, Image icone) throws NomeRepetidoException {
+	public Personagem(String nome, Profissao prof, int maxHp, int vel, int ist, int iint, int idex, ImageIcon icone) throws NomeRepetidoException {
 		this.nome = nome;
 		this.icone = icone;
 		this.profissao = prof;
@@ -482,7 +483,7 @@ public class Personagem implements Serializable {
 		return this.hp == 0;
 	}
 	
-	public Image getIcone() {
+	public ImageIcon getIcone() {
 		return this.icone;
 	}
 }
