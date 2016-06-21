@@ -84,7 +84,6 @@ public class DatabaseHandler {
 		catch (EOFException eof) { obj = null; notEOF = false; }
 		catch (NullPointerException nullP){ obj = null; notEOF = false; }
 		catch (Exception e) { System.err.println(e);}
-		System.out.println(size);
 		while (i<size && notEOF){
 			try { obj = objectInStream.readObject(); }
 			catch (EOFException eof) { obj = null; notEOF = false; }

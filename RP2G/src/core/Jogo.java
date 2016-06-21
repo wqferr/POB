@@ -2,6 +2,7 @@ package core;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -167,5 +168,13 @@ public class Jogo implements Serializable {
 	public Mapa getMapa() {
 		return this.mapa;
 	}
+	
+	public List<Personagem> getPersonagensTime1() {
+		return new LinkedList<>(this.personagens1);
+	}
 
+	public List<Personagem> getPersonagensTime2() {
+		return new LinkedList<>(this.personagens2);
+	}
+	
 }

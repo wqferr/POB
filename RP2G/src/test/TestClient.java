@@ -18,55 +18,56 @@ public class TestClient {
 	private static boolean atacou = false;
 
 	public static void main(String[] args) {
-		try (final Scanner in = new Scanner(System.in)) {
-            in.useDelimiter("[^\\s]");
-            Controlador cont = (Jogo jogo) -> {
-            	if (andou && atacou) {
-            		andou = false;
-            		atacou = false;
-            		return new Ordem(Comando.ENCERRAR);
-            	}
-            	
-                int i, j;
-                
-                while (in.hasNext()) {
-                    switch (in.next()) {
-                        case "m":
-                            i = in.nextInt();
-                            j = in.nextInt();
-                            
-                        	if (!andou && jogo.mover(new Posicao(i, j))) {
-                        		andou = true;
-                        		return new Ordem(Comando.MOVER, i, j);
-                        	}
-                            break;
-                            
-                        case "a":
-                            i = in.nextInt();
-                            j = in.nextInt();
-                            
-                        	if (!atacou && jogo.atacar(new Posicao(i, j))) {
-                        		atacou = true;
-                        		return new Ordem(Comando.ATACAR, i, j);
-                        	}
-                        	break;
-                        	
-                        case "f":
-                        	andou = false;
-                        	atacou = false;
-                        	return new Ordem(Comando.ENCERRAR);
-                    }
-                }
+        @SuppressWarnings("resource")
+        final Scanner in = new Scanner(System.in);
+        Controlador cont = (Jogo jogo) -> {
+            in.useDelimiter("[\\s]");
+            if (andou && atacou) {
+            	System.err.println(1);
+                andou = false;
+                atacou = false;
                 return new Ordem(Comando.ENCERRAR);
-                
-            };
-            Cliente c = new Cliente(cont, InetAddress.getLoopbackAddress(), Servidor.PORTA_PADRAO);
-            
-            try {
-                c.conectar();
-            } catch (IOException e) {
-                System.err.println(e);
             }
+            
+            int i, j;
+            String cmd;
+            System.err.println(2);
+            
+            while (true) {
+                switch (in.next()) {
+                    case "m":
+                        i = in.nextInt();
+                        j = in.nextInt();
+                        
+                        if (!andou && jogo.mover(new Posicao(i, j))) {
+                            andou = true;
+                            return new Ordem(Comando.MOVER, i, j);
+                        }
+                        break;
+                        
+                    case "a":
+                        i = in.nextInt();
+                        j = in.nextInt();
+                        
+                        if (!atacou && jogo.atacar(new Posicao(i, j))) {
+                            atacou = true;
+                            return new Ordem(Comando.ATACAR, i, j);
+                        }
+                        break;
+                        
+                    case "f":
+                        andou = false;
+                        atacou = false;
+                        return new Ordem(Comando.ENCERRAR);
+                }
+            }
+        };
+        Cliente c = new Cliente(cont, InetAddress.getLoopbackAddress(), Servidor.PORTA_PADRAO);
+        
+        try {
+            c.conectar();
+        } catch (IOException e) {
+            System.err.println(e);
         }
 	}
 

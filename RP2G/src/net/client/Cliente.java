@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.List;
 import java.util.Scanner;
 
 import net.Mensagem;
@@ -13,7 +14,9 @@ import net.client.Ordem.Comando;
 import net.server.Servidor;
 import core.Jogo;
 import core.database.DatabaseHandler;
+import core.mapa.Mapa;
 import core.mapa.Posicao;
+import core.personagem.Personagem;
 import exception.DesyncException;
 
 public class Cliente {
@@ -50,14 +53,19 @@ public class Cliente {
 		
 		System.err.println("Recebendo database.");
 		DatabaseHandler.readAllStream(this.in);
-		this.confirmar();
 		
 		System.err.println("Recebendo jogo.");
 		Jogo jogo = null;
 		try {
-			jogo = (Jogo) this.in.readObject();
+			Mapa m = (Mapa) this.in.readObject();
+			@SuppressWarnings("unchecked")
+			List<Personagem> p1 = (List<Personagem>) this.in.readObject();
+			@SuppressWarnings("unchecked")
+			List<Personagem> p2 = (List<Personagem>) this.in.readObject();
+			
+			jogo = new Jogo(m, p1, p2);
 		} catch (ClassNotFoundException e) {}
-		this.confirmar();
+		System.err.println("Informações transmitidas com êxito.");
 		
 		while (!jogo.acabou()) {
 			msg = this.receber();

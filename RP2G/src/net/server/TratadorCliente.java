@@ -4,7 +4,6 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.Socket;
 
 import net.Mensagem;
@@ -22,7 +21,7 @@ public class TratadorCliente implements Closeable {
 		this.out = new ObjectOutputStream(this.conexao.getOutputStream());
 	}
 	
-	public void enviar(Serializable obj) throws IOException {
+	public void enviar(Object obj) throws IOException {
 		this.out.writeObject(obj);
 	}
 	

@@ -1,7 +1,6 @@
 package net.server;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -69,17 +68,15 @@ public class Servidor {
 		System.err.println("Enviando database.");
 		for (TratadorCliente tc : this.clientes)
 			DatabaseHandler.writeToStream(tc.getObjectOutputStream());
-		this.confirmarTodos();
 		
 		System.err.println("Enviando informações do jogo.");
 		try {
-            this.enviar(this.jogo);
-            System.err.println("hue");
+            this.enviar(this.jogo.getMapa());
+            this.enviar(this.jogo.getPersonagensTime1());
+            this.enviar(this.jogo.getPersonagensTime2());
 		} catch (IOException e) {
-			System.err.println("huehue");
 			this.notificarQueda();
 		}
-		this.confirmarTodos();
 		System.err.println("Informações transmitidas com êxito.");
 		System.err.println("Iniciando jogo.");
 		
@@ -149,7 +146,7 @@ public class Servidor {
                     break;
                     
                 case FIM_TURNO:
-                	this.clientes[vez].enviar(Evento.CONFIRMACAO);
+                	this.clientes[vez].notificar(Evento.CONFIRMACAO);
                 	this.jogo.proximoPersonagem();
                 	this.notificarTodosExceto(Evento.FIM_TURNO, vez);
                 	vez = (vez+1) % this.clientes.length;
@@ -171,7 +168,7 @@ public class Servidor {
 		this.ss.close();
 	}
 	
-	private void enviar(Serializable obj) throws IOException {
+	private void enviar(Object obj) throws IOException {
 		for (TratadorCliente tc : this.clientes)
 			tc.enviar(obj);
 	}

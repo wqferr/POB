@@ -34,7 +34,7 @@ public class TestServer {
             System.out.println(p2.getArma().getDanoBase());
 		} catch (ItemInvalidoException e) {}
 		
-		Mapa m = Mapa.get("Mapa1");
+		Mapa m = Mapa.get("Map1");
 		Jogo j = new Jogo(m, Arrays.asList(p1), Arrays.asList(p2));
 		
 		Servidor s = new Servidor(j);
