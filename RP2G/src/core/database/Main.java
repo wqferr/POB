@@ -6,7 +6,7 @@ import core.mapa.Posicao;
 public class Main {
 
 	public static void main(String[] args){
-		JanelaMain win = new JanelaMain();
+		JanelaDatabase win = new JanelaDatabase();
 		win.setVisible(true);
 		
 	}
