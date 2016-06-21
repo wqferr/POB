@@ -18,17 +18,17 @@ import exception.NomeRepetidoException;
 import exception.PersonagemInexistenteException;
 
 /**
- * @author William Quelho Ferreira
- *
  * Unidade básica do jogo.
  * Uma das "peças" controladas por algum jogador.
+ *
+ * @author William Quelho Ferreira
  */
 public class Personagem implements Serializable {
 	/**
-	 * @author William Quelho Ferreira
-	 *
 	 * Atributos que definem o dano, HP máximo e poder de cura dos personagens,
 	 * dependendo da profissão.
+	 *
+	 * @author William Quelho Ferreira
 	 */
 	public static enum Stat {
 		/**
@@ -364,7 +364,10 @@ public class Personagem implements Serializable {
 		//Funcao linear onde f(1) = 1/3 e f(20) = 3
 		double bonus = (((3.0 - (1.0/3.0)) / 19.0) * d20.getLado()) + ((1.0/3.0) - ((3.0 - (1.0/3.0)) / 19.0));
 		int dano = (int) Math.ceil(this.arma.calcularDano(this, p) * bonus);
-		p.ferir(dano);
+		if (dano > 0)
+            p.ferir(dano);
+		else
+			p.curar(-dano);
 	}
 	
 	/**
@@ -388,7 +391,8 @@ public class Personagem implements Serializable {
 			throw new ItemInvalidoException(arma.getNome());
 		}
 		
-        this.adicionar(anterior);
+		if (anterior != null)
+            this.adicionar(anterior);
 	}
 	
 	/**
@@ -443,23 +447,37 @@ public class Personagem implements Serializable {
 	public boolean usar(String nome) {
         return this.usar(Item.get(nome));
 	}
-	
+	/**
+	 * 
+	 * @param nome
+	 * @return
+	 */
 	public static Personagem get(String nome) {
 		Personagem p = Personagem.registro.get(nome);
 		if (p == null) throw new PersonagemInexistenteException();
 		
 		return p;
 	}
-	
+	/**
+	 * 
+	 * @param pers
+	 * @throws NomeRepetidoException
+	 */
 	public static void add(Personagem pers) throws NomeRepetidoException {
 		if (Personagem.registro.putIfAbsent(pers.getNome(), pers) != null)
 			throw new NomeRepetidoException(pers.getNome());
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public static Iterator<Entry<String, Personagem>> getIterator(){
 		return Personagem.registro.entrySet().iterator();
 	}
-	
+	/**
+	 *
+	 * @return
+	 */
 	public boolean isMorto(){
 		return this.hp == 0;
 	}
