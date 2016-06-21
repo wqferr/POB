@@ -12,6 +12,7 @@ import net.Mensagem.Evento;
 import net.client.Comando.Ordem;
 import net.server.Servidor;
 import core.Jogo;
+import core.database.DatabaseHandler;
 import core.mapa.Posicao;
 import exception.DesyncException;
 
@@ -43,8 +44,8 @@ public class Cliente {
 		try {
 			jogo = (Jogo) this.in.readObject();
 		} catch (ClassNotFoundException e) {}
-		// TODO receber itens
-		// TODO receber personagens
+		
+		DatabaseHandler.readAllStream(this.in);
 		
 		while (!jogo.acabou()) {
 			msg = this.receber();
