@@ -36,7 +36,7 @@ public class TestJogo {
             System.out.println(p2.getArma().getDanoBase());
 		} catch (ItemInvalidoException e) {}
 		
-		Mapa m = Mapa.get("mapa1");
+		Mapa m = Mapa.get("Map1");
 		for (Posicao p : m.getSpawnPointsTime1())
 			System.err.println(p);
 		System.err.println();

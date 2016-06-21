@@ -2,8 +2,10 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
@@ -17,18 +19,19 @@ public class QuadradoUI extends JPanel {
 	private static final long serialVersionUID = 653126213653L;
 	private Quadrado tile;
 	
+	public QuadradoUI(Quadrado tile, MouseListener mlis){
+		super();
+		this.setQuadrado(tile);
+		this.setLayout(new GridLayout());
+		this.addMouseListener(mlis);
+	}
+	
 	public void setQuadrado(Quadrado tile){
 		this.tile = tile;
 	}
 	
 	public Quadrado getQuadrado(){
 		return this.tile;
-	}
-	
-	public QuadradoUI(Quadrado tile, MouseListener mlis){
-		super();
-		this.setQuadrado(tile);
-		this.addMouseListener(mlis);
 	}
 	
 	public void paint(Graphics g) {
@@ -40,6 +43,8 @@ public class QuadradoUI extends JPanel {
 				try { image = ImageIO.read(new File("db/generic.png")); }
 				catch (Exception e){ System.out.println(e); e.printStackTrace(); }
 			}
+			
+			//BufferedImage im = (BufferedImage)image;
 		}
 		else {
 			try { 
@@ -48,7 +53,7 @@ public class QuadradoUI extends JPanel {
 			}
 			catch (Exception e){ System.out.println(e); e.printStackTrace(); }
 		}
-		
+
 		ImageIcon icon = new ImageIcon(image.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH));
 		this.add(new JLabel("", icon, JLabel.CENTER), BorderLayout.CENTER);
 		
