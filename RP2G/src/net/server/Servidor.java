@@ -154,6 +154,7 @@ public class Servidor {
                     break;
                     
                 case FIM_TURNO:
+                	this.clientes[vez].enviar(Evento.CONFIRMACAO);
                 	this.jogo.proximoPersonagem();
                 	this.notificarTodosExceto(Evento.FIM_TURNO, vez);
                 	vez = (vez+1) % this.clientes.length;
