@@ -169,6 +169,9 @@ public class Servidor {
 			s.close();
 		}
 		
+		for (TratadorCliente tc : this.clientes)
+			tc.close();
+		
 		this.ativo = false;
 	}
 	

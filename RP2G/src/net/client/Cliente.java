@@ -98,6 +98,7 @@ public class Cliente {
 			}
 			s.close();
 		}
+		this.conexao.close();
 	}
 	
 	private Mensagem receber() throws IOException {

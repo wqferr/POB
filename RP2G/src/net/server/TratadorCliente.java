@@ -1,5 +1,6 @@
 package net.server;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -9,7 +10,7 @@ import java.net.Socket;
 import net.Mensagem;
 import net.Mensagem.Evento;
 
-public class TratadorCliente implements Runnable {
+public class TratadorCliente implements Runnable, Closeable {
 	
 	private Servidor servidor;
 	private Socket conexao;
@@ -37,6 +38,11 @@ public class TratadorCliente implements Runnable {
 		} catch (ClassNotFoundException e) {
 			return null;
 		}
+	}
+	
+	@Override
+	public void close() throws IOException {
+		this.conexao.close();
 	}
 
 	@Override
