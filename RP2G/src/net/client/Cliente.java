@@ -22,18 +22,22 @@ public class Cliente {
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	
+	private InetAddress ip;
+	private int porta;
 	private Controlador controlador;
 	
-	public Cliente(Controlador con) {
-		this.controlador = con;
+	public Cliente(Controlador con, InetAddress ip) {
+		this(con, ip, Servidor.PORTA_PADRAO);
 	}
 	
-	public void conectar(InetAddress ip) throws IOException {
-		this.conectar(ip, Servidor.PORTA_PADRAO);
+	public Cliente(Controlador con, InetAddress ip, int porta) {
+		this.controlador = con;
+		this.ip = ip;
+		this.porta = porta;
 	}
-
-	public void conectar(InetAddress ip, int porta) throws IOException {
-		this.conexao = new Socket(ip, porta);
+	
+	public void conectar() throws IOException {
+		this.conexao = new Socket(this.ip, this.porta);
 		this.in = new ObjectInputStream(this.conexao.getInputStream());
 		this.out = new ObjectOutputStream(this.conexao.getOutputStream());
 		Mensagem msg = this.receber();
