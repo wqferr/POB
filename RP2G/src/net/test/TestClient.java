@@ -8,7 +8,10 @@ import net.client.Cliente;
 public class TestClient {
 
 	public static void main(String[] args) {
-		Cliente c = new Cliente(() -> System.out.println("Acordado"));
+		Cliente c = new Cliente(() -> { 
+			System.out.println("Acordado");
+			return null;
+		});
 		
 		try {
 			c.conectar(InetAddress.getLoopbackAddress());
