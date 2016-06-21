@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import core.JanelaJogo;
 import core.Jogo;
 import core.database.DatabaseHandler;
 import core.mapa.Mapa;
@@ -44,7 +45,9 @@ public class TestJogo {
 		System.err.println();
 		
 		Jogo j = new Jogo(m, Arrays.asList(p1), Arrays.asList(p2));
-		
+		JanelaJogo win = new JanelaJogo(j);
+		win.setVisible(true);
+			
         boolean podeMover = true;
         Pattern p = Pattern.compile("[^\\s]");
         
