@@ -3,14 +3,12 @@ package ui;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -38,22 +36,17 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener 
 
 		this.jogo = jogo;
 		this.mapaGUI = new QuadradoUI[this.jogo.getMapa().getNLinhas()][this.jogo.getMapa().getNColunas()];
-		BufferedImage im = null;
-		try{
-			im = ImageIO.read(new File("/home/wheatley/Desktop/mapa2.png"));
-		}
-		catch(Exception e) {}
 		GridBagConstraints gcons = new GridBagConstraints();
+		gcons.insets = new Insets(0, 0, 0, 0);
 		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++){
 			for (int j=0; j<this.jogo.getMapa().getNColunas(); j++){
 				mapaGUI[i][j] = new QuadradoUI(jogo.getMapa().getQuadrado(new Posicao(i, j)), this);
 				mapaGUI[i][j].setName((""+i) + (" "+ j));
-				mapaGUI[i][j].setPreferredSize(new Dimension(30, 30));
+				mapaGUI[i][j].setPreferredSize(new Dimension(40, 40));
 				
 				gcons.gridx = i;
 				gcons.gridy = j;
 				this.panel.add(mapaGUI[i][j], gcons);
-				System.out.printf("%d %d\n", i, j);
 			}
 		}
 	}

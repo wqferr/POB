@@ -78,7 +78,14 @@ public class DatabaseHandler {
 	public static void readAllStream(ObjectInputStream objectInStream){
 		Object obj = null;
 		boolean notEOF = true;
-		while (notEOF){
+		
+		int size = 0, i=0;
+		try { size = (Integer)objectInStream.readObject(); }
+		catch (EOFException eof) { obj = null; notEOF = false; }
+		catch (NullPointerException nullP){ obj = null; notEOF = false; }
+		catch (Exception e) { System.err.println(e);}
+		System.out.println(size);
+		while (i<size && notEOF){
 			try { obj = objectInStream.readObject(); }
 			catch (EOFException eof) { obj = null; notEOF = false; }
 			catch (NullPointerException nullP){ obj = null; notEOF = false; }
@@ -105,6 +112,7 @@ public class DatabaseHandler {
 				catch(Exception e){ System.err.println(e); }
 			}
 			else notEOF = false;
+			i++;
 		}
 	}
 	
@@ -117,6 +125,7 @@ public class DatabaseHandler {
 		while(itemIt.hasNext()) allData.add(Item.get(itemIt.next().getKey()));
 		while(persIt.hasNext()) allData.add(Personagem.get(persIt.next().getKey()));
 		while(mapIt.hasNext()) allData.add(Mapa.get(mapIt.next().getKey()));
+		allData.add(0, allData.size());
 		
 		try{
 			Iterator<Object> it = allData.iterator();
