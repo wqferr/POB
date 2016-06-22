@@ -72,11 +72,10 @@ public class Cliente {
 			Personagem.D_20.setSeed((long) this.in.readObject());
 		} catch (ClassNotFoundException e) {}
 		System.err.println("Informações transmitidas com êxito.");
-        
-        JanelaJogo win = new JanelaJogo(this.getJogo());
-        win.setVisible(true);
-        this.controlador = win;
-        this.jogo.setOuvinte(win);
+	}
+	
+	public void start() throws IOException {
+		Mensagem msg;
 		while (!jogo.acabou()) {
 			msg = this.receber();
 			
