@@ -75,7 +75,8 @@ public class TestClient {
             
             return new Ordem(Comando.ENCERRAR);
         };
-        Cliente c = new Cliente(cont, InetAddress.getByName("172.26.211.218"), Servidor.PORTA_PADRAO);
+        Cliente c = new Cliente(cont, InetAddress.getLocalHost(), Servidor.PORTA_PADRAO);
+       
         
         try {
             c.conectar();
@@ -83,6 +84,16 @@ public class TestClient {
         } catch (IOException e) {
             System.err.println(e);
         }
+        
+        JanelaJogo win = new JanelaJogo(c.getJogo());
+        c.setControlador(win);
+        win.setVisible(true);
+        try {
+			c.start();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

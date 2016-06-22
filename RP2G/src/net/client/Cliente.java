@@ -42,6 +42,10 @@ public class Cliente {
 		this.jogo = null;
 	}
 	
+	public void setControlador(Controlador con){
+		this.controlador = con;
+	}
+	
 	public void conectar() throws IOException {
 		this.conexao = new Socket(this.ip, this.porta);
 		this.conexao.getOutputStream().flush();
