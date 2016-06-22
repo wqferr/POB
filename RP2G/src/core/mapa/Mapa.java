@@ -19,9 +19,7 @@ import exception.MapaInexistenteException;
 import exception.NomeRepetidoException;
 
 /**
- *
- * @author guilherme
- *
+ * Mapa do jogo, uma matriz composta de quadrados.
  */
 public class Mapa implements Serializable{
 	private static final long serialVersionUID = 63278163812368321L;
@@ -32,10 +30,9 @@ public class Mapa implements Serializable{
 	private List<Posicao> spawnPointsTime2;
 	private static final Map<String, Mapa> registro = new TreeMap<>();
 	/**
-	 * 
-	 * @param nome
-	 * @param topologia
-	 * @throws NomeRepetidoException
+	 * Cria uma mapa Utilizando a matriz de Quadrados recebida
+	 * @param nome Nome do mapa
+	 * @param topologia Matriz de quadrados
 	 */
 	public Mapa(String nome, Quadrado[][] topologia) throws NomeRepetidoException{
 		this.nome = nome;
@@ -45,10 +42,10 @@ public class Mapa implements Serializable{
 		Mapa.add(this);
 	}
 	/**
-	 * 
-	 * @param nome
-	 * @param bool
-	 * @throws NomeRepetidoException
+	 * Cria um mapa de acordo com uma matriz de Boolean. Posições com True representam posições acessíveis do mapa e False posicões não acessíveis.
+	 * @param nome Nome do mapa 
+	 * @param bool Matriz de Boolean que representa a acessibilidade das posições do mapa
+	 * @throws NomeRepetidoException Se já existe outro mapa com o mesmo nome
 	 */
 	public Mapa(String nome, boolean[][] bool) throws NomeRepetidoException{
 		this.nome = nome;
@@ -67,10 +64,14 @@ public class Mapa implements Serializable{
 		Mapa.add(this);
 	}
 	/**
-	 * 
-	 * @param nome
-	 * @param imagem
-	 * @throws NomeRepetidoException
+	 * Cria um mapa utilizando uma imagem composta de pixels azuis, pretos, brancos e vermelhos.
+	 * brancos: Posições acessíveis
+	 * pretos: Não acessíveis
+	 * vermelhos: Pontos de Spawn do time 1
+	 * azuis: Pontos de Spawn do time 2
+	 * @param nome Nome do mapa
+	 * @param imagem Imagem para criação do mapa
+	 * @throws NomeRepetidoException Se já existe outro mapa com o mesmo nome
 	 */
 	public Mapa(String nome, BufferedImage imagem) throws NomeRepetidoException{
 		this.nome = nome;
@@ -89,39 +90,39 @@ public class Mapa implements Serializable{
 		Mapa.add(this);
 	}
 	/**
-	 * 
-	 * @param posicao
-	 * @return
+	 * Retorna o quadrado presente no mapa na posição recebida
+	 * @param posicao Posição do quadrado
+	 * @return Quadrado
 	 */
 	public Quadrado getQuadrado(Posicao posicao) {
 		return this.topologia[posicao.getLinha()][posicao.getColuna()];
 	}
 	/**
-	 * 
-	 * @return
+	 * Retorna o numero de linhas da matriz de Quadrados
+	 * @return numero de linhas
 	 */
 	public int getNLinhas() {
 		return this.topologia.length;
 	}
 	/**
-	 * 
-	 * @return
+	 * Retorna o numero de colunas da matriz de Quadrados
+	 * @return numero de colunas
 	 */
 	public int getNColunas() {
 		return this.topologia[0].length;
 	}
 	/**
-	 * 
-	 * @return
+	 * Retorna o nome do mapa
+	 * @return nome do mapa
 	 */
 	public String getNome(){
 		return this.nome;
 	}
 	/**
-	 * 
-	 * @param p1
-	 * @param p2
-	 * @return
+	 * Calcula a distância entre dois pontos do mapa
+	 * @param p1 ponto 1
+	 * @param p2 ponto 2
+	 * @return distância entre os pontos
 	 */
 	public int distancia(Posicao p1, Posicao p2) {
 		Queue<Par<Posicao, Integer>> proximas = new LinkedList<>();
@@ -145,38 +146,38 @@ public class Mapa implements Serializable{
 		return -1;
 	}
 	/**
-	 * 
-	 * @param p
-	 * @return
+	 * Verifica se essa Posição existe no mapa
+	 * @param p Posição
+	 * @return Se existe a posição no mapa
 	 */
 	public boolean contem(Posicao p) {
 		return p.getLinha() >= 0 && p.getLinha() < this.getNLinhas()
 				&& p.getColuna() >= 0 && p.getColuna() < this.getNColunas();
 	}
 	/**
-	 * 
-	 * @param origem
-	 * @param destino
-	 * @return
+	 * Verifica se a posição de destino pode ser alcancada a partir da posição de origem
+	 * @param origem Posição de origem
+	 * @param destino Posição de destino
+	 * @return Se o destino é alcançavel a partir da origem
 	 */
 	public boolean alcancavel(Posicao origem, Posicao destino) {
 		return this.distancia(origem, destino) >= 0;
 	}
 	/**
-	 * 
-	 * @param origem
-	 * @param destino
-	 * @param max
-	 * @return
+	 * Verifica se é possível alcançar o destino a partir da origem, com max distância maxima entre os pontos
+	 * @param origem Ponto de origem
+	 * @param destino Ponto de destino
+	 * @param max Distância Máxima
+	 * @return Se é ou não alcançavel.
 	 */
 	public boolean alcancavel(Posicao origem, Posicao destino, int max) {
 		int d = this.distancia(origem, destino);
 		return 0 <= d && d <= max;
 	}
 	/**
-	 * 
-	 * @param origem
-	 * @param destino
+	 * Move o ocupante da posição de origem para a posição de destino 
+	 * @param origem Posição de Origem
+	 * @param destino Posição de Destino
 	 */
 	public void mover(Posicao origem, Posicao destino) {
 		Quadrado qOrig = this.getQuadrado(origem),
@@ -186,24 +187,24 @@ public class Mapa implements Serializable{
 		qDest.setOcupante(p);
 	}
 	/**
-	 * 
-	 * @param p
-	 * @return
+	 * Verifica se a posição está ocupada por um personagem
+	 * @param p Posição
+	 * @return Se está ocupada
 	 */
 	public boolean isOcupado(Posicao p) {
 		return this.getQuadrado(p).isOcupado();
 	}
 	/**
-	 * 
-	 * @param pos
-	 * @param p
+	 * Insere um personagem em uma posição
+	 * @param pos Posição
+	 * @param p Personagem
 	 */
 	public void setOcupante(Posicao pos, Personagem p) {
 		this.getQuadrado(pos).setOcupante(p);
 	}
 	/**
-	 * 
-	 * @return
+	 * Retorna todos os personages do time 1
+	 * @return Lista de personagens do time 1
 	 */
 	public List<Personagem> getPersonagensTime1() {
 		List<Personagem> l = new LinkedList<>();
@@ -215,8 +216,8 @@ public class Mapa implements Serializable{
 		return l;
 	}
 	/**
-	 * 
-	 * @return
+	 * Retorna todos os personages do time 2
+	 * @return Lista de personagens do time 2
 	 */
 	public List<Personagem> getPersonagensTime2() {
 		List<Personagem> l = new LinkedList<>();
@@ -228,23 +229,24 @@ public class Mapa implements Serializable{
 		return l;
 	}
 	/**
-	 * 
-	 * @return
+	 * Retorna todas as posições de Spawn do time 1 
+	 * @return Lista com as posições de Spawn do time 1
 	 */
 	public List<Posicao> getSpawnPointsTime1(){
 		return this.spawnPointsTime1;
 	}
 	/**
-	 * 
-	 * @return
+	 * Retorna todas as posições de Spawn do time 2 
+	 * @return Lista com as posições de Spawn do time 2
 	 */
 	public List<Posicao> getSpawnPointsTime2(){
 		return this.spawnPointsTime2;
 	}
 	/**
-	 * 
-	 * @param nome
-	 * @return
+	 * Retorna o mapa 
+	 * @param nome Nome do mapa
+	 * @return Mapa
+	 * @throws MapaInexistenteExcpetion Se o Mapa for inexistente
 	 */
 	public static Mapa get(String nome) {
 		Mapa m = Mapa.registro.get(nome);
@@ -253,17 +255,17 @@ public class Mapa implements Serializable{
 		return m;
 	}
 	/**
-	 * 
-	 * @param mapa
-	 * @throws NomeRepetidoException
+	 * Adiciona um novo mapa
+	 * @param mapa Mapa
+	 * @throws NomeRepetidoException Se já existe um mapa com o mesmo nome
 	 */
 	public static void add(Mapa mapa) throws NomeRepetidoException {
 		if (Mapa.registro.putIfAbsent(mapa.getNome(), mapa) != null)
 			throw new NomeRepetidoException(mapa.getNome());
 	}
 	/**
-	 * 
-	 * @return
+	 * Retorna um iterador para o registro mapas
+	 * @return iterador para os mapas
 	 */
 	public static Iterator<Entry<String, Mapa>> getIterator(){
 		return Mapa.registro.entrySet().iterator();
