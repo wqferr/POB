@@ -8,6 +8,7 @@ import java.util.Scanner;
 import net.client.Cliente;
 import net.client.Controlador;
 import net.server.Servidor;
+import ui.graphic.JanelaJogo;
 import core.Jogo;
 import core.Ordem;
 import core.Ordem.Comando;
@@ -75,18 +76,17 @@ public class TestClient {
             
             return new Ordem(Comando.ENCERRAR);
         };
-        Cliente c = new Cliente(cont, InetAddress.getLocalHost(), Servidor.PORTA_PADRAO);
-       
+        Cliente c = new Cliente(cont, InetAddress.getLocalHost(), Servidor.PORTA_PADRAO); 
         
         try {
             c.conectar();
-            c.start();
         } catch (IOException e) {
             System.err.println(e);
         }
         
         JanelaJogo win = new JanelaJogo(c.getJogo());
         c.setControlador(win);
+        c.getJogo().setOuvinte(win);
         win.setVisible(true);
         try {
 			c.start();
