@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
 
+import ui.JanelaJogo;
 import net.Mensagem;
 import net.Mensagem.Evento;
 import net.server.Servidor;
@@ -72,7 +73,11 @@ public class Cliente {
 			System.err.println("Dado: " + Personagem.D_20.rolar());
 		} catch (ClassNotFoundException e) {}
 		System.err.println("Informações transmitidas com êxito.");
-		
+        
+        JanelaJogo win = new JanelaJogo(this.getJogo());
+        win.setVisible(true);
+        this.controlador = win;
+        this.jogo.setOuvinte(win);
 		while (!jogo.acabou()) {
 			msg = this.receber();
 			

@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.function.Consumer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,11 +17,11 @@ import javax.swing.JPanel;
 
 import net.client.Controlador;
 import core.Jogo;
-import core.mapa.Posicao;
 import core.Ordem;
 import core.Ordem.Comando;
+import core.mapa.Posicao;
 
-public class JanelaJogo extends JFrame implements ActionListener, MouseListener, Controlador {
+public class JanelaJogo extends JFrame implements ActionListener, MouseListener, Controlador, Consumer<Void> {
 	private static final long serialVersionUID = -398592414626114074L;
 	
 	private JPanel panel;
@@ -113,26 +114,13 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	}
 	
 	public void actionPerformed(ActionEvent e){
-		if (e.getActionCommand().equals("atacar")) {
-			if (this.jogo.atacar(new Posicao(this.curI, this.curJ))){
-				this.curBotao = new String("atacar");
-				this.updateUI();
-				this.jogo.exibir();
-			}
-		}
-		else if(e.getActionCommand().equals("mover")){
-			if (this.jogo.mover(new Posicao(this.curI, this.curJ))){
-				this.curBotao = new String("mover");
-				this.updateUI();
-				this.jogo.exibir();
-			}
-		}
-		else if (e.getActionCommand().equals("fim") && !jogo.acabou()){
+		if (e.getActionCommand().equals("atacar"))
+			this.curBotao = new String("atacar");
+		else if(e.getActionCommand().equals("mover"))
+			this.curBotao = new String("mover");
+		else if (e.getActionCommand().equals("fim"))
 			this.curBotao = new String("fim");
-			this.jogo.proximoPersonagem();
-			this.updateUI();
-			this.jogo.exibir();
-		}
+		
 	}
 	
 
@@ -164,9 +152,21 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 			else if (this.curBotao.equals("fim")) return new Ordem(Comando.ENCERRAR);
 			
 			this.curBotao = null;
+			this.updateUI();
 		}catch(Exception e) { e.printStackTrace(); }
 		
 		return null;
+	}
+
+	@Override
+	public void accept(Void t) {
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.updateUI();
 	}
 	
 }

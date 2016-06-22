@@ -80,8 +80,6 @@ public class TestClient {
         } catch (IOException e) {
             System.err.println(e);
         }
-        
-        JanelaJogo win = new JanelaJogo(c.getJogo());
 	}
 
 }
