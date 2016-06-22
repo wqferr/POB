@@ -70,7 +70,6 @@ public class Cliente {
 		} catch (ClassNotFoundException e) {}
 		try {
 			Personagem.D_20.setSeed((long) this.in.readObject());
-			System.err.println("Dado: " + Personagem.D_20.rolar());
 		} catch (ClassNotFoundException e) {}
 		System.err.println("Informações transmitidas com êxito.");
         

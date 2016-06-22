@@ -117,9 +117,7 @@ public class Jogo implements Serializable {
 		if (this.mapa.isOcupado(nova))
 			return false;
 		if (this.mapa.alcancavel(this.pAtual.getPosicao(), nova, this.pAtual.getStat(Stat.VEL))) {
-			this.ouvinte.accept(null);
 			this.mapa.mover(this.pAtual.getPosicao(), nova);
-			this.ouvinte.accept(null);
 			this.andou = true;
 			this.ouvinte.accept(null);
 			return true;
@@ -152,15 +150,11 @@ public class Jogo implements Serializable {
 			Personagem p = this.mapa.getQuadrado(alvo).getOcupante();
 			int hp = p.getHp();
 			this.pAtual.atacar(p);
-			this.ouvinte.accept(null);
 			if(p.isMorto()) {
 				this.mapa.setOcupante(p.getPosicao(), null);
-                this.ouvinte.accept(null);
 				this.removePersonagem(p);
-                this.ouvinte.accept(null);
 			}
 			
-			this.ouvinte.accept(null);
 			this.atacou = true;
 			this.ouvinte.accept(null);
 			return true;
@@ -173,7 +167,6 @@ public class Jogo implements Serializable {
 	 * @return Se foi possível usar o item
 	 */
 	public boolean usar(Item item) {
-        this.ouvinte.accept(null);
 		if (this.pAtual.usar(item)) {
             this.ouvinte.accept(null);
             return true;

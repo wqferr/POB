@@ -80,7 +80,6 @@ public class Servidor {
 		}
 		long seed = System.nanoTime();
 		Personagem.D_20.setSeed(seed);
-		System.err.println("Dado: " + Personagem.D_20.rolar());
 		this.enviar(seed);
 		
 		System.err.println("Informações transmitidas com êxito.");
