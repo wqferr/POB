@@ -8,7 +8,6 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
 
-import ui.JanelaJogo;
 import net.Mensagem;
 import net.Mensagem.Evento;
 import net.server.Servidor;

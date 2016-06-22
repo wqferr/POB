@@ -5,7 +5,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import ui.JanelaJogo;
+import ui.graphic.JanelaJogo;
 import net.client.Cliente;
 import net.client.Controlador;
 import net.server.Servidor;
