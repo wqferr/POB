@@ -139,6 +139,9 @@ public class Jogo implements Serializable {
 		if (this.atacou)
 			return false;
 		
+		if (this.pAtual == this.mapa.getQuadrado(alvo).getOcupante())
+			return false;
+		
 		if (!this.mapa.isOcupado(alvo) || this.pAtual.getArma() == null)
 			return false;
 		
