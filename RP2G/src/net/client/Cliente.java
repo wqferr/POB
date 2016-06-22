@@ -116,6 +116,7 @@ public class Cliente {
                     break;
 			}
 			s.close();
+			jogo.exibir(System.out::print);
 		}
 		this.conexao.close();
 	}
