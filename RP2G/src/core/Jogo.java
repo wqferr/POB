@@ -257,21 +257,22 @@ public class Jogo implements Serializable {
 			for (int j = 0; j < this.mapa.getNColunas(); j++) {
 				Posicao pos = new Posicao(i, j);
 				Quadrado q = this.mapa.getQuadrado(pos);
-				if (q.isTransponivel()) {
-                    Personagem p = q.getOcupante();
-                    if (p == null) {
+				
+                Personagem p = q.getOcupante();
+                if (p == null) {
+                    if (q.isTransponivel()) {
                         printer.accept(" ");
                     } else {
-                    	char c = p.getNome().charAt(0);
-                    	if (p == pAtual)
-                    		c = Character.toUpperCase(c);
-                    	else
-                    		c = Character.toLowerCase(c);
-                    	printer.accept(String.valueOf(c));
+                        printer.accept("X");
                     }
-				} else {
-					printer.accept("X");
-				}
+                } else {
+                    char c = p.getNome().charAt(0);
+                    if (p == pAtual)
+                        c = Character.toUpperCase(c);
+                    else
+                        c = Character.toLowerCase(c);
+                    printer.accept(String.valueOf(c));
+                }
 				printer.accept(" ");
 			}
 			printer.accept("\n");
