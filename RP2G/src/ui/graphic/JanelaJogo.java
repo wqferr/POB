@@ -20,6 +20,7 @@ import core.Jogo;
 import core.Ordem;
 import core.Ordem.Comando;
 import core.mapa.Posicao;
+import core.personagem.Personagem;
 
 public class JanelaJogo extends JFrame implements ActionListener, MouseListener, Controlador, Consumer<Void> {
 	private static final long serialVersionUID = -398592414626114074L;
@@ -37,6 +38,8 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	private int curJ;
 	private String curBotao;
 	
+	private boolean toggle;
+	
 	public JanelaJogo(Jogo jogo){
 		this(jogo, "Water Emblem Tactics Online II - Revengence of the Lich King | Game of the Year Edition", 800, 60);
 	}
@@ -52,6 +55,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.panel.setLayout(new GridBagLayout());
 		this.jogo = jogo;
 		this.jogo.setOuvinte(this);
+		this.toggle = false;
 		
 		this.mensagemRodada = new JLabel(this.jogo.personagemAtual().getNome());
 		this.mensagemPos = new JLabel("Posicao: {0, 0}");
@@ -89,34 +93,38 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 				this.panel.add(mapaGUI[i][j], gcons);
 			}
 		}
-
+		
+		this.pack();
+		this.markAllDirty();
 		this.updateUI();
 	}
 	
 	public void updateUI(){
+		this.markAllDirty();
+		this.mapaGUI[this.curI][this.curJ].setDirty(true);
+		
 		this.mensagemRodada.setText(this.jogo.personagemAtual().getNome());
 		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++){
 			for (int j=0; j<this.jogo.getMapa().getNColunas(); j++){
 				if (jogo.getMapa().getQuadrado(new Posicao(i, j)).isOcupado()){
 					mapaGUI[i][j].revalidate();
-					mapaGUI[i][j].dirty = true;
+					mapaGUI[i][j].setDirty(true);
 				}
 			}
 		}
 		
 		this.panel.validate();
 		this.panel.paint(this.panel.getGraphics());
+		this.panel.revalidate();
+		this.panel.repaint();
+		this.markAllDirty();
 	}
 	
-	public void actionPerformed(ActionEvent e){
-		this.mapaGUI[this.curI][this.curJ].dirty = true;
-		this.mapaGUI[this.jogo.personagemAtual().getPosicao().getLinha()][this.jogo.personagemAtual().getPosicao().getColuna()].dirty = true;
+	public void actionPerformed(ActionEvent e){	
 		if (e.getActionCommand().equals("atacar")) this.curBotao = new String("atacar");
 		else if(e.getActionCommand().equals("mover")) this.curBotao = new String("mover");
 		else if (e.getActionCommand().equals("fim")) this.curBotao = new String("fim");
 		else this.curBotao = null;
-		
-		this.proximaOrdem(this.jogo);
 	}
 	
 	@Override
@@ -148,9 +156,6 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		else if (this.curBotao.equals("mover")) order = new Ordem(Comando.MOVER, new Posicao(this.curI, this.curJ));
 		else if (this.curBotao.equals("fim")) order = new Ordem(Comando.ENCERRAR);
 		
-		if (order!=null) this.jogo.executar(order);
-		
-		this.updateUI();
 		this.curBotao = null;
 		return order;
 	}
@@ -168,6 +173,14 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		button.setPreferredSize(new Dimension(125, 25));
 		
 		return button;
+	}
+	
+	private void markAllDirty(){
+		for(Personagem p : this.jogo.getPersonagensTime1())
+			if(p!=null) this.mapaGUI[p.getPosicao().getLinha()][p.getPosicao().getColuna()].setDirty(true);
+		
+		for(Personagem p : this.jogo.getPersonagensTime2())
+			if(p!=null) this.mapaGUI[p.getPosicao().getLinha()][p.getPosicao().getColuna()].setDirty(true);
 	}
 	
 }

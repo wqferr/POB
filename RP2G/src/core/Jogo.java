@@ -84,12 +84,12 @@ public class Jogo implements Serializable {
 	 * @return Personagem que pode agir no próximo turno 
 	 */
 	public Personagem proximoPersonagem() {
+		this.ouvinte.accept(null);
 		proximoTime = !proximoTime;
 		if(proximoTime)
 			this.pAtual = pIter1.next();
 		else
 			this.pAtual = pIter2.next();
-		this.ouvinte.accept(null);
 		this.ouvinte.accept(null);
 		this.atacou = false;
 		this.andou = false;
@@ -113,15 +113,14 @@ public class Jogo implements Serializable {
 	 * @return se foi possível mover o personagem para a posição desejada
 	 */
 	public boolean mover(Posicao nova) {
-		System.out.println("hue");
 		if (this.andou)
 			return false;
 		if (this.mapa.isOcupado(nova))
 			return false;
 		if (this.mapa.alcancavel(this.pAtual.getPosicao(), nova, this.pAtual.getStat(Stat.VEL))) {
+			this.ouvinte.accept(null);
 			this.mapa.mover(this.pAtual.getPosicao(), nova);
 			this.andou = true;
-			this.ouvinte.accept(null);
             this.ouvinte.accept(null);
 			return true;
 		}
@@ -150,6 +149,7 @@ public class Jogo implements Serializable {
 			return false;
 		
 		if(alvo.distancia(this.pAtual.getPosicao()) <= this.pAtual.getArma().getAlcance()){
+			this.ouvinte.accept(null);
 			Personagem p = this.mapa.getQuadrado(alvo).getOcupante();
 			this.pAtual.atacar(p);
 			if(p.isMorto()) {
@@ -159,7 +159,6 @@ public class Jogo implements Serializable {
 			}
 			
 			this.atacou = true;
-			this.ouvinte.accept(null);
             this.ouvinte.accept(null);
 			return true;
 		}
@@ -180,8 +179,8 @@ public class Jogo implements Serializable {
 	 * @return Se foi possível usar o item
 	 */
 	public boolean usar(Item item) {
+        this.ouvinte.accept(null);
 		if (this.pAtual.usar(item)) {
-            this.ouvinte.accept(null);
             this.ouvinte.accept(null);
             return true;
 		}
