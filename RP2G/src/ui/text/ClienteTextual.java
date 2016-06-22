@@ -32,15 +32,17 @@ public class ClienteTextual {
 		tec.nextLine();
 		
 		Controlador controle = (Jogo jogo) -> {
+            System.out.println("INÍCIO DE TURNO");
+            System.out.println("===============");
+            jogo.exibir();
 			while (!jogo.acabou()) {
 				try {
-					System.out.println("INÍCIO DE TURNO");
-					System.out.println("===============");
 					System.out.println("Personagem atual: " + jogo.personagemAtual().getPosicao());
 					System.out.println();
                     String cmd = tec.next();
                     
-                    switch (cmd.toLowerCase()) {
+                    System.err.println(cmd);
+                    switch (cmd) {
                         case "m":
                             Posicao p = new Posicao(tec.nextInt(), tec.nextInt());
                             tec.nextLine();
@@ -137,6 +139,7 @@ public class ClienteTextual {
                         	break;
                             
                         default:
+                        	tec.nextLine();
                         	System.out.println("Comando inválido");
                     }
                 } catch (InputMismatchException e) {
@@ -144,7 +147,7 @@ public class ClienteTextual {
                 }
 			}
 			
-			return null;
+			return new Ordem(Comando.ENCERRAR);
 		};
 		Cliente cliente = null;
 		try {
@@ -160,7 +163,6 @@ public class ClienteTextual {
             jogo.setOuvinte((Void v) -> {
             	jogo.exibir();
             });
-            jogo.exibir();
             System.out.println("Conectado ao servidor");
             cliente.start();
             System.out.println("FIM DE JOGO");

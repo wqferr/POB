@@ -28,10 +28,10 @@ public class TestServer {
 		try {
 			p1.adicionar("Espada Bastarda");
             p1.setArma("Espada Bastarda");
-            System.out.println(p1.getArma().getDanoBase());
+            p1.adicionar("Whey");
             p2.adicionar("Bola de Fogo");
             p2.setArma("Bola de Fogo");
-            System.out.println(p2.getArma().getDanoBase());
+            p2.adicionar("Pot");
 		} catch (ItemInvalidoException e) {}
 		
 		Mapa m = Mapa.get("Map1");
