@@ -220,13 +220,6 @@ public class Servidor {
 		return confirmado;
 	}
 	
-	private void notificarTodosExceto(Evento e, int c) throws IOException {
-		for (int i = 0; i < c; i++)
-			this.clientes[i].notificar(e);
-		for (int i = c+1; i < this.clientes.length; i++)
-			this.clientes[i].notificar(e);
-	}
-	
 	private void notificarTodos(Evento e, boolean ignorarExcecao) throws IOException {
 		for (TratadorCliente tc : this.clientes) {
 			try {

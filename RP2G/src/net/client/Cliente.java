@@ -78,10 +78,9 @@ public class Cliente {
                 case INICIO_TURNO:
                 	Ordem o;
                 	do {
-                		jogo.exibir(System.out::print);
                         o = this.controlador.proximaOrdem(jogo);
                         if (jogo.executar(o)) {
-                            this.enviar(o.empacotar());
+                            this.enviar(new Mensagem(o));
                             if (!this.confirmar())
                                 this.notificarDessincronia();
                         }

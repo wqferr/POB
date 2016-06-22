@@ -1,59 +1,51 @@
 package core;
 
+import java.util.Scanner;
+
 import net.Mensagem;
-import net.Mensagem.Evento;
 import core.mapa.Posicao;
 
 public class Ordem {
 	
 	public static enum Comando {
-		MOVER(Evento.MOVIMENTO),
-		ATACAR(Evento.ATAQUE),
-		ENCERRAR(Evento.FIM_TURNO);
-		
-		private Evento correspondente;
-		
-		private Comando(Evento e) {
-			this.correspondente = e;
-		}
-		
-		public Evento getCorrespondente() {
-			return this.correspondente;
-		}
+		MOVER,
+		ATACAR,
+		ENCERRAR;
 	}
 
 	private Comando c;
-	private int i;
-	private int j;
+	private Object arg;
 	
-	public Ordem(Comando o) {
-		this(o, 0, 0);
+	public Ordem(Comando c) {
+		this(c, null);
 	}
 	
-	public Ordem(Comando o, int i, int j) {
+	public Ordem(Comando o, Object arg) {
 		this.c = o;
-		this.i = i;
-		this.j = j;
+		this.arg = arg;
 	}
 	
-	public int getI() {
-		return this.i;
+	public Ordem(Mensagem m) {
+		this.c = m.getEvento().getCorrespondente();
+		try (Scanner s = new Scanner(m.getMsg())) {
+            switch (this.c) {
+                case MOVER:
+                case ATACAR:
+                    this.arg = new Posicao(s.nextInt(), s.nextInt());
+                    break;
+                    
+                default:
+                    this.arg = null;
+            }
+		}
 	}
 	
-	public int getJ() {
-		return this.j;
-	}
-	
-	public Posicao getPos() {
-		return new Posicao(this.i, this.j);
+	public Object getArg() {
+		return this.arg;
 	}
 	
 	public Comando getComando() {
 		return this.c;
-	}
-	
-	public Mensagem empacotar() {
-		return new Mensagem(this.c.getCorrespondente(), String.format("%d %d", this.i, this.j));
 	}
 
 }

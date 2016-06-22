@@ -57,7 +57,7 @@ public class Posicao implements Comparable<Posicao>, Serializable {
 	
 	@Override
 	public String toString() {
-		return String.format("[%d, %d]", this.linha, this.coluna);
+		return String.format("%d %d", this.linha, this.coluna);
 	}
 
 }

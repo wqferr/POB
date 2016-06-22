@@ -200,13 +200,17 @@ public class Jogo implements Serializable {
 	public boolean executar(Ordem o) {
 		switch (o.getComando()) {
             case ATACAR:
-            	return this.atacar(o.getPos());
+            	return this.atacar((Posicao) o.getArg());
             	
             case MOVER:
-                return this.mover(o.getPos());
+                return this.mover((Posicao) o.getArg());
+            
+            case ENCERRAR:
+            	//this.proximoPersonagem();
+            	return true;
                 
 			default:
-				return true;
+				return false;
 		}
 	}
 	

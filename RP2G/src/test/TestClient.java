@@ -45,7 +45,7 @@ public class TestClient {
                         if (!andou && jogo.mover(new Posicao(i, j))) {
                         	System.err.println(1);
                             andou = true;
-                            return new Ordem(Comando.MOVER, i, j);
+                            return new Ordem(Comando.MOVER, new Posicao(i, j));
                         }
                         break;
                         
@@ -55,7 +55,7 @@ public class TestClient {
                         
                         if (!atacou && jogo.atacar(new Posicao(i, j))) {
                             atacou = true;
-                            return new Ordem(Comando.ATACAR, i, j);
+                            return new Ordem(Comando.ATACAR, new Posicao(i, j));
                         }
                         break;
                         
