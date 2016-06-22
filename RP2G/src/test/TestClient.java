@@ -62,6 +62,7 @@ public class TestClient {
                         atacou = false;
                         return new Ordem(Comando.ENCERRAR);
                 }
+                in.nextLine();
             }
         };
         Cliente c = new Cliente(cont, InetAddress.getLoopbackAddress(), Servidor.PORTA_PADRAO);
