@@ -11,6 +11,8 @@ import core.Jogo;
 import core.Ordem;
 import core.Ordem.Comando;
 import core.mapa.Posicao;
+import core.personagem.Personagem;
+import core.personagem.Personagem.Stat;
 
 public class TestClient {
 	
@@ -24,6 +26,11 @@ public class TestClient {
         
         Controlador cont = (Jogo jogo) -> {
         	System.out.println();
+        	Personagem g = Personagem.get("guerreiro");
+        	Personagem m = Personagem.get("mago");
+        	
+        	System.out.print(String.format("%d/%d\t", g.getHp(), g.getStat(Stat.HP_MAX)));
+        	System.out.print(String.format("%d/%d\n", m.getHp(), m.getStat(Stat.HP_MAX)));
         	jogo.exibir(System.out::print);
             if (andou && atacou) {
                 andou = false;
@@ -41,9 +48,7 @@ public class TestClient {
                         i = in.nextInt();
                         j = in.nextInt();
                         
-                        System.err.println(i + " " + j + " " + andou);
-                        if (!andou && jogo.mover(new Posicao(i, j))) {
-                        	System.err.println(1);
+                        if (!andou && jogo.podeMover(new Posicao(i, j))) {
                             andou = true;
                             return new Ordem(Comando.MOVER, new Posicao(i, j));
                         }
@@ -53,7 +58,7 @@ public class TestClient {
                         i = in.nextInt();
                         j = in.nextInt();
                         
-                        if (!atacou && jogo.atacar(new Posicao(i, j))) {
+                        if (!atacou && jogo.podeAtacar(new Posicao(i, j))) {
                             atacou = true;
                             return new Ordem(Comando.ATACAR, new Posicao(i, j));
                         }
