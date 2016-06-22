@@ -34,7 +34,9 @@ public class TestClient {
             int i, j;
             
             while (true) {
-                switch (in.next()) {
+            	String cmd = in.next();
+            	System.err.println(cmd);
+                switch (cmd) {
                     case "m":
                         i = in.nextInt();
                         j = in.nextInt();
@@ -42,7 +44,7 @@ public class TestClient {
                         System.err.println(i + " " + j + " " + andou);
                         if (!andou && jogo.mover(new Posicao(i, j))) {
                         	System.err.println(1);
-                            //andou = true;
+                            andou = true;
                             return new Ordem(Comando.MOVER, i, j);
                         }
                         break;
@@ -52,7 +54,7 @@ public class TestClient {
                         j = in.nextInt();
                         
                         if (!atacou && jogo.atacar(new Posicao(i, j))) {
-                            //atacou = true;
+                            atacou = true;
                             return new Ordem(Comando.ATACAR, i, j);
                         }
                         break;

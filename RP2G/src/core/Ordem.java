@@ -2,6 +2,7 @@ package core;
 
 import net.Mensagem;
 import net.Mensagem.Evento;
+import core.mapa.Posicao;
 
 public class Ordem {
 	
@@ -41,6 +42,10 @@ public class Ordem {
 	
 	public int getJ() {
 		return this.j;
+	}
+	
+	public Posicao getPos() {
+		return new Posicao(this.i, this.j);
 	}
 	
 	public Comando getComando() {
