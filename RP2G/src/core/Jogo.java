@@ -94,9 +94,9 @@ public class Jogo implements Serializable {
 		this.ouvinte.accept(null);
 		timeAtual = !timeAtual;
 		if(timeAtual)
-			this.pAtual = pIter1.next();
-		else
 			this.pAtual = pIter2.next();
+		else
+			this.pAtual = pIter1.next();
 		this.ouvinte.accept(null);
 		this.atacou = false;
 		this.andou = false;
