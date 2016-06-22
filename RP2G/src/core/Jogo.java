@@ -99,8 +99,11 @@ public class Jogo {
 		if(alvo.distancia(this.pAtual.getPosicao()) <= this.pAtual.getArma().getAlcance()){
 			Personagem p = this.mapa.getQuadrado(alvo).getOcupante();
 			this.pAtual.atacar(p);
-			if(p.isMorto())
+			if(p.isMorto()) {
+				this.mapa.setOcupante(p.getPosicao(), null);
 				this.removePersonagem(p);
+			}
+			
 			return true;
 		}
 		return false;
