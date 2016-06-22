@@ -72,6 +72,7 @@ public class Personagem implements Serializable {
 	private Arma arma;
 	private static final long serialVersionUID = 587923567816495L;
 	private static final Map<String, Personagem> registro = new TreeMap<>();
+	private int time;
 	
 	public static final Dado D_20 = new Dado(20);
 
@@ -219,6 +220,14 @@ public class Personagem implements Serializable {
 	 */
 	public String getNome() {
 		return this.nome;
+	}
+	
+	public void setTime(int t) {
+		this.time = t;
+	}
+	
+	public int getTime() {
+		return this.time;
 	}
 	
 	/**
