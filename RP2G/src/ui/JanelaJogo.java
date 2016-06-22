@@ -25,13 +25,14 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	private static final long serialVersionUID = -398592414626114074L;
 	
 	private JPanel panel;
-	private Jogo jogo;
-	private QuadradoUI[][] mapaGUI;
 	private JLabel mensagemPos;
 	private JLabel mensagemRodada;
 	private JButton atacarButton;
 	private JButton moverButton;
 	private JButton fimButton;
+	
+	private Jogo jogo;
+	private QuadradoUI[][] mapaGUI;
 	private int curI;
 	private int curJ;
 	private String curBotao;
@@ -50,25 +51,17 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.panel = (JPanel) this.getContentPane();
 		this.panel.setLayout(new GridBagLayout());
 		this.jogo = jogo;
+		this.jogo.setOuvinte(this);
 		
 		this.mensagemRodada = new JLabel(this.jogo.personagemAtual().getNome());
 		this.mensagemPos = new JLabel("Posicao: {0, 0}");
 		this.mensagemRodada.setPreferredSize(new Dimension(125, 25));
 		this.mensagemPos.setPreferredSize(new Dimension(125, 25));
 		
-		this.atacarButton = new JButton("Atacar");
-		this.moverButton = new JButton("Mover");
-		this.fimButton = new JButton("Terminar");
-		this.atacarButton.addActionListener(this);
-		this.moverButton.addActionListener(this);
-		this.fimButton.addActionListener(this);
-		this.atacarButton.setPreferredSize(new Dimension(125, 25));
-		this.moverButton.setPreferredSize(new Dimension(125, 25));
-		this.fimButton.setPreferredSize(new Dimension(125, 25));
-		this.atacarButton.setActionCommand("atacar");
-		this.moverButton.setActionCommand("mover");
-		this.fimButton.setActionCommand("fim");
-		
+		this.atacarButton = this.configureButton("Atacar", "atacar");
+		this.moverButton = this.configureButton("Mover", "mover");
+		this.fimButton = this.configureButton("Finalizar", "fim");
+	
 		GridBagConstraints gcons = new GridBagConstraints();
 		gcons.insets = new Insets(0, 0, 0, 0);
 		gcons.gridx = 0;
@@ -96,9 +89,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 				this.panel.add(mapaGUI[i][j], gcons);
 			}
 		}
-		
-		try { Thread.sleep(100); }
-		catch (InterruptedException e) { e.printStackTrace(); }
+
 		this.updateUI();
 	}
 	
@@ -106,9 +97,9 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.mensagemRodada.setText(this.jogo.personagemAtual().getNome());
 		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++){
 			for (int j=0; j<this.jogo.getMapa().getNColunas(); j++){
-				if (mapaGUI[i][j].getQuadrado().getOcupante()!=null || jogo.getMapa().getQuadrado(new Posicao(i, j)).getOcupante()!=null){
-					mapaGUI[i][j].setQuadrado(jogo.getMapa().getQuadrado(new Posicao(i, j)));
+				if (jogo.getMapa().getQuadrado(new Posicao(i, j)).isOcupado()){
 					mapaGUI[i][j].revalidate();
+					mapaGUI[i][j].dirty = true;
 				}
 			}
 		}
@@ -118,14 +109,14 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	}
 	
 	public void actionPerformed(ActionEvent e){
-		if (e.getActionCommand().equals("atacar"))
-			this.curBotao = new String("atacar");
-		else if(e.getActionCommand().equals("mover"))
-			this.curBotao = new String("mover");
-		else if (e.getActionCommand().equals("fim"))
-			this.curBotao = new String("fim");
+		this.mapaGUI[this.curI][this.curJ].dirty = true;
+		this.mapaGUI[this.jogo.personagemAtual().getPosicao().getLinha()][this.jogo.personagemAtual().getPosicao().getColuna()].dirty = true;
+		if (e.getActionCommand().equals("atacar")) this.curBotao = new String("atacar");
+		else if(e.getActionCommand().equals("mover")) this.curBotao = new String("mover");
+		else if (e.getActionCommand().equals("fim")) this.curBotao = new String("fim");
 		else this.curBotao = null;
 		
+		this.proximaOrdem(this.jogo);
 	}
 	
 	@Override
@@ -157,14 +148,26 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		else if (this.curBotao.equals("mover")) order = new Ordem(Comando.MOVER, new Posicao(this.curI, this.curJ));
 		else if (this.curBotao.equals("fim")) order = new Ordem(Comando.ENCERRAR);
 		
-		this.curBotao = null;
+		if (order!=null) this.jogo.executar(order);
+		
 		this.updateUI();
+		this.curBotao = null;
 		return order;
 	}
 
 	@Override
 	public void accept(Void t) {
 		this.updateUI();
+	}
+	
+	
+	private JButton configureButton(String buttonName, String actionName){
+		JButton button = new JButton(buttonName);
+		button.setActionCommand(actionName);
+		button.addActionListener(this);
+		button.setPreferredSize(new Dimension(125, 25));
+		
+		return button;
 	}
 	
 }

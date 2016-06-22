@@ -113,6 +113,7 @@ public class Jogo implements Serializable {
 	 * @return se foi possível mover o personagem para a posição desejada
 	 */
 	public boolean mover(Posicao nova) {
+		System.out.println("hue");
 		if (this.andou)
 			return false;
 		if (this.mapa.isOcupado(nova))
@@ -150,9 +151,9 @@ public class Jogo implements Serializable {
 		
 		if(alvo.distancia(this.pAtual.getPosicao()) <= this.pAtual.getArma().getAlcance()){
 			Personagem p = this.mapa.getQuadrado(alvo).getOcupante();
-			int hp = p.getHp();
 			this.pAtual.atacar(p);
 			if(p.isMorto()) {
+				System.out.println("Morreu");
 				this.mapa.setOcupante(p.getPosicao(), null);
 				this.removePersonagem(p);
 			}
@@ -242,7 +243,11 @@ public class Jogo implements Serializable {
                 return this.mover((Posicao) o.getArg());
             
             case ENCERRAR:
-            	return true;
+            	if(!this.acabou()){
+            		this.proximoPersonagem();
+            		return true;
+            	}
+            	else return false;
                 
 			default:
 				return false;

@@ -19,12 +19,14 @@ public class QuadradoUI extends JPanel {
 	private static final long serialVersionUID = 653126213653L;
 	private Quadrado tile;
 	private static BufferedImage grass = null, black = null, generic = null;
+	public boolean dirty;
 	
 	public QuadradoUI(Quadrado tile, MouseListener mlis){
 		super();
 		this.setQuadrado(tile);
 		this.setLayout(new GridLayout());
 		this.addMouseListener(mlis);
+		this.dirty = true;
 		
 		if (QuadradoUI.grass==null){
 			try { 
@@ -46,27 +48,29 @@ public class QuadradoUI extends JPanel {
 	
 	public void paint(Graphics g){
 		super.paint(g);
-		this.removeAll();
-		
-		BufferedImage image = null;
-		if (this.tile.isOcupado()){
-			if (this.tile.getOcupante().getIcone()!=null) {
-				//image = this.tile.getOcupante().getIcone().getImage();
-				image = new BufferedImage(this.tile.getOcupante().getIcone().getIconWidth(), this.tile.getOcupante().getIcone().getIconHeight(), BufferedImage.TYPE_INT_ARGB);
-				Graphics gr = image.createGraphics();
-				this.tile.getOcupante().getIcone().paintIcon(null, gr, 0,0);
-				gr.dispose();
+		if (this.dirty){
+			this.removeAll();
+			
+			BufferedImage image = null;
+			if (this.tile.isOcupado()){
+				if (this.tile.getOcupante().getIcone()!=null) {
+					//image = this.tile.getOcupante().getIcone().getImage();
+					image = new BufferedImage(this.tile.getOcupante().getIcone().getIconWidth(), this.tile.getOcupante().getIcone().getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+					Graphics gr = image.createGraphics();
+					this.tile.getOcupante().getIcone().paintIcon(null, gr, 0,0);
+					gr.dispose();
+				}
+				else image = QuadradoUI.generic;
 			}
-			else image = QuadradoUI.generic;
+			else {
+				if (this.tile.isTransponivel()) image = QuadradoUI.grass;
+				else image = QuadradoUI.black;
+			}
+			
+			this.dirty = false;
+			ImageIcon icon = new ImageIcon(image.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH));
+			this.add(new JLabel("", icon, JLabel.CENTER), BorderLayout.CENTER);
 		}
-		else {
-			if (this.tile.isTransponivel()) image = QuadradoUI.grass;
-			else image = QuadradoUI.black;
-		}
-
-		ImageIcon icon = new ImageIcon(image.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH));
-		this.add(new JLabel("", icon, JLabel.CENTER), BorderLayout.CENTER);
-		
 	}
 	
 }
