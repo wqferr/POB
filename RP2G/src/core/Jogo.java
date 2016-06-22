@@ -94,12 +94,19 @@ public class Jogo implements Serializable {
 	public Personagem personagemAtual() {
 		return this.pAtual;
 	}
+	
+	public boolean podeMover(Posicao nova) {
+		return this.mapa.alcancavel(this.pAtual.getPosicao(), nova, this.pAtual.getStat(Stat.VEL));
+	}
+	
 	/**
 	 * Função para retornar 
 	 * @param nova Posição para qual o personagem deve ser movido
 	 * @return se foi possível mover o personagem para a posição desejada
 	 */
 	public boolean mover(Posicao nova) {
+		if (this.mapa.isOcupado(nova))
+			return false;
 		if (this.mapa.alcancavel(this.pAtual.getPosicao(), nova, this.pAtual.getStat(Stat.VEL))) {
 			this.mapa.mover(this.pAtual.getPosicao(), nova);
 			this.ouvinte.accept(null);
@@ -107,6 +114,13 @@ public class Jogo implements Serializable {
 		}
 		return false;
 	}
+	
+	public boolean podeAtacar(Posicao alvo) {
+		if (!this.mapa.isOcupado(alvo) || this.pAtual.getArma() == null)
+			return false;
+		return alvo.distancia(this.pAtual.getPosicao()) <= this.pAtual.getArma().getAlcance();
+	}
+	
 	/**
 	 * Ataca, caso houver, o personagem que está na posição alvo
 	 * @param alvo Posição que deve ser atacada
@@ -118,7 +132,9 @@ public class Jogo implements Serializable {
 		
 		if(alvo.distancia(this.pAtual.getPosicao()) <= this.pAtual.getArma().getAlcance()){
 			Personagem p = this.mapa.getQuadrado(alvo).getOcupante();
+			int hp = p.getHp();
 			this.pAtual.atacar(p);
+			System.err.println("Dano: " + (hp - p.getHp()));
 			if(p.isMorto()) {
 				this.mapa.setOcupante(p.getPosicao(), null);
 				this.removePersonagem(p);

@@ -14,14 +14,17 @@ public class TratadorCliente implements Closeable {
 	private Socket conexao;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
+	private int i;
 
-	public TratadorCliente(Socket conexao) throws IOException {
+	public TratadorCliente(Socket conexao, int i) throws IOException {
 		this.conexao = conexao;
 		this.in = new ObjectInputStream(this.conexao.getInputStream());
 		this.out = new ObjectOutputStream(this.conexao.getOutputStream());
+		this.i = i;
 	}
 	
 	public void enviar(Object obj) throws IOException {
+		System.err.println("Enviado a " + i + ": " + obj);
 		this.out.writeObject(obj);
 	}
 	
@@ -32,7 +35,7 @@ public class TratadorCliente implements Closeable {
 	public Mensagem receber() throws IOException {
 		try {
 			Mensagem msg = (Mensagem) this.in.readObject();
-			System.err.println(msg);
+			System.err.println("Recebido de " + i + ": " + msg);
             return msg;
 		} catch (ClassNotFoundException e) {
 			return null;

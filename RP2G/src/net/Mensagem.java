@@ -53,7 +53,6 @@ public class Mensagem implements Serializable {
 	
 	public Mensagem(Ordem o) {
 		this.evento = Evento.getCorrespondente(o.getComando());
-		System.err.println(o.getComando() + " " + this.evento);
 		this.msg = o.getArg() == null ? "" : o.getArg().toString();
 	}
 	

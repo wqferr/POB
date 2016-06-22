@@ -10,6 +10,7 @@ import net.Mensagem.Evento;
 import core.Jogo;
 import core.database.DatabaseHandler;
 import core.mapa.Posicao;
+import core.personagem.Personagem;
 import exception.DesyncException;
 
 public class Servidor {
@@ -42,7 +43,7 @@ public class Servidor {
 			try {
 				Socket s = this.ss.accept();
                 System.err.println("Conexão nova com " + s.getInetAddress() + ";");
-                this.clientes[i] = new TratadorCliente(s);
+                this.clientes[i] = new TratadorCliente(s, i);
                 i++;
 			} catch(IOException e) {
 				System.err.println("ERRO");
@@ -77,6 +78,11 @@ public class Servidor {
 		} catch (IOException e) {
 			this.notificarQueda();
 		}
+		long seed = System.nanoTime();
+		Personagem.D_20.setSeed(seed);
+		System.err.println("Dado: " + Personagem.D_20.rolar());
+		this.enviar(seed);
+		
 		System.err.println("Informações transmitidas com êxito.");
 		System.err.println("Iniciando jogo.");
 		
@@ -84,14 +90,14 @@ public class Servidor {
 		Mensagem msg = null;
 		
 		this.clientes[0].notificar(Evento.INICIO_TURNO);
+		boolean acabou = false;
 		
-		while (!jogo.acabou()) {
+		do {
 			try {
                 msg = this.clientes[vez].receber();
 			} catch (IOException e) {
 				this.notificarQueda();
 			}
-			System.err.println(vez + ": " + msg);
             
 			Scanner s = new Scanner(msg.getMsg());
 			int j;
@@ -107,19 +113,15 @@ public class Servidor {
                         try {
                             conf = this.confirmarTodosExceto(vez);
                         } catch (DesyncException e) {
-                        	System.err.println("desync 1");
                         	this.notificarDessincronia();
                         } catch (IOException e) {
                         	this.notificarQueda();
                         }
                         if (conf)
                             this.clientes[vez].notificar(Evento.CONFIRMACAO);
-                        else {
-                        	System.err.println("desync 2");
+                        else
                             this.notificarDessincronia();
-                        }
                     } else {
-                        System.err.println("desync 3");
                         this.notificarDessincronia();
                     }
                         
@@ -155,6 +157,7 @@ public class Servidor {
                 	this.notificarTodos(Evento.FIM_TURNO, false);
                 	vez = (vez+1) % this.clientes.length;
                 	this.clientes[vez].notificar(Evento.INICIO_TURNO);
+                	acabou = jogo.acabou();
                     break;
                     
                 default:
@@ -164,7 +167,7 @@ public class Servidor {
 			}
 			s.close();
 			jogo.exibir(System.out::print);
-		}
+		} while (!acabou);
 		
 		for (TratadorCliente tc : this.clientes)
 			tc.close();

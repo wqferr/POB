@@ -28,7 +28,7 @@ public class Dado {
 		this.ladoAtual = this.rolar();
 	}
 	
-	public void setSeed(int s) {
+	public void setSeed(long s) {
 		this.gerador.setSeed(s);
 	}
 	
