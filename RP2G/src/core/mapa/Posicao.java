@@ -1,27 +1,44 @@
 package core.mapa;
 
 import java.io.Serializable;
-
+/**
+ * Um par de numeros inteiros usados para representar as coordendas de um quadrado no mapa
+ *
+ */
 public class Posicao implements Comparable<Posicao>, Serializable {
 	
 	private static final long serialVersionUID = 2379129387123897L;
 	
 	private final int linha;
 	private final int coluna;
-
+	/**
+	 * Cria uma posição com os números i,j
+	 * @param i Linha
+	 * @param j Coluna
+	 */
 	public Posicao(int i, int j) {
 		this.linha = i;
 		this.coluna = j;
 	}
-	
+	/**
+	 * Retorna a linha
+	 * @return linha
+	 */
 	public int getLinha() {
 		return this.linha;
 	}
 	
+	/**
+	 * Retorna a coluna
+	 * @return coluna
+	 */
 	public int getColuna() {
 		return this.coluna;
 	}
-	
+	/**
+	 * Retorna todos os vizinhos dessa posição
+	 * @return Array de posições vizinhas
+	 */
 	public Posicao[] getVizinhos() {
 		return new Posicao[] {
 			new Posicao(this.linha, this.coluna+1),
@@ -30,12 +47,19 @@ public class Posicao implements Comparable<Posicao>, Serializable {
 			new Posicao(this.linha-1, this.coluna)
 		};
 	}
-	
+	/**
+	 * Retorna distância entre essa posição e posição p
+	 * @param p outra Posição 
+	 * @return Distância entre as posições
+	 */
 	public int distancia(Posicao p) {
 		return Math.abs(p.linha - this.linha)
 				+ Math.abs(p.coluna - this.coluna);
 	}
-	
+	/**
+	 * Compara duas posições retorna a diferença das linhas, caso essa seja menor que zero
+	 * caso contrario retorna a diferença das colunas
+	 */
 	@Override
 	public int compareTo(Posicao p) {
 		int c = Integer.compare(this.linha, p.linha);
@@ -45,6 +69,10 @@ public class Posicao implements Comparable<Posicao>, Serializable {
 	}
 	
 	@Override
+	/**
+	 * Compara essa posição à outra.
+	 * Retorna true caso linhas da primeira seja igual a linha da segunda e coluna da primeira seja igual a coluna da segunda 
+	 */
 	public boolean equals(Object o) {
 		if (o == null)
 			return false;
@@ -55,6 +83,10 @@ public class Posicao implements Comparable<Posicao>, Serializable {
 		return this.linha == p.linha && this.coluna == p.coluna;
 	}
 	
+	/**
+	 * Converte a posição para uma string na forma
+	 * "(linha) (coluna)"
+	 */
 	@Override
 	public String toString() {
 		return String.format("%d %d", this.linha, this.coluna);
