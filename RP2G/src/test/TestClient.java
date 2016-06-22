@@ -5,7 +5,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import ui.graphic.JanelaJogo;
 import net.client.Cliente;
 import net.client.Controlador;
 import net.server.Servidor;
@@ -42,7 +41,7 @@ public class TestClient {
             
             int i, j;
             
-            while (true) {
+            while (!jogo.acabou()) {
             	String cmd = in.next();
             	System.err.println(cmd);
                 switch (cmd) {
@@ -73,11 +72,14 @@ public class TestClient {
                 }
                 in.nextLine();
             }
+            
+            return new Ordem(Comando.ENCERRAR);
         };
         Cliente c = new Cliente(cont, InetAddress.getByName("172.26.211.218"), Servidor.PORTA_PADRAO);
         
         try {
             c.conectar();
+            c.start();
         } catch (IOException e) {
             System.err.println(e);
         }

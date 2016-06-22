@@ -150,7 +150,6 @@ public class Jogo implements Serializable {
 		
 		if(alvo.distancia(this.pAtual.getPosicao()) <= this.pAtual.getArma().getAlcance()){
 			Personagem p = this.mapa.getQuadrado(alvo).getOcupante();
-			int hp = p.getHp();
 			this.pAtual.atacar(p);
 			if(p.isMorto()) {
 				this.mapa.setOcupante(p.getPosicao(), null);
@@ -242,6 +241,7 @@ public class Jogo implements Serializable {
                 return this.mover((Posicao) o.getArg());
             
             case ENCERRAR:
+            	this.proximoPersonagem();
             	return true;
                 
 			default:

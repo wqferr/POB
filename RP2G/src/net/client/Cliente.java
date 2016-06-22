@@ -86,6 +86,7 @@ public class Cliente {
                 	Ordem o;
                 	do {
                         o = this.controlador.proximaOrdem(jogo);
+                        System.out.println(o);
                         if (jogo.executar(o)) {
                             this.enviar(new Mensagem(o));
                             if (!this.confirmar())
