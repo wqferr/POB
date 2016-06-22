@@ -40,7 +40,7 @@ public class Quadrado implements Serializable {
 	}
 	
 	public boolean isTransponivel() {
-		return this.ocupante != null && this.transponivel;
+		return this.ocupante == null && this.transponivel;
 	}
 	
 	public boolean isOcupado() {
