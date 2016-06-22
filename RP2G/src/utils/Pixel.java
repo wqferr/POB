@@ -8,11 +8,15 @@ public class Pixel {
 	public Pixel(int color){
 		this.color = new Color(color);
 	}
-	
+
 	public void setColor(Color color){
 		this.color = color;
 	}
-	
+
+	/**
+	 * Retorna a cor
+	 * @return A cor
+	 */
 	public Color getColor(){
 		return this.color;
 	}
@@ -105,22 +109,47 @@ public class Pixel {
 		return color.getAlpha();
 	}
 	
+	/**
+	 * Verifica se a cor é preta
+	 * @param color Cor 
+	 * @return Se a cor é preta
+	 */
 	public static boolean isBlack(Color color){
 		return (Pixel.red(color) | Pixel.green(color) | Pixel.blue(color))==0x00;
 	}
 	
+	/**
+	 * Verifica se a cor é branca
+	 * @param color Cor 
+	 * @return Se a cor é branca
+	 */
 	public static boolean isWhite(Color color){
 		return (Pixel.red(color) & Pixel.green(color) & Pixel.blue(color))==0xff;
 	}
 	
+	/**
+	 * Verifica se a cor é vermelha
+	 * @param color Cor 
+	 * @return Se a cor é vermelha
+	 */
 	public static boolean isRed(Color color){
 		return (Pixel.red(color) & ~Pixel.green(color) & ~Pixel.blue(color))==0xff;
 	}
 	
+	/**
+	 * Verifica se a cor é verde
+	 * @param color Cor 
+	 * @return Se a cor é verde
+	 */
 	public static boolean isGreen(Color color){
 		return (~Pixel.red(color) & Pixel.green(color) & ~Pixel.blue(color))==0xff;
 	}
-	
+
+	/**
+	 * Verifica se a cor é azul
+	 * @param color Cor 
+	 * @return Se a cor é azul
+	 */
 	public static boolean isBlue(Color color){
 		return (~Pixel.red(color) & ~Pixel.green(color) & Pixel.blue(color))==0xff;
 	}
