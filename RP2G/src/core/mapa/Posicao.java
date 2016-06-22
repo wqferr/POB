@@ -3,6 +3,7 @@ package core.mapa;
 import java.io.Serializable;
 
 public class Posicao implements Comparable<Posicao>, Serializable {
+	
 	private static final long serialVersionUID = 2379129387123897L;
 	
 	private final int linha;
@@ -56,7 +57,7 @@ public class Posicao implements Comparable<Posicao>, Serializable {
 	
 	@Override
 	public String toString() {
-		return String.format("[%d, %d]", this.linha, this.coluna);
+		return String.format("%d %d", this.linha, this.coluna);
 	}
 
 }

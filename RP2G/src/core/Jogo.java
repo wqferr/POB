@@ -1,6 +1,8 @@
 package core;
 
+import java.io.Serializable;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.function.Consumer;
@@ -9,14 +11,21 @@ import struct.ListaCircular;
 import core.item.Item;
 import core.mapa.Mapa;
 import core.mapa.Posicao;
+import core.mapa.Quadrado;
 import core.personagem.Personagem;
 import core.personagem.Personagem.Stat;
+
 /**
  * Contem as mecânicas básicas para o jogo 
  * @author
  *
  */
-public class Jogo {
+public class Jogo implements Serializable {
+	
+	private static final long serialVersionUID = -4082863311966571070L;
+	
+	public static final int NRO_JOGADORES = 2;
+	
 	private Mapa mapa;
 	private boolean proximoTime;
 	private ListaCircular<Personagem> personagens1;
@@ -179,5 +188,62 @@ public class Jogo {
 	public Mapa getMapa() {
 		return this.mapa;
 	}
+	
+	public List<Personagem> getPersonagensTime1() {
+		return new LinkedList<>(this.personagens1);
+	}
 
+	public List<Personagem> getPersonagensTime2() {
+		return new LinkedList<>(this.personagens2);
+	}
+	
+	public boolean executar(Ordem o) {
+		switch (o.getComando()) {
+            case ATACAR:
+            	return this.atacar((Posicao) o.getArg());
+            	
+            case MOVER:
+                return this.mover((Posicao) o.getArg());
+            
+            case ENCERRAR:
+            	//this.proximoPersonagem();
+            	return true;
+                
+			default:
+				return false;
+		}
+	}
+	
+	public void exibir(Consumer<? super String> printer) {
+		printer.accept("  ");
+		for (int i = 0; i < this.mapa.getNColunas(); i++)
+			printer.accept((i % 10) + " ");
+		printer.accept("\n");
+		
+		for (int i = 0; i < this.mapa.getNLinhas(); i++) {
+			printer.accept((i % 10) + " ");
+			for (int j = 0; j < this.mapa.getNColunas(); j++) {
+				Posicao pos = new Posicao(i, j);
+				Quadrado q = this.mapa.getQuadrado(pos);
+				if (q.isTransponivel()) {
+                    Personagem p = q.getOcupante();
+                    if (p == null) {
+                        printer.accept(" ");
+                    } else {
+                    	char c = p.getNome().charAt(0);
+                    	if (p == pAtual)
+                    		c = Character.toUpperCase(c);
+                    	else
+                    		c = Character.toLowerCase(c);
+                    	printer.accept(String.valueOf(c));
+                    }
+				} else {
+					printer.accept("X");
+				}
+				printer.accept(" ");
+			}
+			printer.accept("\n");
+		}
+	}
+	
 }
