@@ -71,18 +71,20 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 
 		@Override
 		public void add(E e) {
+			if (e == null)
+				throw new NullPointerException();
 			new No(this.atual, e);
 			this.ultRetorno = ListaCircular.this.cabeca;
 		}
 
 		@Override
 		public boolean hasNext() {
-			return this.atual.prx != cabeca;
+			return this.atual.prx.val != null;
 		}
 
 		@Override
 		public boolean hasPrevious() {
-			return this.atual != cabeca;
+			return this.atual.val != null;
 		}
 
 		@Override
@@ -135,6 +137,8 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 
 		@Override
 		public void set(E e) {
+			if (e == null)
+				throw new NullPointerException();
 			if (this.ultRetorno != ListaCircular.this.cabeca)
                 this.ultRetorno.val = e;
 		}
