@@ -3,6 +3,7 @@ package core;
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.function.Consumer;
 
 import struct.ListaCircular;
 import core.item.Item;
@@ -23,6 +24,9 @@ public class Jogo {
 	private Personagem pAtual;
 	private ListIterator<Personagem> pIter1;
 	private ListIterator<Personagem> pIter2;
+	private Consumer<Void> ouvinte;
+	
+	private static final Consumer<Void> OUVINTE_DEFAULT = (Void v) -> {};
 	/**
 	 * Constrói um novo jogo com o mapa e os times recebidos
 	 * @param m Mapa do jogo
@@ -42,7 +46,13 @@ public class Jogo {
 		this.pIter2 = this.personagens2.listIterator();
 		this.pAtual = pIter1.next();
 		this.proximoTime =  true;
+		this.setOuvinte(null);
 	}
+	
+	public void setOuvinte(Consumer<Void> c) {
+		this.ouvinte = c == null ? OUVINTE_DEFAULT : c;
+	}
+	
 	/**
 	 * Inicializa o mapa, colocando os personagens da lista recebida, nas posições recebidas pela lista de Posições de Spawn	 
 	 * * @param spawn Lista com as posições iniciais para os personagens
@@ -83,6 +93,7 @@ public class Jogo {
 	public boolean mover(Posicao nova) {
 		if (this.mapa.alcancavel(this.pAtual.getPosicao(), nova, this.pAtual.getStat(Stat.VEL))) {
 			this.mapa.mover(this.pAtual.getPosicao(), nova);
+			this.ouvinte.accept(null);
 			return true;
 		}
 		return false;
@@ -104,6 +115,7 @@ public class Jogo {
 				this.removePersonagem(p);
 			}
 			
+			this.ouvinte.accept(null);
 			return true;
 		}
 		return false;
@@ -114,7 +126,11 @@ public class Jogo {
 	 * @return Se foi possível usar o item
 	 */
 	public boolean usar(Item item) {
-		return this.pAtual.usar(item);
+		if (this.pAtual.usar(item)) {
+            this.ouvinte.accept(null);
+            return true;
+		}
+		return false;
 	}
 	/**
 	 * Usa o item com o nome recebido
