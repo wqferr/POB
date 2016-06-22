@@ -1,4 +1,4 @@
-package net.client;
+package core;
 
 import net.Mensagem;
 import net.Mensagem.Evento;
@@ -33,6 +33,14 @@ public class Ordem {
 		this.c = o;
 		this.i = i;
 		this.j = j;
+	}
+	
+	public int getI() {
+		return this.i;
+	}
+	
+	public int getJ() {
+		return this.j;
 	}
 	
 	public Comando getComando() {

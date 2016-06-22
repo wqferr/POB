@@ -197,6 +197,19 @@ public class Jogo implements Serializable {
 		return new LinkedList<>(this.personagens2);
 	}
 	
+	public boolean executar(Ordem o) {
+		switch (o.getComando()) {
+            case ATACAR:
+            	return this.atacar(new Posicao(o.getI(), o.getJ()));
+            	
+            case MOVER:
+                return this.mover(new Posicao(o.getI(), o.getJ()));
+                
+			default:
+				return true;
+		}
+	}
+	
 	public void exibir(Consumer<? super String> printer) {
 		printer.accept("  ");
 		for (int i = 0; i < this.mapa.getNColunas(); i++)

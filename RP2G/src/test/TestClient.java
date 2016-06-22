@@ -6,10 +6,10 @@ import java.util.Scanner;
 
 import net.client.Cliente;
 import net.client.Controlador;
-import net.client.Ordem;
-import net.client.Ordem.Comando;
 import net.server.Servidor;
 import core.Jogo;
+import core.Ordem;
+import core.Ordem.Comando;
 import core.mapa.Posicao;
 
 public class TestClient {

@@ -1,6 +1,7 @@
 package net.client;
 
 import core.Jogo;
+import core.Ordem;
 
 @FunctionalInterface
 public interface Controlador {

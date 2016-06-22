@@ -10,9 +10,10 @@ import java.util.Scanner;
 
 import net.Mensagem;
 import net.Mensagem.Evento;
-import net.client.Ordem.Comando;
 import net.server.Servidor;
 import core.Jogo;
+import core.Ordem;
+import core.Ordem.Comando;
 import core.database.DatabaseHandler;
 import core.mapa.Mapa;
 import core.mapa.Posicao;
@@ -77,10 +78,13 @@ public class Cliente {
                 case INICIO_TURNO:
                 	Ordem o;
                 	do {
+                		jogo.exibir(System.out::print);
                         o = this.controlador.proximaOrdem(jogo);
-                        this.enviar(o.empacotar());
-                        if (!this.confirmar())
-                        	this.notificarDessincronia();
+                        if (jogo.executar(o)) {
+                            this.enviar(o.empacotar());
+                            if (!this.confirmar())
+                                this.notificarDessincronia();
+                        }
                 	} while (o.getComando() != Comando.ENCERRAR);
                     break;
                     
@@ -116,7 +120,6 @@ public class Cliente {
                     break;
 			}
 			s.close();
-			jogo.exibir(System.out::print);
 		}
 		this.conexao.close();
 	}
