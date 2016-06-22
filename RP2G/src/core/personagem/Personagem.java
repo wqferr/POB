@@ -504,6 +504,10 @@ public class Personagem implements Serializable {
 	public static Iterator<Entry<String, Personagem>> getIterator(){
 		return Personagem.registro.entrySet().iterator();
 	}
+	
+	public static int getNroPersonagens() {
+		return registro.size();
+	}
 	/**
 	 *
 	 * @return

@@ -2,9 +2,11 @@ package core;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map.Entry;
 import java.util.function.Consumer;
 
 import struct.ListaCircular;
@@ -62,6 +64,39 @@ public class Jogo implements Serializable {
 		this.setOuvinte(null);
 	}
 	
+	public Jogo(Mapa m) {
+		List<Personagem> p1 = new LinkedList<>();
+		List<Personagem> p2 = new LinkedList<>();
+		List<Personagem> todos = new LinkedList<>();
+		
+		Iterator<Entry<String, Personagem>> iter = Personagem.getIterator();
+		while (iter.hasNext())
+			todos.add(iter.next().getValue());
+		
+		Collections.shuffle(todos);
+		ListIterator<Personagem> li = todos.listIterator();
+		
+		int i;
+		for (i = 0; i < Personagem.getNroPersonagens() / 2; i++)
+			p1.add(li.next());
+		while (i < Personagem.getNroPersonagens()) {
+			p2.add(li.next());
+			i++;
+		}
+		
+		this.mapa = m;
+		init(m.getSpawnPointsTime1(), p1, 1);
+		init(m.getSpawnPointsTime2(), p2, 2);
+		this.personagens1 = new ListaCircular<>(p1);
+		this.personagens2 = new ListaCircular<>(p2);
+		this.pIter1 = this.personagens1.listIterator();
+		this.pIter2 = this.personagens2.listIterator();
+		this.pAtual = pIter1.next();
+		this.timeAtual =  false;
+		this.andou = false;
+		this.setOuvinte(null);
+	}
+	
 	public void setOuvinte(Consumer<Void> c) {
 		this.ouvinte = c == null ? OUVINTE_DEFAULT : c;
 	}
@@ -72,8 +107,8 @@ public class Jogo implements Serializable {
 	 * @param per Lista com os personagens
 	 */
 	private void init(List<Posicao> spawn, List<Personagem> per, int time) {
-		if (spawn.size() != per.size())
-			throw new IllegalArgumentException("Lista de spawns e personagens com tamanho diferente");
+		if (spawn.size() < per.size())
+			throw new IllegalArgumentException("Spawns insuficientes");
 		ListIterator<Posicao> posIter = spawn.listIterator();
 		
 		for (Personagem p : per) {
