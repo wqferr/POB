@@ -27,7 +27,7 @@ public class Jogo implements Serializable {
 	public static final int NRO_JOGADORES = 2;
 	
 	private Mapa mapa;
-	private boolean proximoTime;
+	private boolean timeAtual;
 	private ListaCircular<Personagem> personagens1;
 	private ListaCircular<Personagem> personagens2;
 	private Personagem pAtual;
@@ -57,7 +57,7 @@ public class Jogo implements Serializable {
 		this.pIter1 = this.personagens1.listIterator();
 		this.pIter2 = this.personagens2.listIterator();
 		this.pAtual = pIter1.next();
-		this.proximoTime =  true;
+		this.timeAtual =  false;
 		this.andou = false;
 		this.setOuvinte(null);
 	}
@@ -81,14 +81,19 @@ public class Jogo implements Serializable {
 			p.setTime(time);
 		}
 	}
+	
+	public int getTimeAtual() {
+		return this.timeAtual ? 2 : 1;
+	}
+	
 	/**
 	 * Retorna o personagem que pode agir no próimo turno
 	 * @return Personagem que pode agir no próximo turno 
 	 */
 	public Personagem proximoPersonagem() {
 		this.ouvinte.accept(null);
-		proximoTime = !proximoTime;
-		if(proximoTime)
+		timeAtual = !timeAtual;
+		if(timeAtual)
 			this.pAtual = pIter1.next();
 		else
 			this.pAtual = pIter2.next();
@@ -204,11 +209,6 @@ public class Jogo implements Serializable {
 		return personagens1.isEmpty() || personagens2.isEmpty();
 	}
 
-	/*
-	 * 0 Ninguem 
-	 * 1 Time 1
-	 * 2 Time 2
-	*/
 	/**
 	 * Retorna qual o time vencedor ou 0 caso nenhum tenha ganho
 	 * @return Time vencedor: 0 Nenhum, 1 Time 1, 2 Time 2
@@ -237,7 +237,7 @@ public class Jogo implements Serializable {
 	}
 	
 	public List<Personagem> getPersonagensTimeAtual() {
-		return new LinkedList<>(this.proximoTime ? this.personagens2 : this.personagens1);
+		return new LinkedList<>(this.timeAtual ? this.personagens2 : this.personagens1);
 	}
 	
 	public List<Personagem> getPersonagensTime1() {
