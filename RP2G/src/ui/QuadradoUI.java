@@ -34,24 +34,25 @@ public class QuadradoUI extends JPanel {
 		return this.tile;
 	}
 	
-	public void paint(Graphics g) {
+	public void paint(Graphics g){
 		super.paint(g);
+		this.removeAll();
+		Image grass = null, black = null, generic = null;
+		try { 
+			generic = ImageIO.read(new File("db/generic.png"));
+			grass = ImageIO.read(new File("db/grass.png"));
+			black = ImageIO.read(new File("db/black.png"));
+		}
+		catch (Exception e){ System.out.println(e); e.printStackTrace(); }
+		
 		Image image = null;
 		if (this.tile.isOcupado()){
 			if (this.tile.getOcupante().getIcone()!=null) image = this.tile.getOcupante().getIcone().getImage();
-			else {
-				try { image = ImageIO.read(new File("db/generic.png")); }
-				catch (Exception e){ System.out.println(e); e.printStackTrace(); }
-			}
-			
-			//BufferedImage im = (BufferedImage)image;
+			else image = generic;
 		}
 		else {
-			try { 
-				if (this.tile.isTransponivel()) image = ImageIO.read(new File("db/grass.png"));
-				else image = ImageIO.read(new File("db/black.png"));
-			}
-			catch (Exception e){ System.out.println(e); e.printStackTrace(); }
+			if (this.tile.isTransponivel()) image = grass;
+			else image = black;
 		}
 
 		ImageIcon icon = new ImageIcon(image.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH));
