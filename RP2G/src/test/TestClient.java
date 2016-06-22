@@ -84,7 +84,7 @@ public class TestClient {
             System.err.println(e);
         }
         
-        JanelaJogo win = new JanelaJogo(c.getJogo());
+        JanelaJogo win = new JanelaJogo(c.getJogo(), c);
         c.setControlador(win);
         c.getJogo().setOuvinte(win);
         win.setVisible(true);
