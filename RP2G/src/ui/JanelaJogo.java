@@ -40,7 +40,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this(jogo, "Water Emblem Tactics Online II - Revengence of the Lich King | Game of the Year Edition", 800, 60);
 	}
 	
-	public JanelaJogo(Jogo jogo, String windowName, int height, int width){
+	public JanelaJogo(Jogo jogo, String windowName, int height, int width) {
 		super(windowName);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(height, width);
@@ -96,6 +96,10 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 				this.panel.add(mapaGUI[i][j], gcons);
 			}
 		}
+		
+		try { Thread.sleep(100); }
+		catch (InterruptedException e) { e.printStackTrace(); }
+		this.updateUI();
 	}
 	
 	public void updateUI(){
@@ -124,7 +128,6 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		
 	}
 	
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		this.curI = ((QuadradoUI)e.getSource()).getQuadrado().getPosicao().getLinha();
@@ -146,19 +149,17 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 
 	@Override
 	public Ordem proximaOrdem(Jogo j) {
-		System.out.println(curBotao);
-		try{
-			while (this.curBotao==null) Thread.sleep(10);
-		}catch(Exception e) { e.printStackTrace(); }
+		try{ while (this.curBotao==null) Thread.sleep(10); }
+		catch(Exception e) { e.printStackTrace(); }
 		
-		Ordem or = null;
-		if (this.curBotao.equals("atacar")) or = new Ordem(Comando.ATACAR, new Posicao(this.curI, this.curJ));
-		else if (this.curBotao.equals("mover")) or = new Ordem(Comando.MOVER, new Posicao(this.curI, this.curJ));
-		else if (this.curBotao.equals("fim")) or = new Ordem(Comando.ENCERRAR);
+		Ordem order = null;
+		if (this.curBotao.equals("atacar")) order = new Ordem(Comando.ATACAR, new Posicao(this.curI, this.curJ));
+		else if (this.curBotao.equals("mover")) order = new Ordem(Comando.MOVER, new Posicao(this.curI, this.curJ));
+		else if (this.curBotao.equals("fim")) order = new Ordem(Comando.ENCERRAR);
 		
 		this.curBotao = null;
 		this.updateUI();
-		return or;
+		return order;
 	}
 
 	@Override
