@@ -89,6 +89,7 @@ public class Jogo implements Serializable {
 			this.pAtual = pIter1.next();
 		else
 			this.pAtual = pIter2.next();
+		this.ouvinte.accept(null);
 		this.atacou = false;
 		this.andou = false;
 		return this.pAtual;
