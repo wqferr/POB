@@ -33,6 +33,9 @@ public class Jogo implements Serializable {
 	private Personagem pAtual;
 	private ListIterator<Personagem> pIter1;
 	private ListIterator<Personagem> pIter2;
+	private Consumer<Void> ouvinte;
+	
+	private static final Consumer<Void> OUVINTE_DEFAULT = (Void v) -> {};
 	/**
 	 * Constrói um novo jogo com o mapa e os times recebidos
 	 * @param m Mapa do jogo
@@ -52,7 +55,13 @@ public class Jogo implements Serializable {
 		this.pIter2 = this.personagens2.listIterator();
 		this.pAtual = pIter1.next();
 		this.proximoTime =  true;
+		this.setOuvinte(null);
 	}
+	
+	public void setOuvinte(Consumer<Void> c) {
+		this.ouvinte = c == null ? OUVINTE_DEFAULT : c;
+	}
+	
 	/**
 	 * Inicializa o mapa, colocando os personagens da lista recebida, nas posições recebidas pela lista de Posições de Spawn	 
 	 * * @param spawn Lista com as posições iniciais para os personagens
@@ -93,6 +102,7 @@ public class Jogo implements Serializable {
 	public boolean mover(Posicao nova) {
 		if (this.mapa.alcancavel(this.pAtual.getPosicao(), nova, this.pAtual.getStat(Stat.VEL))) {
 			this.mapa.mover(this.pAtual.getPosicao(), nova);
+			this.ouvinte.accept(null);
 			return true;
 		}
 		return false;
@@ -109,8 +119,12 @@ public class Jogo implements Serializable {
 		if(alvo.distancia(this.pAtual.getPosicao()) <= this.pAtual.getArma().getAlcance()){
 			Personagem p = this.mapa.getQuadrado(alvo).getOcupante();
 			this.pAtual.atacar(p);
-			if(p.isMorto())
+			if(p.isMorto()) {
+				this.mapa.setOcupante(p.getPosicao(), null);
 				this.removePersonagem(p);
+			}
+			
+			this.ouvinte.accept(null);
 			return true;
 		}
 		return false;
@@ -121,7 +135,11 @@ public class Jogo implements Serializable {
 	 * @return Se foi possível usar o item
 	 */
 	public boolean usar(Item item) {
-		return this.pAtual.usar(item);
+		if (this.pAtual.usar(item)) {
+            this.ouvinte.accept(null);
+            return true;
+		}
+		return false;
 	}
 	/**
 	 * Usa o item com o nome recebido
