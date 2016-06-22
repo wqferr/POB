@@ -38,8 +38,6 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	private int curJ;
 	private String curBotao;
 	
-	private boolean toggle;
-	
 	public JanelaJogo(Jogo jogo){
 		this(jogo, "Water Emblem Tactics Online II - Revengence of the Lich King | Game of the Year Edition", 800, 60);
 	}
@@ -55,7 +53,6 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.panel.setLayout(new GridBagLayout());
 		this.jogo = jogo;
 		this.jogo.setOuvinte(this);
-		this.toggle = false;
 		
 		this.mensagemRodada = new JLabel(this.jogo.personagemAtual().getNome());
 		this.mensagemPos = new JLabel("Posicao: {0, 0}");
