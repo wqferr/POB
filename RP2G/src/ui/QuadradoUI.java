@@ -18,7 +18,7 @@ import core.mapa.Quadrado;
 public class QuadradoUI extends JPanel {
 	private static final long serialVersionUID = 653126213653L;
 	private Quadrado tile;
-	private static Image grass = null, black = null, generic = null;
+	private static BufferedImage grass = null, black = null, generic = null;
 	
 	public QuadradoUI(Quadrado tile, MouseListener mlis){
 		super();
@@ -48,9 +48,15 @@ public class QuadradoUI extends JPanel {
 		super.paint(g);
 		this.removeAll();
 		
-		Image image = null;
+		BufferedImage image = null;
 		if (this.tile.isOcupado()){
-			if (this.tile.getOcupante().getIcone()!=null) image = this.tile.getOcupante().getIcone().getImage();
+			if (this.tile.getOcupante().getIcone()!=null) {
+				//image = this.tile.getOcupante().getIcone().getImage();
+				image = new BufferedImage(this.tile.getOcupante().getIcone().getIconWidth(), this.tile.getOcupante().getIcone().getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+				Graphics gr = image.createGraphics();
+				this.tile.getOcupante().getIcone().paintIcon(null, gr, 0,0);
+				gr.dispose();
+			}
 			else image = QuadradoUI.generic;
 		}
 		else {
