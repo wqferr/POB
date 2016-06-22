@@ -423,6 +423,14 @@ public class Personagem implements Serializable {
 		return this.arma;
 	}
 	
+	public boolean podeUsar(String item) {
+		return this.podeUsar(Item.get(item));
+	}
+	
+	public boolean podeUsar(Item item) {
+		return this.getNroItens(item) > 0;
+	}
+	
 	/**
 	 * Tenta usar o item como este personagem.
 	 * O item é removido do inventário do personagem após usá-lo com sucesso.

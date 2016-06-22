@@ -19,6 +19,7 @@ public class Mensagem implements Serializable {
 		INICIO_TURNO(null),
 		MOVIMENTO(Comando.MOVER),
 		ATAQUE(Comando.ATACAR),
+		USO(Comando.USAR),
 		FIM_TURNO(Comando.ENCERRAR);
 		
 		private Comando correspondente;

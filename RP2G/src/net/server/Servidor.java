@@ -150,6 +150,27 @@ public class Servidor {
                 	
                     break;
                     
+                case USO:
+                	if (this.jogo.usar(msg.getMsg())) {
+                		this.sinalizarTodosExceto(msg, vez);
+                        conf = false;
+                        try {
+                            conf = this.confirmarTodosExceto(vez);
+                        } catch (DesyncException e) {
+                        	this.notificarDessincronia();
+                        } catch (IOException e) {
+                        	this.notificarQueda();
+                        }
+                        if (conf)
+                            this.clientes[vez].notificar(Evento.CONFIRMACAO);
+                        else
+                            this.notificarDessincronia();
+                    } else {
+                        this.notificarDessincronia();
+                    }
+                	
+                	break;
+                    
                 case FIM_TURNO:
                 	this.clientes[vez].notificar(Evento.CONFIRMACAO);
                 	this.jogo.proximoPersonagem();

@@ -163,6 +163,15 @@ public class Jogo implements Serializable {
 		}
 		return false;
 	}
+
+	public boolean podeUsar(String item) {
+		return this.pAtual.podeUsar(item);
+	}
+
+	public boolean podeUsar(Item item) {
+		return this.pAtual.podeUsar(item);
+	}
+	
 	/**
 	 * Usa o item recebido
 	 * @param item Item que deve ser usado
