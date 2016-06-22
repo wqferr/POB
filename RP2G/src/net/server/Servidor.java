@@ -107,15 +107,19 @@ public class Servidor {
                         try {
                             conf = this.confirmarTodosExceto(vez);
                         } catch (DesyncException e) {
+                        	System.err.println("desync 1");
                         	this.notificarDessincronia();
                         } catch (IOException e) {
                         	this.notificarQueda();
                         }
                         if (conf)
                             this.clientes[vez].notificar(Evento.CONFIRMACAO);
-                        else
+                        else {
+                        	System.err.println("desync 2");
                             this.notificarDessincronia();
+                        }
                     } else {
+                        System.err.println("desync 3");
                         this.notificarDessincronia();
                     }
                         
@@ -148,7 +152,7 @@ public class Servidor {
                 case FIM_TURNO:
                 	this.clientes[vez].notificar(Evento.CONFIRMACAO);
                 	this.jogo.proximoPersonagem();
-                	this.notificarTodosExceto(Evento.FIM_TURNO, vez);
+                	this.notificarTodos(Evento.FIM_TURNO, false);
                 	vez = (vez+1) % this.clientes.length;
                 	this.clientes[vez].notificar(Evento.INICIO_TURNO);
                     break;
@@ -159,6 +163,7 @@ public class Servidor {
                     break;
 			}
 			s.close();
+			jogo.exibir(System.out::print);
 		}
 		
 		for (TratadorCliente tc : this.clientes)

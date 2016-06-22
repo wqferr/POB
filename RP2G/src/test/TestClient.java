@@ -20,18 +20,18 @@ public class TestClient {
 	public static void main(String[] args) {
         @SuppressWarnings("resource")
         final Scanner in = new Scanner(System.in);
+        in.useDelimiter("[\\s]");
+        
         Controlador cont = (Jogo jogo) -> {
-            in.useDelimiter("[\\s]");
+        	System.out.println();
+        	jogo.exibir(System.out::print);
             if (andou && atacou) {
-            	System.err.println(1);
                 andou = false;
                 atacou = false;
                 return new Ordem(Comando.ENCERRAR);
             }
             
             int i, j;
-            String cmd;
-            System.err.println(2);
             
             while (true) {
                 switch (in.next()) {
@@ -39,7 +39,9 @@ public class TestClient {
                         i = in.nextInt();
                         j = in.nextInt();
                         
+                        System.err.println(i + " " + j + " " + andou);
                         if (!andou && jogo.mover(new Posicao(i, j))) {
+                        	System.err.println(1);
                             andou = true;
                             return new Ordem(Comando.MOVER, i, j);
                         }

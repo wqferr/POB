@@ -23,8 +23,8 @@ public class TestJogo {
 		
 		Personagem p1 = null, p2 = null;
 		try {
-			p1 = Personagem.get("guerreiro");
-			p2 = Personagem.get("mago");
+			p1 = new Personagem("guerreiro", Profissao.GUERREIRO, 10, 2, 3, 1, 1);
+			p2 = new Personagem("mago", Profissao.MAGO, 10, 2, 1, 3, 1);
 		} catch (Exception e) {}
 		
 		try {
@@ -45,8 +45,6 @@ public class TestJogo {
 		System.err.println();
 		
 		Jogo j = new Jogo(m, Arrays.asList(p1), Arrays.asList(p2));
-		JanelaJogo win = new JanelaJogo(j);
-		win.setVisible(true);
 			
         boolean podeMover = true;
         Pattern p = Pattern.compile("[^\\s]");
@@ -55,29 +53,28 @@ public class TestJogo {
             while (!j.acabou()) {
             	System.out.println("Vez: " + j.personagemAtual().getNome());
                 int l, c;
-                desenharTabuleiro(j, p1, p2);
+                j.exibir(System.out::print);
                 
                 String cmd = s.next(p);
                 
                 switch (cmd) {
                     case "m":
-                    	if (podeMover) {
+                    	//if (podeMover) {
                             l = s.nextInt();
                             c = s.nextInt();
                             if (j.mover(new Posicao(l, c)))
                                 podeMover = false;
                             else
                             	System.out.println("movimento invalido");
-                    	}
+                    	//}
                         break;
                         
                     case "a":
                         l = s.nextInt();
                         c = s.nextInt();
-                        if (!j.atacar(new Posicao(l, c))) {
+                        if (!j.atacar(new Posicao(l, c)))
                         	System.out.println("movimento invalido");
-                        	break;
-                        }
+                        break;
                     
                     case "f":
                         podeMover = true;
@@ -88,30 +85,6 @@ public class TestJogo {
                 s.nextLine();
             }
             System.out.println("FIM");
-		}
-	}
-	
-	private static void desenharTabuleiro(Jogo jogo, Personagem p1, Personagem p2) {
-		System.out.print(p1.getHp() + "/" + p1.getStat(Stat.HP_MAX));
-		System.out.print('\t');
-		System.out.println(p2.getHp() + "/" + p2.getStat(Stat.HP_MAX));
-		
-		Mapa m = jogo.getMapa();
-		for (int i = 0; i < m.getNLinhas(); i++) {
-			for (int j = 0; j < m.getNColunas(); j++) {
-				Quadrado q = m.getQuadrado(new Posicao(i, j));
-				Personagem p = q.getOcupante();
-				if (p == null) {
-					if (q.isTransponivel())
-						System.out.print(' ');
-					else
-						System.out.print('+');
-				} else {
-					System.out.print(p.getNome().charAt(0));
-				}
-				System.out.print(' ');
-			}
-			System.out.println();
 		}
 	}
 
