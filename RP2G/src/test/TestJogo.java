@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
-import ui.JanelaJogo;
+import ui.graphic.JanelaJogo;
 import core.Jogo;
 import core.database.DatabaseHandler;
 import core.item.arma.Espada;

@@ -1,4 +1,4 @@
-package ui;
+package ui.graphic;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;

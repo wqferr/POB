@@ -47,5 +47,10 @@ public class Ordem {
 	public Comando getComando() {
 		return this.c;
 	}
+	
+	@Override
+	public String toString() {
+		return this.c + ": " + String.valueOf(this.arg);
+	}
 
 }

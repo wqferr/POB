@@ -1,6 +1,6 @@
 package test;
 
-import ui.JanelaDatabase;
+import ui.graphic.JanelaDatabase;
 import core.mapa.Mapa;
 import core.mapa.Posicao;
 

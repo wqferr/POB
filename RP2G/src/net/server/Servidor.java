@@ -153,7 +153,7 @@ public class Servidor {
                 case FIM_TURNO:
                 	this.clientes[vez].notificar(Evento.CONFIRMACAO);
                 	this.jogo.proximoPersonagem();
-                	this.notificarTodos(Evento.FIM_TURNO, false);
+                	this.notificarTodosExceto(Evento.FIM_TURNO, vez);
                 	vez = (vez+1) % this.clientes.length;
                 	this.clientes[vez].notificar(Evento.INICIO_TURNO);
                 	acabou = jogo.acabou();
@@ -178,6 +178,10 @@ public class Servidor {
 	private void enviar(Object obj) throws IOException {
 		for (TratadorCliente tc : this.clientes)
 			tc.enviar(obj);
+	}
+	
+	private void notificarTodosExceto(Evento e, int c) throws IOException {
+		this.sinalizarTodosExceto(new Mensagem(e), c);
 	}
 	
 	private void sinalizarTodosExceto(Mensagem m, int c) throws IOException {

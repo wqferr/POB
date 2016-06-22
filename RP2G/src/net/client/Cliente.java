@@ -8,7 +8,6 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
 
-import ui.JanelaJogo;
 import net.Mensagem;
 import net.Mensagem.Evento;
 import net.server.Servidor;
@@ -91,6 +90,7 @@ public class Cliente {
                 	Ordem o;
                 	do {
                         o = this.controlador.proximaOrdem(jogo);
+                        System.out.println(o);
                         if (jogo.executar(o)) {
                             this.enviar(new Mensagem(o));
                             if (!this.confirmar())
