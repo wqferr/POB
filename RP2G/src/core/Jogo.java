@@ -90,6 +90,7 @@ public class Jogo implements Serializable {
 		else
 			this.pAtual = pIter2.next();
 		this.ouvinte.accept(null);
+		this.ouvinte.accept(null);
 		this.atacou = false;
 		this.andou = false;
 		return this.pAtual;
@@ -120,6 +121,7 @@ public class Jogo implements Serializable {
 			this.mapa.mover(this.pAtual.getPosicao(), nova);
 			this.andou = true;
 			this.ouvinte.accept(null);
+            this.ouvinte.accept(null);
 			return true;
 		}
 		return false;
@@ -157,6 +159,7 @@ public class Jogo implements Serializable {
 			
 			this.atacou = true;
 			this.ouvinte.accept(null);
+            this.ouvinte.accept(null);
 			return true;
 		}
 		return false;
@@ -168,6 +171,7 @@ public class Jogo implements Serializable {
 	 */
 	public boolean usar(Item item) {
 		if (this.pAtual.usar(item)) {
+            this.ouvinte.accept(null);
             this.ouvinte.accept(null);
             return true;
 		}
