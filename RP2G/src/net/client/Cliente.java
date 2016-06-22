@@ -30,6 +30,7 @@ public class Cliente {
 	private int porta;
 	private Controlador controlador;
 	private Jogo jogo;
+	private int time;
 	
 	public Cliente(Controlador con, InetAddress ip) {
 		this(con, ip, Servidor.PORTA_PADRAO);
@@ -46,6 +47,10 @@ public class Cliente {
 		this.controlador = con;
 	}
 	
+	public int getTime() {
+		return this.time;
+	}
+	
 	public void conectar() throws IOException {
 		this.conexao = new Socket(this.ip, this.porta);
 		this.conexao.getOutputStream().flush();
@@ -56,6 +61,8 @@ public class Cliente {
 		Mensagem msg = this.receber();
 		if (msg.getEvento() != Evento.INICIO_CONEXAO)
 			this.notificarDessincronia();
+		
+		this.time = Integer.parseInt(msg.getMsg());
 		this.notificar(Evento.CONFIRMACAO);
 		
 		System.err.println("Recebendo database.");

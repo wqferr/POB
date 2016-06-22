@@ -51,8 +51,11 @@ public class Servidor {
 		}
 		System.err.println("Clientes conectados.");
 		
-		for (TratadorCliente tc : this.clientes)
-            tc.notificar(Evento.INICIO_CONEXAO);
+		i = 1;
+		for (TratadorCliente tc : this.clientes) {
+            tc.enviar(new Mensagem(Evento.INICIO_CONEXAO, String.valueOf(i)));
+            i++;
+		}
 		
 		boolean conf = false;
 		try {
