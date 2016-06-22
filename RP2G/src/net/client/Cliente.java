@@ -29,6 +29,7 @@ public class Cliente {
 	private InetAddress ip;
 	private int porta;
 	private Controlador controlador;
+	private Jogo jogo;
 	
 	public Cliente(Controlador con, InetAddress ip) {
 		this(con, ip, Servidor.PORTA_PADRAO);
@@ -38,6 +39,7 @@ public class Cliente {
 		this.controlador = con;
 		this.ip = ip;
 		this.porta = porta;
+		this.jogo = null;
 	}
 	
 	public void conectar() throws IOException {
@@ -56,7 +58,6 @@ public class Cliente {
 		DatabaseHandler.readAllStream(this.in);
 		
 		System.err.println("Recebendo jogo.");
-		Jogo jogo = null;
 		try {
 			Mapa m = (Mapa) this.in.readObject();
 			@SuppressWarnings("unchecked")
@@ -160,6 +161,10 @@ public class Cliente {
 	
 	private void notificarQueda() throws IOException {
 		throw new IOException("Queda de conexão");
+	}
+	
+	public Jogo getJogo() {
+		return this.jogo;
 	}
 
 }
