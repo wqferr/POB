@@ -69,6 +69,8 @@ public class Personagem implements Serializable {
 	private Arma arma;
 	private static final long serialVersionUID = 587923567816495L;
 	private static final Map<String, Personagem> registro = new TreeMap<>();
+	
+	public static final Dado D_20 = new Dado(20);
 
 	
 	/**
@@ -359,11 +361,10 @@ public class Personagem implements Serializable {
 	 * @throws NullPointerException se o personagem não possuir arma equipada.
 	 */
 	public void atacar(Personagem p) {
-		Dado d20 = new Dado(20);
-		d20.rolar();
+		D_20.rolar();
 		
 		//Funcao linear onde f(1) = 1/3 e f(20) = 3
-		double bonus = (((3.0 - (1.0/3.0)) / 19.0) * d20.getLado()) + ((1.0/3.0) - ((3.0 - (1.0/3.0)) / 19.0));
+		double bonus = (((3.0 - (1.0/3.0)) / 19.0) * D_20.getLado()) + ((1.0/3.0) - ((3.0 - (1.0/3.0)) / 19.0));
 		int dano = (int) Math.ceil(this.arma.calcularDano(this, p) * bonus);
 		if (dano > 0)
             p.ferir(dano);

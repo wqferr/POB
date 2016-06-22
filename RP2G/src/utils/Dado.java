@@ -22,6 +22,16 @@ public class Dado {
 		this.ladoAtual = this.rolar();
 	}
 	
+	public Dado(int lados, long s) {
+		this.lados = lados;
+		this.gerador = new Random(s);
+		this.ladoAtual = this.rolar();
+	}
+	
+	public void setSeed(int s) {
+		this.gerador.setSeed(s);
+	}
+	
 	/**
 	 * Retorna uma nova rolagem
 	 * @return
