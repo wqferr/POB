@@ -85,9 +85,9 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener 
 				mapaGUI[i][j] = new QuadradoUI(jogo.getMapa().getQuadrado(new Posicao(i, j)), this);
 				mapaGUI[i][j].setName(i + (" "+ j));
 				mapaGUI[i][j].setPreferredSize(new Dimension(40, 40));
-				
-				gcons.gridx = i + 10;
-				gcons.gridy = j + 10;
+
+				gcons.gridx = j + 10;
+				gcons.gridy = i + 10;
 				this.panel.add(mapaGUI[i][j], gcons);
 			}
 		}
@@ -110,22 +110,29 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener 
 	
 	public void actionPerformed(ActionEvent e){
 		if (e.getActionCommand().equals("atacar")) {
-			if (this.jogo.atacar(new Posicao(this.curJ, this.curI))) this.updateUI();
+			if (this.jogo.atacar(new Posicao(this.curI, this.curJ))){
+				this.updateUI();
+				this.jogo.exibir();
+			}
 		}
 		else if(e.getActionCommand().equals("mover")){
-			if (this.jogo.mover(new Posicao(this.curJ, this.curI))) this.updateUI();
+			if (this.jogo.mover(new Posicao(this.curI, this.curJ))){
+				this.updateUI();
+				this.jogo.exibir();
+			}
 		}
-		else if (e.getActionCommand().equals("fim")){
+		else if (e.getActionCommand().equals("fim") && !jogo.acabou()){
 			this.jogo.proximoPersonagem();
 			this.updateUI();
+			this.jogo.exibir();
 		}
 	}
 	
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		this.curI = ((QuadradoUI)e.getSource()).getQuadrado().getPosicao().getColuna();
-		this.curJ = ((QuadradoUI)e.getSource()).getQuadrado().getPosicao().getLinha();
+		this.curI = ((QuadradoUI)e.getSource()).getQuadrado().getPosicao().getLinha();
+		this.curJ = ((QuadradoUI)e.getSource()).getQuadrado().getPosicao().getColuna();
 		this.mensagemPos.setText(("Posicao: {" + this.curI + ", ") + (this.curJ + "}"));
 	}
 

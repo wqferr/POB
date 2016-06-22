@@ -66,6 +66,10 @@ public class Cliente {
 			
 			jogo = new Jogo(m, p1, p2);
 		} catch (ClassNotFoundException e) {}
+		try {
+			Personagem.D_20.setSeed((long) this.in.readObject());
+			System.err.println("Dado: " + Personagem.D_20.rolar());
+		} catch (ClassNotFoundException e) {}
 		System.err.println("Informações transmitidas com êxito.");
 		
 		while (!jogo.acabou()) {
@@ -126,7 +130,7 @@ public class Cliente {
 	private Mensagem receber() throws IOException {
 		try {
 			Mensagem msg = (Mensagem) this.in.readObject();
-			System.err.println(msg);
+			System.err.println("Recebido: " + msg);
 			return msg;
 		} catch (ClassNotFoundException e) {
 			return null;
@@ -142,6 +146,7 @@ public class Cliente {
 	
 	private void enviar(Mensagem m) throws IOException {
 		this.out.writeObject(m);
+		this.out.flush();
 	}
 	
 	private void notificar(Evento e) throws IOException {

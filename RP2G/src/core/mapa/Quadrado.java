@@ -71,7 +71,7 @@ public class Quadrado implements Serializable {
 	 * @return Se a posição é transponível
 	 */
 	public boolean isTransponivel() {
-		return this.transponivel;
+		return this.ocupante == null && this.transponivel;
 	}
 
 	/**

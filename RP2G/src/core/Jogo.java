@@ -35,6 +35,9 @@ public class Jogo implements Serializable {
 	private ListIterator<Personagem> pIter2;
 	private Consumer<Void> ouvinte;
 	
+	private boolean andou;
+	private boolean atacou;
+	
 	private static final Consumer<Void> OUVINTE_DEFAULT = (Void v) -> {};
 	/**
 	 * Constrói um novo jogo com o mapa e os times recebidos
@@ -55,6 +58,7 @@ public class Jogo implements Serializable {
 		this.pIter2 = this.personagens2.listIterator();
 		this.pAtual = pIter1.next();
 		this.proximoTime =  true;
+		this.andou = false;
 		this.setOuvinte(null);
 	}
 	
@@ -85,6 +89,8 @@ public class Jogo implements Serializable {
 			this.pAtual = pIter1.next();
 		else
 			this.pAtual = pIter2.next();
+		this.atacou = false;
+		this.andou = false;
 		return this.pAtual;
 	}
 	/**
@@ -94,36 +100,62 @@ public class Jogo implements Serializable {
 	public Personagem personagemAtual() {
 		return this.pAtual;
 	}
+	
+	public boolean podeMover(Posicao nova) {
+		return this.mapa.alcancavel(this.pAtual.getPosicao(), nova, this.pAtual.getStat(Stat.VEL));
+	}
+	
 	/**
 	 * Função para retornar 
 	 * @param nova Posição para qual o personagem deve ser movido
 	 * @return se foi possível mover o personagem para a posição desejada
 	 */
 	public boolean mover(Posicao nova) {
+		if (this.andou)
+			return false;
+		if (this.mapa.isOcupado(nova))
+			return false;
 		if (this.mapa.alcancavel(this.pAtual.getPosicao(), nova, this.pAtual.getStat(Stat.VEL))) {
 			this.mapa.mover(this.pAtual.getPosicao(), nova);
 			this.ouvinte.accept(null);
+			this.andou = true;
 			return true;
 		}
 		return false;
 	}
+	
+	public boolean podeAtacar(Posicao alvo) {
+		if (!this.mapa.isOcupado(alvo) || this.pAtual.getArma() == null)
+			return false;
+		return alvo.distancia(this.pAtual.getPosicao()) <= this.pAtual.getArma().getAlcance();
+	}
+	
 	/**
 	 * Ataca, caso houver, o personagem que está na posição alvo
 	 * @param alvo Posição que deve ser atacada
 	 * @return se foi possível atacar
 	 */
 	public boolean atacar(Posicao alvo) {
+		if (this.atacou)
+			return false;
+		
+		if (this.pAtual == this.mapa.getQuadrado(alvo).getOcupante())
+			return false;
+		
 		if (!this.mapa.isOcupado(alvo) || this.pAtual.getArma() == null)
 			return false;
 		
 		if(alvo.distancia(this.pAtual.getPosicao()) <= this.pAtual.getArma().getAlcance()){
 			Personagem p = this.mapa.getQuadrado(alvo).getOcupante();
+			int hp = p.getHp();
 			this.pAtual.atacar(p);
+			System.err.println("Dano: " + (hp - p.getHp()));
 			if(p.isMorto()) {
 				this.mapa.setOcupante(p.getPosicao(), null);
 				this.removePersonagem(p);
 			}
 			
+			this.atacou = true;
 			this.ouvinte.accept(null);
 			return true;
 		}
@@ -206,12 +238,15 @@ public class Jogo implements Serializable {
                 return this.mover((Posicao) o.getArg());
             
             case ENCERRAR:
-            	//this.proximoPersonagem();
             	return true;
                 
 			default:
 				return false;
 		}
+	}
+	
+	public void exibir(){
+		this.exibir(System.out::print);
 	}
 	
 	public void exibir(Consumer<? super String> printer) {
@@ -225,21 +260,22 @@ public class Jogo implements Serializable {
 			for (int j = 0; j < this.mapa.getNColunas(); j++) {
 				Posicao pos = new Posicao(i, j);
 				Quadrado q = this.mapa.getQuadrado(pos);
-				if (q.isTransponivel()) {
-                    Personagem p = q.getOcupante();
-                    if (p == null) {
+				
+                Personagem p = q.getOcupante();
+                if (p == null) {
+                    if (q.isTransponivel()) {
                         printer.accept(" ");
                     } else {
-                    	char c = p.getNome().charAt(0);
-                    	if (p == pAtual)
-                    		c = Character.toUpperCase(c);
-                    	else
-                    		c = Character.toLowerCase(c);
-                    	printer.accept(String.valueOf(c));
+                        printer.accept("X");
                     }
-				} else {
-					printer.accept("X");
-				}
+                } else {
+                    char c = p.getNome().charAt(0);
+                    if (p == pAtual)
+                        c = Character.toUpperCase(c);
+                    else
+                        c = Character.toLowerCase(c);
+                    printer.accept(String.valueOf(c));
+                }
 				printer.accept(" ");
 			}
 			printer.accept("\n");

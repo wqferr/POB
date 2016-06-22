@@ -37,7 +37,7 @@ public class Dado {
 	 * Altera a seed do gerador de números aleatórios
 	 * @param s Seed para o gerador de números aleatórios.
 	 */
-	public void setSeed(int s) {
+	public void setSeed(long s) {
 		this.gerador.setSeed(s);
 	}
 	
