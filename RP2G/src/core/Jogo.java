@@ -235,6 +235,10 @@ public class Jogo implements Serializable {
 		return this.mapa;
 	}
 	
+	public List<Personagem> getPersonagensTimeAtual() {
+		return new LinkedList<>(this.proximoTime ? this.personagens2 : this.personagens1);
+	}
+	
 	public List<Personagem> getPersonagensTime1() {
 		return new LinkedList<>(this.personagens1);
 	}
@@ -250,6 +254,9 @@ public class Jogo implements Serializable {
             	
             case MOVER:
                 return this.mover((Posicao) o.getArg());
+            
+            case USAR:
+            	return this.usar((String) o.getArg());
             
             case ENCERRAR:
             	if(!this.acabou()){
