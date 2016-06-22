@@ -20,7 +20,7 @@ public class DatabaseHandler {
 	private String fileName;
 	
 	public DatabaseHandler(){
-		this("registro.dat");
+		this("db/registry.dat");
 	}
 	
 	public DatabaseHandler(String fileName){
@@ -54,9 +54,38 @@ public class DatabaseHandler {
 		catch (EOFException eof) {}
 		catch(Exception e){ System.err.println(e);}
 		
+		DatabaseHandler.readAllStream(objectInStream);
+		
+		try{ objectInStream.close(); }
+		catch (NullPointerException nullP){}
+		catch(Exception e){ System.err.println(e); }
+	}
+	
+	public void writeToDatabase(Object obj){
+		FileOutputStream fileOutStream = null;
+		ObjectOutputStream objectOutStream = null;
+		try{
+			fileOutStream  = new FileOutputStream(this.fileName);
+			objectOutStream = new ObjectOutputStream(fileOutStream);
+		}catch(Exception e){ System.err.println(e); }
+		
+		DatabaseHandler.writeToStream(objectOutStream);
+		
+		try { objectOutStream.close(); }
+		catch(Exception e){ System.err.println(e); }
+	}
+	
+	public static void readAllStream(ObjectInputStream objectInStream){
 		Object obj = null;
 		boolean notEOF = true;
-		while (notEOF){
+		
+		int size = 0, i=0;
+		try { size = (Integer)objectInStream.readObject(); }
+		catch (EOFException eof) { obj = null; notEOF = false; }
+		catch (NullPointerException nullP){ obj = null; notEOF = false; }
+		catch (Exception e) { System.err.println(e);}
+		System.out.println(size);
+		while (i<size && notEOF){
 			try { obj = objectInStream.readObject(); }
 			catch (EOFException eof) { obj = null; notEOF = false; }
 			catch (NullPointerException nullP){ obj = null; notEOF = false; }
@@ -83,21 +112,11 @@ public class DatabaseHandler {
 				catch(Exception e){ System.err.println(e); }
 			}
 			else notEOF = false;
+			i++;
 		}
-		
-		try{ objectInStream.close(); }
-		catch (NullPointerException nullP){}
-		catch(Exception e){ System.err.println(e); }
 	}
 	
-	public void writeToDatabase(Object obj){
-		FileOutputStream fileOutStream = null;
-		ObjectOutputStream objectOutStream = null;
-		try{
-			fileOutStream  = new FileOutputStream(this.fileName);
-			objectOutStream = new ObjectOutputStream(fileOutStream);
-		}catch(Exception e){ System.err.println(e); }
-		
+	public static void writeToStream(ObjectOutputStream objectOutStream){
 		List<Object> allData = new LinkedList<Object>();
 		Iterator<Entry<String, Item>> itemIt = Item.getIterator();
 		Iterator<Entry<String, Personagem>> persIt = Personagem.getIterator();
@@ -106,13 +125,11 @@ public class DatabaseHandler {
 		while(itemIt.hasNext()) allData.add(Item.get(itemIt.next().getKey()));
 		while(persIt.hasNext()) allData.add(Personagem.get(persIt.next().getKey()));
 		while(mapIt.hasNext()) allData.add(Mapa.get(mapIt.next().getKey()));
+		allData.add(0, allData.size());
 		
 		try{
 			Iterator<Object> it = allData.iterator();
 			while(it.hasNext()) objectOutStream.writeObject(it.next());
 		}catch(Exception e){ System.err.println(e); }
-		
-		try { objectOutStream.close(); }
-		catch(Exception e){ System.err.println(e); }
 	}
 }

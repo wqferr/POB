@@ -1,23 +1,29 @@
-package core.database;
+package ui;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import core.database.DatabaseHandler;
 import core.item.Aprimoramento;
+import core.item.Item;
 import core.item.Pocao;
 import core.item.arma.Arco;
 import core.item.arma.Cajado;
@@ -27,27 +33,28 @@ import core.mapa.Mapa;
 import core.personagem.Personagem;
 import core.personagem.Profissao;
 
-public class JanelaMain extends JFrame implements ActionListener {
+public class JanelaDatabase extends JFrame implements ActionListener {
 	private static final long serialVersionUID = -398592414626114074L;
 	
 	private JPanel panel;
 	private JComboBox<String> tipoDropDown;
 	private JComboBox<String> armaDropDown;
 	private JComboBox<String> profissoesDropDown;
+	private JTextArea databaseText;
 	private JTextField textBox[];
 	private JFileChooser mapaChooser;
 	private JButton adicionarButton;
 	private DatabaseHandler dataHandler;
 	
-	public JanelaMain(){
+	public JanelaDatabase(){
 		this("Adicionar Elemento", 500, 600);
 	}
 	
-	public JanelaMain(String windowName, int height, int width){
-		this(windowName, height, width, "registro.dat");
+	public JanelaDatabase(String windowName, int height, int width){
+		this(windowName, height, width, "db/registry.dat");
 	}
 	
-	public JanelaMain(String windowName, int height, int width, String fileName){
+	public JanelaDatabase(String windowName, int height, int width, String fileName){
 		super(windowName);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(height, width);
@@ -68,6 +75,8 @@ public class JanelaMain extends JFrame implements ActionListener {
 		this.armaDropDown = new JComboBox<String>(new String[]{"Espada", "Arco", "Livro", "Cajado"});
 		this.profissoesDropDown = new JComboBox<String>(new String[]{"GUERREIRO", "MAGO", "ARQUEIRO", "SACERDOTE"});
 		
+		this.databaseText = new JTextArea();
+		
 		this.mapaChooser = new JFileChooser();
 		this.mapaChooser.setFileFilter(new FileNameExtensionFilter("*.png, *.bpm", "png", "bpm"));
 		
@@ -78,6 +87,9 @@ public class JanelaMain extends JFrame implements ActionListener {
 		
 		this.panel.add(new JLabel("Tipo de Elemento :"));
 		this.panel.add(this.tipoDropDown);
+		this.showDatabase();
+		this.panel.add(new JLabel("Banco de Dados Atual :"));
+		this.panel.add(this.databaseText);
 	}
 	
 	public void actionPerformed(ActionEvent event){
@@ -132,6 +144,7 @@ public class JanelaMain extends JFrame implements ActionListener {
 			}
 			
 			this.add(this.adicionarButton);
+			this.panel.add(this.databaseText);
 			this.panel.revalidate();
 			this.panel.repaint();
 		}
@@ -148,10 +161,12 @@ public class JanelaMain extends JFrame implements ActionListener {
 			if (valid){
 				if (this.tipoDropDown.getSelectedItem().equals("Personagem")){
 					Profissao prof = Profissao.GUERREIRO;
+					ImageIcon icone = null;
 					int hp = 0, forc=0, dext=0, inte=0, vel=0;
 					try{
 						//TODO ICONE
 						prof = Profissao.valueOf((String)this.profissoesDropDown.getSelectedItem());
+						icone = new ImageIcon(ImageIO.read(new File(this.textBox[1].getText())));
 						hp = Integer.parseInt(this.textBox[2].getText());
 						forc = Integer.parseInt(this.textBox[3].getText());
 						dext = Integer.parseInt(this.textBox[4].getText());
@@ -159,7 +174,7 @@ public class JanelaMain extends JFrame implements ActionListener {
 						vel = Integer.parseInt(this.textBox[6].getText());
 					}catch(Exception e){ System.err.println(e);}
 	
-					try { obj = new Personagem(nome, prof, hp, vel, forc, dext, inte); }
+					try { obj = new Personagem(nome, prof, hp, vel, forc, dext, inte, icone); }
 					catch(Exception e){ System.err.println(e); valid = false;}
 				}
 				else if (this.tipoDropDown.getSelectedItem().equals("Arma")){
@@ -213,7 +228,21 @@ public class JanelaMain extends JFrame implements ActionListener {
 			
 			if (valid) this.dataHandler.writeToDatabase(obj);
 			else System.err.println("Elemento Invalido");
+			this.showDatabase();
 		}
 	}
+	
+	
+	public void showDatabase(){
+		this.databaseText.setText("");
+		Iterator<Entry<String, Item>> itemIt = Item.getIterator();
+		Iterator<Entry<String, Personagem>> persIt = Personagem.getIterator();
+		Iterator<Entry<String, Mapa>> mapIt = Mapa.getIterator();
+	
+		while(itemIt.hasNext()) this.databaseText.setText(this.databaseText.getText() + "Item -> " + itemIt.next().getKey() + "\n");
+		while(persIt.hasNext()) this.databaseText.setText(this.databaseText.getText() + "Personagem -> " + persIt.next().getKey() + "\n");
+		while(mapIt.hasNext()) this.databaseText.setText(this.databaseText.getText() + "Mapa -> " +  mapIt.next().getKey() + "\n");
+	}
+	
 	
 }

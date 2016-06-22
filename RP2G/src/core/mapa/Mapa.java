@@ -79,7 +79,7 @@ public class Mapa implements Serializable{
 		this.spawnPointsTime2 = new LinkedList<Posicao>();
 		for (int i=0; i<imagem.getWidth(); i++){
 			for (int j=0; j<imagem.getHeight(); j++){
-				Pixel curPix = new Pixel(imagem.getRGB(i, j));
+				Pixel curPix = new Pixel(imagem.getRGB(j, i));
 				this.topologia[j][i] = new Quadrado(new Posicao(j, i), !curPix.isWhite());
 				if (curPix.isRed()) this.spawnPointsTime1.add(new Posicao(j, i));
 				else if (curPix.isBlue()) this.spawnPointsTime2.add(new Posicao(j, i));
@@ -181,8 +181,9 @@ public class Mapa implements Serializable{
 	public void mover(Posicao origem, Posicao destino) {
 		Quadrado qOrig = this.getQuadrado(origem),
 				 qDest = this.getQuadrado(destino);
-		qDest.setOcupante(qOrig.getOcupante());
+		Personagem p = qOrig.getOcupante();
 		qOrig.setOcupante(null);
+		qDest.setOcupante(p);
 	}
 	/**
 	 * 
