@@ -35,6 +35,9 @@ public class Jogo implements Serializable {
 	private ListIterator<Personagem> pIter2;
 	private Consumer<Void> ouvinte;
 	
+	private boolean andou;
+	private boolean atacou;
+	
 	private static final Consumer<Void> OUVINTE_DEFAULT = (Void v) -> {};
 	/**
 	 * Constrói um novo jogo com o mapa e os times recebidos
@@ -55,6 +58,7 @@ public class Jogo implements Serializable {
 		this.pIter2 = this.personagens2.listIterator();
 		this.pAtual = pIter1.next();
 		this.proximoTime =  true;
+		this.andou = false;
 		this.setOuvinte(null);
 	}
 	
@@ -85,6 +89,8 @@ public class Jogo implements Serializable {
 			this.pAtual = pIter1.next();
 		else
 			this.pAtual = pIter2.next();
+		this.atacou = false;
+		this.andou = false;
 		return this.pAtual;
 	}
 	/**
@@ -105,11 +111,14 @@ public class Jogo implements Serializable {
 	 * @return se foi possível mover o personagem para a posição desejada
 	 */
 	public boolean mover(Posicao nova) {
+		if (this.andou)
+			return false;
 		if (this.mapa.isOcupado(nova))
 			return false;
 		if (this.mapa.alcancavel(this.pAtual.getPosicao(), nova, this.pAtual.getStat(Stat.VEL))) {
 			this.mapa.mover(this.pAtual.getPosicao(), nova);
 			this.ouvinte.accept(null);
+			this.andou = true;
 			return true;
 		}
 		return false;
@@ -127,6 +136,9 @@ public class Jogo implements Serializable {
 	 * @return se foi possível atacar
 	 */
 	public boolean atacar(Posicao alvo) {
+		if (this.atacou)
+			return false;
+		
 		if (!this.mapa.isOcupado(alvo) || this.pAtual.getArma() == null)
 			return false;
 		
@@ -140,6 +152,7 @@ public class Jogo implements Serializable {
 				this.removePersonagem(p);
 			}
 			
+			this.atacou = true;
 			this.ouvinte.accept(null);
 			return true;
 		}
@@ -222,7 +235,6 @@ public class Jogo implements Serializable {
                 return this.mover((Posicao) o.getArg());
             
             case ENCERRAR:
-            	//this.proximoPersonagem();
             	return true;
                 
 			default:
