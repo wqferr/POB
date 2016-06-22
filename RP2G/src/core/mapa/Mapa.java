@@ -77,13 +77,14 @@ public class Mapa implements Serializable{
 		this.topologia = new Quadrado[imagem.getHeight()][imagem.getWidth()];
 		this.spawnPointsTime1 = new LinkedList<Posicao>();
 		this.spawnPointsTime2 = new LinkedList<Posicao>();
-		for (int i=0; i<imagem.getWidth(); i++){
-			for (int j=0; j<imagem.getHeight(); j++){
+		for (int i=0; i<imagem.getHeight(); i++){
+			for (int j=0; j<imagem.getWidth(); j++){
 				Pixel curPix = new Pixel(imagem.getRGB(j, i));
-				this.topologia[j][i] = new Quadrado(new Posicao(j, i), !curPix.isWhite());
-				if (curPix.isRed()) this.spawnPointsTime1.add(new Posicao(j, i));
-				else if (curPix.isBlue()) this.spawnPointsTime2.add(new Posicao(j, i));
+				this.topologia[i][j] = new Quadrado(new Posicao(i, j), !curPix.isWhite());
+				if (curPix.isRed()) this.spawnPointsTime1.add(new Posicao(i, j));
+				else if (curPix.isBlue()) this.spawnPointsTime2.add(new Posicao(i, j));
 			}
+			System.out.println("");
 		}
 		
 		Mapa.add(this);

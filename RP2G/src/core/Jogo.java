@@ -214,6 +214,10 @@ public class Jogo implements Serializable {
 		}
 	}
 	
+	public void exibir(){
+		this.exibir(System.out::print);
+	}
+	
 	public void exibir(Consumer<? super String> printer) {
 		printer.accept("  ");
 		for (int i = 0; i < this.mapa.getNColunas(); i++)
