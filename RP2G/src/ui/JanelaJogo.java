@@ -120,6 +120,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 			this.curBotao = new String("mover");
 		else if (e.getActionCommand().equals("fim"))
 			this.curBotao = new String("fim");
+		else this.curBotao = null;
 		
 	}
 	
@@ -145,27 +146,23 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 
 	@Override
 	public Ordem proximaOrdem(Jogo j) {
+		System.out.println(curBotao);
 		try{
 			while (this.curBotao==null) Thread.sleep(10);
-			if (this.curBotao.equals("atacar")) return new Ordem(Comando.ATACAR, new Posicao(this.curI, this.curJ));
-			else if (this.curBotao.equals("mover")) return new Ordem(Comando.MOVER, new Posicao(this.curI, this.curJ));
-			else if (this.curBotao.equals("fim")) return new Ordem(Comando.ENCERRAR);
-			
-			this.curBotao = null;
-			this.updateUI();
 		}catch(Exception e) { e.printStackTrace(); }
 		
-		return null;
+		Ordem or = null;
+		if (this.curBotao.equals("atacar")) or = new Ordem(Comando.ATACAR, new Posicao(this.curI, this.curJ));
+		else if (this.curBotao.equals("mover")) or = new Ordem(Comando.MOVER, new Posicao(this.curI, this.curJ));
+		else if (this.curBotao.equals("fim")) or = new Ordem(Comando.ENCERRAR);
+		
+		this.curBotao = null;
+		this.updateUI();
+		return or;
 	}
 
 	@Override
 	public void accept(Void t) {
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		this.updateUI();
 	}
 	

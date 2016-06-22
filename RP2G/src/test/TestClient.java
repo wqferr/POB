@@ -2,6 +2,7 @@ package test;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import ui.JanelaJogo;
@@ -20,7 +21,7 @@ public class TestClient {
 	private static boolean andou = false;
 	private static boolean atacou = false;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnknownHostException {
         @SuppressWarnings("resource")
         final Scanner in = new Scanner(System.in);
         in.useDelimiter("[\\s]");
@@ -73,7 +74,7 @@ public class TestClient {
                 in.nextLine();
             }
         };
-        Cliente c = new Cliente(cont, InetAddress.getLoopbackAddress(), Servidor.PORTA_PADRAO);
+        Cliente c = new Cliente(cont, InetAddress.getByName("172.26.211.218"), Servidor.PORTA_PADRAO);
         
         try {
             c.conectar();
