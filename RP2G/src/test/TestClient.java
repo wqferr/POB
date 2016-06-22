@@ -76,7 +76,7 @@ public class TestClient {
             
             return new Ordem(Comando.ENCERRAR);
         };
-        Cliente c = new Cliente(cont, InetAddress.getLocalHost(), Servidor.PORTA_PADRAO); 
+        Cliente c = new Cliente(cont, InetAddress.getByName("172.28.179.230"), Servidor.PORTA_PADRAO); 
         
         try {
             c.conectar();
