@@ -296,7 +296,7 @@ public class Jogo implements Serializable {
                     }
                 } else {
                     char c = p.getNome().charAt(0);
-                    if (p == pAtual)
+                    if (this.getPersonagensTimeAtual().contains(p))
                         c = Character.toUpperCase(c);
                     else
                         c = Character.toLowerCase(c);
