@@ -164,6 +164,15 @@ public class Jogo implements Serializable {
 		}
 		return false;
 	}
+
+	public boolean podeUsar(String item) {
+		return this.pAtual.podeUsar(item);
+	}
+
+	public boolean podeUsar(Item item) {
+		return this.pAtual.podeUsar(item);
+	}
+	
 	/**
 	 * Usa o item recebido
 	 * @param item Item que deve ser usado
@@ -225,6 +234,10 @@ public class Jogo implements Serializable {
 		return this.mapa;
 	}
 	
+	public List<Personagem> getPersonagensTimeAtual() {
+		return new LinkedList<>(this.proximoTime ? this.personagens2 : this.personagens1);
+	}
+	
 	public List<Personagem> getPersonagensTime1() {
 		return new LinkedList<>(this.personagens1);
 	}
@@ -240,6 +253,9 @@ public class Jogo implements Serializable {
             	
             case MOVER:
                 return this.mover((Posicao) o.getArg());
+            
+            case USAR:
+            	return this.usar((String) o.getArg());
             
             case ENCERRAR:
             	if(!this.acabou()){
@@ -279,7 +295,7 @@ public class Jogo implements Serializable {
                     }
                 } else {
                     char c = p.getNome().charAt(0);
-                    if (p == pAtual)
+                    if (this.getPersonagensTimeAtual().contains(p))
                         c = Character.toUpperCase(c);
                     else
                         c = Character.toLowerCase(c);

@@ -116,6 +116,13 @@ public class Cliente {
                 	else
                 		this.notificarDessincronia();
                     break;
+                
+                case USO:
+                	if (jogo.usar(s.next()))
+                		this.notificar(Evento.CONFIRMACAO);
+                	else
+                		this.notificarDessincronia();
+                	break;
                     
                 case FIM_TURNO:
                 	jogo.proximoPersonagem();

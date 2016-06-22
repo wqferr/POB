@@ -10,6 +10,7 @@ public class Ordem {
 	public static enum Comando {
 		MOVER,
 		ATACAR,
+		USAR,
 		ENCERRAR;
 	}
 
@@ -33,6 +34,9 @@ public class Ordem {
                 case ATACAR:
                     this.arg = new Posicao(s.nextInt(), s.nextInt());
                     break;
+                    
+                case USAR:
+                	this.arg = s.next();
                     
                 default:
                     this.arg = null;

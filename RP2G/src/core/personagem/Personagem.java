@@ -2,12 +2,15 @@ package core.personagem;
 
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
 
+import struct.Par;
 import utils.Dado;
 import core.item.Item;
 import core.item.arma.Arma;
@@ -421,6 +424,22 @@ public class Personagem implements Serializable {
 	 */
 	public Arma getArma() {
 		return this.arma;
+	}
+	
+	public boolean podeUsar(String item) {
+		return this.podeUsar(Item.get(item));
+	}
+	
+	public boolean podeUsar(Item item) {
+		return this.getNroItens(item) > 0;
+	}
+	
+	public List<Par<Item, Integer>> getItens() {
+		List<Par<Item, Integer>> l = new LinkedList<>();
+		for (Map.Entry<Item, Integer> p : this.inventario.entrySet())
+			l.add(new Par<>(p.getKey(), p.getValue()));
+		
+		return l;
 	}
 	
 	/**
