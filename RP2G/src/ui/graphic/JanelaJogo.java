@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import net.client.Cliente;
 import net.client.Controlador;
 import core.Jogo;
 import core.Ordem;
@@ -28,6 +29,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	private JPanel panel;
 	private JLabel mensagemPos;
 	private JLabel mensagemRodada;
+	private JLabel mensagemVez;
 	private JButton atacarButton;
 	private JButton moverButton;
 	private JButton fimButton;
@@ -37,14 +39,17 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	private int curI;
 	private int curJ;
 	private String curBotao;
-	
-	private boolean toggle;
+	private Cliente client;
 	
 	public JanelaJogo(Jogo jogo){
-		this(jogo, "Water Emblem Tactics Online II - Revengence of the Lich King | Game of the Year Edition", 800, 60);
+		this(jogo, null, "Water Emblem Tactics Online II - Revengence of the Lich King | Game of the Year Edition", 800, 60);
 	}
 	
-	public JanelaJogo(Jogo jogo, String windowName, int height, int width) {
+	public JanelaJogo(Jogo jogo, Cliente client){
+		this(jogo, client, "Water Emblem Tactics Online II - Revengence of the Lich King | Game of the Year Edition", 800, 60);
+	}
+	
+	public JanelaJogo(Jogo jogo, Cliente client, String windowName, int height, int width) {
 		super(windowName);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(height, width);
@@ -55,7 +60,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.panel.setLayout(new GridBagLayout());
 		this.jogo = jogo;
 		this.jogo.setOuvinte(this);
-		this.toggle = false;
+		this.client = client;
 		
 		this.mensagemRodada = new JLabel(this.jogo.personagemAtual().getNome());
 		this.mensagemPos = new JLabel("Posicao: {0, 0}");
@@ -104,6 +109,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.mapaGUI[this.curI][this.curJ].setDirty(true);
 		
 		this.mensagemRodada.setText(this.jogo.personagemAtual().getNome());
+		this.mensagemVez.setText(this.jogo.getPersonagensTimeAtual().contains(this.jogo.personagemAtual()) ? "Sua Vez" : "Vez do Outro");
 		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++){
 			for (int j=0; j<this.jogo.getMapa().getNColunas(); j++){
 				if (jogo.getMapa().getQuadrado(new Posicao(i, j)).isOcupado()){

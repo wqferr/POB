@@ -77,7 +77,7 @@ public class TestClient {
             
             return new Ordem(Comando.ENCERRAR);
         };
-        Cliente c = new Cliente(cont, InetAddress.getByName("172.28.179.230"), Servidor.PORTA_PADRAO); 
+        Cliente c = new Cliente(cont, InetAddress.getLocalHost(), Servidor.PORTA_PADRAO); 
         
         try {
             c.conectar();
@@ -85,7 +85,7 @@ public class TestClient {
             System.err.println(e);
         }
         
-        JanelaJogo win = new JanelaJogo(c.getJogo());
+        JanelaJogo win = new JanelaJogo(c.getJogo(), c);
         c.setControlador(win);
         c.getJogo().setOuvinte(win);
         win.setVisible(true);
