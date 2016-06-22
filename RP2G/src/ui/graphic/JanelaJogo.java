@@ -62,6 +62,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.jogo.setOuvinte(this);
 		this.client = client;
 		
+		this.mensagemVez = new JLabel(this.jogo.getTimeAtual()==this.client.getTime() ? "Sua Vez" : "Vez do Outro");
 		this.mensagemRodada = new JLabel(this.jogo.personagemAtual().getNome());
 		this.mensagemPos = new JLabel("Posicao: {0, 0}");
 		this.mensagemRodada.setPreferredSize(new Dimension(125, 25));
@@ -75,7 +76,10 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		gcons.insets = new Insets(0, 0, 0, 0);
 		gcons.gridx = 0;
 		gcons.gridy = 0;
+		this.panel.add(mensagemVez, gcons);
+		gcons.gridx = 1;
 		this.panel.add(mensagemRodada, gcons);
+		gcons.gridx = 0;
 		gcons.gridy = 1;
 		this.panel.add(mensagemPos, gcons);
 		gcons.gridy = 5;
@@ -109,7 +113,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.mapaGUI[this.curI][this.curJ].setDirty(true);
 		
 		this.mensagemRodada.setText(this.jogo.personagemAtual().getNome());
-		this.mensagemVez.setText(this.jogo.getPersonagensTimeAtual().contains(this.jogo.personagemAtual()) ? "Sua Vez" : "Vez do Outro");
+		this.mensagemVez.setText(this.jogo.getTimeAtual()==this.client.getTime() ? "Sua Vez" : "Vez do Outro");
 		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++){
 			for (int j=0; j<this.jogo.getMapa().getNColunas(); j++){
 				if (jogo.getMapa().getQuadrado(new Posicao(i, j)).isOcupado()){
