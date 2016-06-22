@@ -50,8 +50,8 @@ public class Jogo implements Serializable {
 		Collections.shuffle(p1);
 		Collections.shuffle(p2);
 
-		initPos(m.getSpawnPointsTime1(), p1);
-		initPos(m.getSpawnPointsTime2(), p2);
+		init(m.getSpawnPointsTime1(), p1, 1);
+		init(m.getSpawnPointsTime2(), p2, 2);
 		this.personagens1 = new ListaCircular<>(p1);
 		this.personagens2 = new ListaCircular<>(p2);
 		this.pIter1 = this.personagens1.listIterator();
@@ -71,13 +71,15 @@ public class Jogo implements Serializable {
 	 * * @param spawn Lista com as posições iniciais para os personagens
 	 * @param per Lista com os personagens
 	 */
-	private void initPos(List<Posicao> spawn, List<Personagem> per) {
+	private void init(List<Posicao> spawn, List<Personagem> per, int time) {
 		if (spawn.size() != per.size())
 			throw new IllegalArgumentException("Lista de spawns e personagens com tamanho diferente");
 		ListIterator<Posicao> posIter = spawn.listIterator();
 		
-		for (Personagem p : per)
+		for (Personagem p : per) {
 			this.mapa.getQuadrado(posIter.next()).setOcupante(p);
+			p.setTime(time);
+		}
 	}
 	/**
 	 * Retorna o personagem que pode agir no próimo turno
