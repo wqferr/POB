@@ -181,8 +181,9 @@ public class Mapa implements Serializable{
 	public void mover(Posicao origem, Posicao destino) {
 		Quadrado qOrig = this.getQuadrado(origem),
 				 qDest = this.getQuadrado(destino);
-		qDest.setOcupante(qOrig.getOcupante());
+		Personagem p = qOrig.getOcupante();
 		qOrig.setOcupante(null);
+		qDest.setOcupante(p);
 	}
 	/**
 	 * 
