@@ -1,91 +1,38 @@
 package test;
 
+import java.io.File;
 import java.util.Arrays;
-import java.util.Scanner;
-import java.util.regex.Pattern;
+
+import javax.imageio.ImageIO;
 
 import ui.JanelaJogo;
 import core.Jogo;
 import core.database.DatabaseHandler;
+import core.item.arma.Espada;
+import core.item.arma.Livro;
 import core.mapa.Mapa;
-import core.mapa.Posicao;
-import core.mapa.Quadrado;
 import core.personagem.Personagem;
 import core.personagem.Profissao;
-import core.personagem.Personagem.Stat;
-import exception.ItemInvalidoException;
-import exception.NomeRepetidoException;
 
 public class TestJogo {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 		new DatabaseHandler();
 		
 		Personagem p1 = null, p2 = null;
-		try {
-			p1 = new Personagem("guerreiro", Profissao.GUERREIRO, 10, 2, 3, 1, 1);
-			p2 = new Personagem("mago", Profissao.MAGO, 10, 2, 1, 3, 1);
-		} catch (Exception e) {}
+		p1 = new Personagem("guerreiro", Profissao.GUERREIRO, 20, 2, 3, 1, 2);
+		p2 = new Personagem("mago", Profissao.MAGO, 10, 2, 1, 5, 2);
+		p1.adicionar(new Espada("Espada Bastarda", 3, 1));
+        p1.setArma("Espada Bastarda");
+        p2.adicionar(new Livro("Bola de Fogo", 4, 5));
+        p2.setArma("Bola de Fogo");
 		
-		try {
-			p1.adicionar("Espada Bastarda");
-            p1.setArma("Espada Bastarda");
-            System.out.println(p1.getArma().getDanoBase());
-            p2.adicionar("Bola de Fogo");
-            p2.setArma("Bola de Fogo");
-            System.out.println(p2.getArma().getDanoBase());
-		} catch (ItemInvalidoException e) {}
-		
-		Mapa m = Mapa.get("Map2");
-		for (Posicao p : m.getSpawnPointsTime1())
-			System.err.println(p);
-		System.err.println();
-		for (Posicao p : m.getSpawnPointsTime2())
-			System.err.println(p);
-		System.err.println();
-		
+        Mapa m = null;
+		m = new Mapa("Map1", ImageIO.read(new File("db/Map1.png")));
 		Jogo j = new Jogo(m, Arrays.asList(p1), Arrays.asList(p2));
-			
-        boolean podeMover = true;
-        Pattern p = Pattern.compile("[^\\s]");
         
-        try (Scanner s = new Scanner(System.in)) {
-            while (!j.acabou()) {
-            	System.out.println("Vez: " + j.personagemAtual().getNome());
-                int l, c;
-                j.exibir(System.out::print);
-                
-                String cmd = s.next(p);
-                
-                switch (cmd) {
-                    case "m":
-                    	//if (podeMover) {
-                            l = s.nextInt();
-                            c = s.nextInt();
-                            if (j.mover(new Posicao(l, c)))
-                                podeMover = false;
-                            else
-                            	System.out.println("movimento invalido");
-                    	//}
-                        break;
-                        
-                    case "a":
-                        l = s.nextInt();
-                        c = s.nextInt();
-                        if (!j.atacar(new Posicao(l, c)))
-                        	System.out.println("movimento invalido");
-                        break;
-                    
-                    case "f":
-                        podeMover = true;
-                    	j.proximoPersonagem();
-                    	break;
-                }
-                
-                s.nextLine();
-            }
-            System.out.println("FIM");
-		}
+        JanelaJogo jan = new JanelaJogo(j);
+        jan.setVisible(true);
 	}
 
 }

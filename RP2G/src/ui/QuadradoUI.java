@@ -18,12 +18,22 @@ import core.mapa.Quadrado;
 public class QuadradoUI extends JPanel {
 	private static final long serialVersionUID = 653126213653L;
 	private Quadrado tile;
+	private static Image grass = null, black = null, generic = null;
 	
 	public QuadradoUI(Quadrado tile, MouseListener mlis){
 		super();
 		this.setQuadrado(tile);
 		this.setLayout(new GridLayout());
 		this.addMouseListener(mlis);
+		
+		if (QuadradoUI.grass==null){
+			try { 
+				QuadradoUI.generic = ImageIO.read(new File("db/generic.png"));
+				QuadradoUI.grass = ImageIO.read(new File("db/grass.png"));
+				QuadradoUI.black = ImageIO.read(new File("db/black.png"));
+			}
+			catch (Exception e){ System.out.println(e); e.printStackTrace(); }
+		}
 	}
 	
 	public void setQuadrado(Quadrado tile){
@@ -37,22 +47,15 @@ public class QuadradoUI extends JPanel {
 	public void paint(Graphics g){
 		super.paint(g);
 		this.removeAll();
-		Image grass = null, black = null, generic = null;
-		try { 
-			generic = ImageIO.read(new File("db/generic.png"));
-			grass = ImageIO.read(new File("db/grass.png"));
-			black = ImageIO.read(new File("db/black.png"));
-		}
-		catch (Exception e){ System.out.println(e); e.printStackTrace(); }
 		
 		Image image = null;
 		if (this.tile.isOcupado()){
 			if (this.tile.getOcupante().getIcone()!=null) image = this.tile.getOcupante().getIcone().getImage();
-			else image = generic;
+			else image = QuadradoUI.generic;
 		}
 		else {
-			if (this.tile.isTransponivel()) image = grass;
-			else image = black;
+			if (this.tile.isTransponivel()) image = QuadradoUI.grass;
+			else image = QuadradoUI.black;
 		}
 
 		ImageIcon icon = new ImageIcon(image.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH));
