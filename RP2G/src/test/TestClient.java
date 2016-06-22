@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Scanner;
 
+import ui.JanelaJogo;
 import net.client.Cliente;
 import net.client.Controlador;
 import net.server.Servidor;
@@ -79,6 +80,8 @@ public class TestClient {
         } catch (IOException e) {
             System.err.println(e);
         }
+        
+        JanelaJogo win = new JanelaJogo(c.getJogo());
 	}
 
 }

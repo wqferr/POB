@@ -8,17 +8,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Objects;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import net.client.Controlador;
 import core.Jogo;
 import core.mapa.Posicao;
+import core.Ordem;
+import core.Ordem.Comando;
 
-public class JanelaJogo extends JFrame implements ActionListener, MouseListener {
+public class JanelaJogo extends JFrame implements ActionListener, MouseListener, Controlador {
 	private static final long serialVersionUID = -398592414626114074L;
 	
 	private JPanel panel;
@@ -31,9 +33,10 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener 
 	private JButton fimButton;
 	private int curI;
 	private int curJ;
+	private String curBotao;
 	
 	public JanelaJogo(Jogo jogo){
-		this(jogo, "Water Emblem Tactics Online II - Revengence of the Lich King | Game of the Year Edition", 800, 600);
+		this(jogo, "Water Emblem Tactics Online II - Revengence of the Lich King | Game of the Year Edition", 800, 60);
 	}
 	
 	public JanelaJogo(Jogo jogo, String windowName, int height, int width){
@@ -42,6 +45,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener 
 		this.setSize(height, width);
 		this.curI = 0;
 		this.curJ = 0;
+		this.curBotao = null;
 		this.panel = (JPanel) this.getContentPane();
 		this.panel.setLayout(new GridBagLayout());
 		this.jogo = jogo;
@@ -111,17 +115,20 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener 
 	public void actionPerformed(ActionEvent e){
 		if (e.getActionCommand().equals("atacar")) {
 			if (this.jogo.atacar(new Posicao(this.curI, this.curJ))){
+				this.curBotao = new String("atacar");
 				this.updateUI();
 				this.jogo.exibir();
 			}
 		}
 		else if(e.getActionCommand().equals("mover")){
 			if (this.jogo.mover(new Posicao(this.curI, this.curJ))){
+				this.curBotao = new String("mover");
 				this.updateUI();
 				this.jogo.exibir();
 			}
 		}
 		else if (e.getActionCommand().equals("fim") && !jogo.acabou()){
+			this.curBotao = new String("fim");
 			this.jogo.proximoPersonagem();
 			this.updateUI();
 			this.jogo.exibir();
@@ -148,4 +155,18 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener 
 	@Override
 	public void mouseExited(MouseEvent e) {}
 
+	@Override
+	public Ordem proximaOrdem(Jogo j) {
+		try{
+			while (this.curBotao==null) Thread.sleep(10);
+			if (this.curBotao.equals("atacar")) return new Ordem(Comando.ATACAR, new Posicao(this.curI, this.curJ));
+			else if (this.curBotao.equals("mover")) return new Ordem(Comando.MOVER, new Posicao(this.curI, this.curJ));
+			else if (this.curBotao.equals("fim")) return new Ordem(Comando.ENCERRAR);
+			
+			this.curBotao = null;
+		}catch(Exception e) { e.printStackTrace(); }
+		
+		return null;
+	}
+	
 }
