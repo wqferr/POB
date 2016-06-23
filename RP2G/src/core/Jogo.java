@@ -76,12 +76,26 @@ public class Jogo implements Serializable {
 		Collections.shuffle(todos);
 		ListIterator<Personagem> li = todos.listIterator();
 		
-		int i;
-		for (i = 0; i < Personagem.getNroPersonagens() / 2; i++)
-			p1.add(li.next());
-		while (i < Personagem.getNroPersonagens()) {
-			p2.add(li.next());
-			i++;
+		int nSpawns1 = m.getSpawnPointsTime1().size();
+		int nSpawns2 = m.getSpawnPointsTime2().size();
+		if (todos.size() >= nSpawns1 + nSpawns2) {
+			for (int i = 0; i < nSpawns1; i++)
+				p1.add(li.next());
+			for (int i = 0; i < nSpawns2; i++)
+				p2.add(li.next());
+		} else {
+			int i = 0, j = 0;
+			
+			while (i + j < nSpawns1 + nSpawns2) {
+				if (i < nSpawns1) {
+					i++;
+					p1.add(li.next());
+				}
+				if (j < nSpawns2) {
+					j++;
+					p2.add(li.next());
+				}
+			}
 		}
 		
 		this.mapa = m;
