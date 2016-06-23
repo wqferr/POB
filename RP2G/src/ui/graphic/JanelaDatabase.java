@@ -106,6 +106,7 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 		
 		this.mapaChooser = new JFileChooser();
 		this.mapaChooser.setFileFilter(new FileNameExtensionFilter("*.png, *.bpm", "png", "bpm"));
+		this.mapaChooser.setCurrentDirectory(new File ("db/"));
 		
 		this.textBox = new JTextField[10];
 		for (int i=0; i<10; i++) textBox[i] = new JTextField(8);
