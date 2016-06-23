@@ -209,7 +209,6 @@ public class Jogo implements Serializable {
 			Personagem p = this.mapa.getQuadrado(alvo).getOcupante();
 			this.pAtual.atacar(p);
 			if(p.isMorto()) {
-				System.out.println("Morreu");
 				this.mapa.setOcupante(p.getPosicao(), null);
 				this.removePersonagem(p);
 			}
@@ -322,7 +321,7 @@ public class Jogo implements Serializable {
 	}
 	
 	public void exibir(){
-		this.exibir(System.out::print);
+		this.exibir();
 	}
 	
 	public void exibir(Consumer<? super String> printer) {

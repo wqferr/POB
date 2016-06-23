@@ -85,7 +85,6 @@ public class Mapa implements Serializable{
 				if (curPix.isRed()) this.spawnPointsTime1.add(new Posicao(i, j));
 				else if (curPix.isBlue()) this.spawnPointsTime2.add(new Posicao(i, j));
 			}
-			System.out.println("");
 		}
 		
 		Mapa.add(this);
