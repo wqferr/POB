@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import net.Mensagem;
@@ -90,6 +91,11 @@ public class Cliente {
 		
 		this.time = Integer.parseInt(msg.getMsg());
 		this.notificar(Evento.CONFIRMACAO);
+		Random rng = null;
+		try {
+			rng = (Random) this.in.readObject();
+		} catch (ClassNotFoundException e1) {}
+		Personagem.D_20.setSeed(rng.nextLong());
 		
 		System.err.println("Recebendo database.");
 		DatabaseHandler.readAllStream(this.in);
@@ -102,11 +108,9 @@ public class Cliente {
 			@SuppressWarnings("unchecked")
 			List<Personagem> p2 = (List<Personagem>) this.in.readObject();
 			
-			jogo = new Jogo(m, p1, p2);
+			jogo = new Jogo(m, p1, p2, rng);
 		} catch (ClassNotFoundException e) {}
-		try {
-			Personagem.D_20.setSeed((long) this.in.readObject());
-		} catch (ClassNotFoundException e) {}
+		
 		System.err.println("Informações transmitidas com êxito.");
 	}
 	

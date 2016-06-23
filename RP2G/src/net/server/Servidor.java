@@ -3,6 +3,7 @@ package net.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Random;
 import java.util.Scanner;
 
 import net.Mensagem;
@@ -25,13 +26,14 @@ public class Servidor {
 	private int porta;
 	
 	private Jogo jogo;
+	private Random rng;
 	
 	/**
 	 * Cria um novo servidor que rodará o jogo dado.
 	 * @param jogo O jogo a ser utilizado.
 	 */
-	public Servidor(Jogo jogo) {
-		this(jogo, PORTA_PADRAO);
+	public Servidor(Jogo jogo, Random rng) {
+		this(jogo, PORTA_PADRAO, rng);
 	}
 	
 	/**
@@ -39,10 +41,11 @@ public class Servidor {
 	 * @param jogo O jogo a ser utilizado.
 	 * @param porta A porta de rede a ser utilizada.
 	 */
-	public Servidor(Jogo jogo, int porta) {
+	public Servidor(Jogo jogo, int porta, Random rng) {
 		this.clientes = new TratadorCliente[Jogo.NRO_JOGADORES];
 		this.jogo = jogo;
 		this.porta = porta;
+		this.rng = rng;
 	}
 	
 	/**
@@ -83,6 +86,9 @@ public class Servidor {
 		
 		if (!conf)
 			this.notificarDessincronia();
+		
+		this.enviar(rng);
+		Personagem.D_20.setSeed(rng.nextLong());
 	
 		System.err.println("Enviando database.");
 		for (TratadorCliente tc : this.clientes)
@@ -96,9 +102,6 @@ public class Servidor {
 		} catch (IOException e) {
 			this.notificarQueda();
 		}
-		long seed = System.nanoTime();
-		Personagem.D_20.setSeed(seed);
-		this.enviar(seed);
 		
 		System.err.println("Informações transmitidas com êxito.");
 		System.err.println("Iniciando jogo.");
