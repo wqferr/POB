@@ -10,8 +10,8 @@ import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
 
-import struct.Par;
 import utils.Dado;
+import utils.struct.Par;
 import core.item.Item;
 import core.item.arma.Arma;
 import core.mapa.Posicao;

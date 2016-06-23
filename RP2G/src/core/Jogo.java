@@ -9,7 +9,7 @@ import java.util.ListIterator;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
 
-import struct.ListaCircular;
+import utils.struct.ListaCircular;
 import core.item.Item;
 import core.mapa.Mapa;
 import core.mapa.Posicao;

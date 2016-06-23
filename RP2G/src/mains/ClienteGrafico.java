@@ -1,10 +1,11 @@
-package ui.graphic;
+package mains;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import ui.graphic.JanelaJogo;
 import core.Jogo;
 import core.Ordem;
 import core.Ordem.Comando;

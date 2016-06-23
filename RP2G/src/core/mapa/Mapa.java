@@ -12,8 +12,8 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import struct.Par;
 import utils.Pixel;
+import utils.struct.Par;
 import core.personagem.Personagem;
 import exception.MapaInexistenteException;
 import exception.NomeRepetidoException;

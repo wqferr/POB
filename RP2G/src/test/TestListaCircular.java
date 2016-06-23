@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import struct.ListaCircular;
+import utils.struct.ListaCircular;
 
 /**
  * Classe de teste para a Lista Circular

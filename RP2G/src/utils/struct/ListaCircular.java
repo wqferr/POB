@@ -1,4 +1,4 @@
-package struct;
+package utils.struct;
 
 import java.io.Serializable;
 import java.util.AbstractSequentialList;
