@@ -66,14 +66,14 @@ public class ClienteTextual {
                         	} else {
                         		System.out.println(personagem.getNome());
                         		int hpMax = personagem.getStat(Stat.HP_MAX);
-                        		int porcentHp = 10*personagem.getHp() / hpMax;
+                        		int porcentHp = (10*personagem.getHp()) / hpMax;
                         		System.out.printf("HP: %d/%d [", personagem.getHp(), hpMax);
                         		int i = 0;
                         		while (i < porcentHp) {
                         			System.out.print('#');
                         			i++;
                         		}
-                        		while (i < hpMax) {
+                        		while (i < 10) {
                         			System.out.print('-');
                         			i++;
                         		}
