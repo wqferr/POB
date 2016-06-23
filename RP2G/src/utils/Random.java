@@ -80,7 +80,6 @@ public class Random {
 	
 	/**
 	 * Gera um número real aleatório entre [0,1] e retorna-o.
-	 * Entre [0, 1]
 	 * @return O número aleatório gerado
 	 */
 	public double getDoubleRand() {
