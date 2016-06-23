@@ -1,6 +1,7 @@
 package mains;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.Scanner;
 
 import net.server.Servidor;
@@ -21,9 +22,10 @@ public class ServidorTextual {
 		
 		System.out.println("Nome do Mapa:");
 		Mapa map = Mapa.get(scan.nextLine());
-		Jogo game = new Jogo(map);
+		Random rng = new Random();
+		Jogo game = new Jogo(map, rng);
 		
-		Servidor server = new Servidor(game);
+		Servidor server = new Servidor(game, rng);
 		try { server.start(); }
 		catch (IOException e){ System.err.println(e); }
 	}

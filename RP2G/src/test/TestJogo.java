@@ -2,6 +2,7 @@ package test;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -33,7 +34,7 @@ public class TestJogo {
 		
         Mapa m = null;
 		m = new Mapa("Map1", ImageIO.read(new File("db/Map1.png")));
-		Jogo j = new Jogo(m, Arrays.asList(p1), Arrays.asList(p2));
+		Jogo j = new Jogo(m, Arrays.asList(p1), Arrays.asList(p2), new Random());
         
         JanelaJogo jan = new JanelaJogo(j);
         jan.setVisible(true);
