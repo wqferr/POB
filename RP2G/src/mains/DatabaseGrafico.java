@@ -3,7 +3,7 @@ package mains;
 import ui.graphic.JanelaDatabase;
 
 /**
- * Classe com a funcao Main para o DataBase
+ * Classe com a método Main para o DataBase
  */
 
 public class DatabaseGrafico {

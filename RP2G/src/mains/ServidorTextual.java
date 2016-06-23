@@ -16,11 +16,12 @@ import core.mapa.Mapa;
 public class ServidorTextual {
 	public static void main(String[] args) {
 		DatabaseHandler dbHandle = new DatabaseHandler();
-		Scanner scan = new Scanner(System.in);
 		
+		Scanner scan = new Scanner(System.in);
 		System.out.println("Nome do Mapa:");
 		Mapa map = Mapa.get(scan.nextLine());
 		Jogo game = new Jogo(map);
+		scan.close();
 		
 		Servidor server = new Servidor(game);
 		try { server.start(); }
