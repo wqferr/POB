@@ -16,6 +16,7 @@ import core.mapa.Posicao;
 import core.mapa.Quadrado;
 import core.personagem.Personagem;
 import core.personagem.Personagem.Stat;
+import exception.ItensInsuficientesException;
 
 /**
  * Contem as mecânicas básicas para o jogo 
@@ -247,7 +248,11 @@ public class Jogo implements Serializable {
 	 * @return Se foi possível usar o item
 	 */
 	public boolean usar(String item) {
-		return this.pAtual.usar(item);
+		try {
+            return this.pAtual.usar(item);
+		} catch (ItensInsuficientesException e) {
+			return false;
+		}
 	}
 	/**
 	 * Retorna se o jogo acabou ou não
@@ -355,6 +360,9 @@ public class Jogo implements Serializable {
 			}
 			printer.accept("\n");
 		}
+		printer.accept("Personagem atual em [");
+		printer.accept(this.pAtual.getPosicao().toString());
+		printer.accept("]\n\n");
 	}
 	
 }

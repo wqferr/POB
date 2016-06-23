@@ -32,10 +32,7 @@ public class ClienteTextual {
 		tec.nextLine();
 		
 		Controlador controle = (Jogo jogo) -> {
-            System.out.println("INÍCIO DE TURNO");
-            System.out.println("===============");
             jogo.exibir();
-            System.out.println("Personagem atual: " + jogo.personagemAtual().getPosicao());
 			while (!jogo.acabou()) {
 				try {
 					System.out.println();

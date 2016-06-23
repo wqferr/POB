@@ -340,6 +340,8 @@ public class Personagem implements Serializable {
 		int qtdAtual = this.getNroItens(i);
 		if (qtdAtual < q)
 			throw new ItensInsuficientesException(i.getNome());
+		else if (qtdAtual == q)
+			this.inventario.remove(i);
 		else
             this.inventario.put(i, qtdAtual - q);
 	}
@@ -445,8 +447,8 @@ public class Personagem implements Serializable {
 	
 	public List<Par<Item, Integer>> getItens() {
 		List<Par<Item, Integer>> l = new LinkedList<>();
-		for (Map.Entry<Item, Integer> p : this.inventario.entrySet())
-			l.add(new Par<>(p.getKey(), p.getValue()));
+		for (Map.Entry<Item, Integer> e : this.inventario.entrySet())
+			l.add(new Par<>(e.getKey(), e.getValue()));
 		
 		return l;
 	}

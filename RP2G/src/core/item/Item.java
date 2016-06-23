@@ -76,4 +76,11 @@ public abstract class Item implements Comparable<Item>, Serializable {
 	 * @return Se foi possível usar o item
 	 */
 	public abstract boolean usar(Personagem p);
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof Item))
+			return false;
+		return ((Item) o).nome.equals(this.nome);
+	}
 }
