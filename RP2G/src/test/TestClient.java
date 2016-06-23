@@ -8,6 +8,7 @@ import java.util.Scanner;
 import net.client.Cliente;
 import net.client.Controlador;
 import net.server.Servidor;
+import ui.graphic.JanelaJogo;
 import core.Jogo;
 import core.Ordem;
 import core.Ordem.Comando;
@@ -73,19 +74,14 @@ public class TestClient {
         
         try {
             c.conectar();
+            JanelaJogo win = new JanelaJogo(c.getJogo(), c);
+            c.setControlador(win);
+            c.getJogo().setOuvinte(win);
+            win.setVisible(true);
+			c.start();
         } catch (IOException e) {
             System.err.println(e);
         }
-        
-        //JanelaJogo win = new JanelaJogo(c.getJogo(), c);
-        c.setControlador(cont);
-        //c.getJogo().setOuvinte(win);
-        //win.setVisible(true);
-        try {
-			c.start();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 }

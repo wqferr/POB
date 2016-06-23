@@ -41,7 +41,6 @@ public class ClienteTextual {
 					System.out.println();
                     String cmd = tec.next();
                     
-                    System.err.println(cmd);
                     switch (cmd) {
                         case "m":
                             Posicao p = new Posicao(tec.nextInt(), tec.nextInt());
