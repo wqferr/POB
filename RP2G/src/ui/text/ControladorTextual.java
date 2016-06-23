@@ -44,6 +44,8 @@ public class ControladorTextual implements Controlador {
                         in.nextLine();
                         if (jogo.podeMover(p))
                             return new Ordem(Comando.MOVER, p);
+                        else
+                        	System.out.println("Comando inválido");
                         break;
                         
                     case "a":
@@ -51,6 +53,8 @@ public class ControladorTextual implements Controlador {
                         in.nextLine();
                         if (jogo.podeAtacar(p))
                             return new Ordem(Comando.ATACAR, p);
+                        else
+                        	System.out.println("Comando inválido");
                         break;
                         
                     case "i":
@@ -98,13 +102,18 @@ public class ControladorTextual implements Controlador {
                         String item = in.nextLine().trim();
                         if (jogo.podeUsar(item))
                             return new Ordem(Comando.USAR, item);
+                        else
+                        	System.out.println("Comando inválido");
                         break;
                         
                     case "l":
                         System.out.println("Inventario:\n");
                         List<Par<Item, Integer>> itens = jogo.personagemAtual().getItens();
-                        for (Par<Item, Integer> par : itens)
-                            System.out.printf("%s: %d\n", par.getV1().getNome(), par.getV2());
+                        if (itens.size() == 0)
+                        	System.out.println("Vazio");
+                        else
+                            for (Par<Item, Integer> par : itens)
+                                System.out.printf("%s: %d\n", par.getV1().getNome(), par.getV2());
                         System.out.println();
                         in.nextLine();
                         break;
