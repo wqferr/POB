@@ -37,7 +37,7 @@ public abstract class Arma extends Item {
 	 * Retorna o dano base da arma.
 	 * @return Dano base da arma
 	 */
-	public int getDanoBase(){
+	public int getDanoBase() {
 		return this.danoBase;
 	}
 	
@@ -45,7 +45,7 @@ public abstract class Arma extends Item {
 	 * Retorna o alcance da arma.
 	 * @return alcance da arma 
 	 */
-	public int getAlcance(){
+	public int getAlcance() {
 		return this.alcance;
 	}
 	

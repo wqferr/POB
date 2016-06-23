@@ -81,8 +81,8 @@ public class Mapa implements Serializable{
 		this.topologia = new Quadrado[imagem.getHeight()][imagem.getWidth()];
 		this.spawnPointsTime1 = new LinkedList<Posicao>();
 		this.spawnPointsTime2 = new LinkedList<Posicao>();
-		for (int i=0; i<imagem.getHeight(); i++){
-			for (int j=0; j<imagem.getWidth(); j++){
+		for (int i=0; i<imagem.getHeight(); i++) {
+			for (int j=0; j<imagem.getWidth(); j++) {
 				Pixel curPix = new Pixel(imagem.getRGB(j, i));
 				this.topologia[i][j] = new Quadrado(new Posicao(i, j), !curPix.isWhite());
 				if (curPix.isRed()) this.spawnPointsTime1.add(new Posicao(i, j));
@@ -123,7 +123,7 @@ public class Mapa implements Serializable{
 	 * Retorna o nome do mapa.
 	 * @return nome do mapa
 	 */
-	public String getNome(){
+	public String getNome() {
 		return this.nome;
 	}
 	
@@ -222,7 +222,7 @@ public class Mapa implements Serializable{
 	 * Retorna todas as posições de Spawn do time 1.
 	 * @return Lista com as posições de Spawn do time 1
 	 */
-	public List<Posicao> getSpawnPointsTime1(){
+	public List<Posicao> getSpawnPointsTime1() {
 		return new LinkedList<>(this.spawnPointsTime1);
 	}
 	
@@ -230,7 +230,7 @@ public class Mapa implements Serializable{
 	 * Retorna todas as posições de Spawn do time 2.
 	 * @return Lista com as posições de Spawn do time 2
 	 */
-	public List<Posicao> getSpawnPointsTime2(){
+	public List<Posicao> getSpawnPointsTime2() {
 		return new LinkedList<>(this.spawnPointsTime2);
 	}
 	
@@ -261,7 +261,7 @@ public class Mapa implements Serializable{
 	 * Retorna um iterador para o registro mapas.
 	 * @return iterador para os mapas
 	 */
-	public static Iterator<Entry<String, Mapa>> getIterator(){
+	public static Iterator<Entry<String, Mapa>> getIterator() {
 		return Mapa.registro.entrySet().iterator();
 	}
 

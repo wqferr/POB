@@ -64,7 +64,7 @@ public abstract class Item implements Comparable<Item>, Serializable {
 	 * Retorna um iterador para o mapa de itens.
 	 * @return O iterador
 	 */
-	public static Iterator<Entry<String, Item>> getIterator(){
+	public static Iterator<Entry<String, Item>> getIterator() {
 		return Item.registro.entrySet().iterator();
 	}
 	

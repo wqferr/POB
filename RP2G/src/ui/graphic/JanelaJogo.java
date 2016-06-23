@@ -41,11 +41,11 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	private String curBotao;
 	private Cliente client;
 	
-	public JanelaJogo(Jogo jogo){
+	public JanelaJogo(Jogo jogo) {
 		this(jogo, null, "Water Emblem Tactics Online II - Revengence of the Lich King | Game of the Year Edition", 800, 60);
 	}
 	
-	public JanelaJogo(Jogo jogo, Cliente client){
+	public JanelaJogo(Jogo jogo, Cliente client) {
 		this(jogo, client, "Water Emblem Tactics Online II - Revengence of the Lich King | Game of the Year Edition", 800, 60);
 	}
 	
@@ -91,8 +91,8 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.panel.add(fimButton, gcons);
 		
 		this.mapaGUI = new QuadradoUI[this.jogo.getMapa().getNLinhas()][this.jogo.getMapa().getNColunas()];
-		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++){
-			for (int j=0; j<this.jogo.getMapa().getNColunas(); j++){
+		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++) {
+			for (int j=0; j<this.jogo.getMapa().getNColunas(); j++) {
 				mapaGUI[i][j] = new QuadradoUI(jogo.getMapa().getQuadrado(new Posicao(i, j)), this);
 				mapaGUI[i][j].setName(i + (" "+ j));
 				mapaGUI[i][j].setPreferredSize(new Dimension(40, 40));
@@ -108,15 +108,15 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.updateUI();
 	}
 	
-	public void updateUI(){
+	public void updateUI() {
 		this.markAllDirty();
 		this.mapaGUI[this.curI][this.curJ].setDirty(true);
 		
 		this.mensagemRodada.setText(this.jogo.personagemAtual().getNome());
 		this.mensagemVez.setText(this.jogo.getTimeAtual()==this.client.getTime() ? "Sua Vez" : "Vez do Outro");
-		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++){
-			for (int j=0; j<this.jogo.getMapa().getNColunas(); j++){
-				if (jogo.getMapa().getQuadrado(new Posicao(i, j)).isOcupado()){
+		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++) {
+			for (int j=0; j<this.jogo.getMapa().getNColunas(); j++) {
+				if (jogo.getMapa().getQuadrado(new Posicao(i, j)).isOcupado()) {
 					mapaGUI[i][j].revalidate();
 					mapaGUI[i][j].setDirty(true);
 				}
@@ -130,7 +130,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.markAllDirty();
 	}
 	
-	public void actionPerformed(ActionEvent e){	
+	public void actionPerformed(ActionEvent e) {	
 		if (e.getActionCommand().equals("atacar")) this.curBotao = new String("atacar");
 		else if(e.getActionCommand().equals("mover")) this.curBotao = new String("mover");
 		else if (e.getActionCommand().equals("fim")) this.curBotao = new String("fim");
@@ -176,7 +176,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	}
 	
 	
-	private JButton configureButton(String buttonName, String actionName){
+	private JButton configureButton(String buttonName, String actionName) {
 		JButton button = new JButton(buttonName);
 		button.setActionCommand(actionName);
 		button.addActionListener(this);
@@ -185,7 +185,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		return button;
 	}
 	
-	private void markAllDirty(){
+	private void markAllDirty() {
 		for(Personagem p : this.jogo.getPersonagensTime1())
 			if(p!=null) this.mapaGUI[p.getPosicao().getLinha()][p.getPosicao().getColuna()].setDirty(true);
 		

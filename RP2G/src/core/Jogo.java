@@ -182,6 +182,11 @@ public class Jogo implements Serializable {
 		return false;
 	}
 	
+	/**
+	 * Verifica se o personagem atual pode atacar.
+	 * @param alvo A posição alvo
+	 * @return se o personagem pode atacar.
+	 */
 	public boolean podeAtacar(Posicao alvo) {
 		if (!this.mapa.isOcupado(alvo) || this.pAtual.getArma() == null)
 			return false;
@@ -203,7 +208,7 @@ public class Jogo implements Serializable {
 		if (!this.mapa.isOcupado(alvo) || this.pAtual.getArma() == null)
 			return false;
 		
-		if(alvo.distancia(this.pAtual.getPosicao()) <= this.pAtual.getArma().getAlcance()){
+		if(alvo.distancia(this.pAtual.getPosicao()) <= this.pAtual.getArma().getAlcance()) {
 			this.ouvinte.accept(null);
 			Personagem p = this.mapa.getQuadrado(alvo).getOcupante();
 			this.pAtual.atacar(p);
@@ -219,10 +224,20 @@ public class Jogo implements Serializable {
 		return false;
 	}
 
+	/**
+	 * Verifica se o personagem atual pode usar um item.
+	 * @param item O item a ser usado
+	 * @return Se o personagem pode usar o item
+	 */
 	public boolean podeUsar(String item) {
 		return this.pAtual.podeUsar(item);
 	}
 
+	/**
+	 * Verifica se o personagem atual pode usar um item.
+	 * @param item O item a ser usado
+	 * @return Se o personagem pode usar o item
+	 */
 	public boolean podeUsar(Item item) {
 		return this.pAtual.podeUsar(item);
 	}
@@ -256,7 +271,7 @@ public class Jogo implements Serializable {
 	 * Retorna se o jogo acabou ou não
 	 * @return Se o jogo acabou
 	 */
-	public boolean acabou(){
+	public boolean acabou() {
 		return personagens1.isEmpty() || personagens2.isEmpty();
 	}
 
@@ -264,7 +279,7 @@ public class Jogo implements Serializable {
 	 * Retorna qual o time vencedor ou 0 caso nenhum tenha ganho
 	 * @return Time vencedor: 0 Nenhum, 1 Time 1, 2 Time 2
 	 */
-	public int vencedor(){
+	public int vencedor() {
 		if(personagens1.isEmpty())
 			return 2;
 		if(personagens2.isEmpty())
@@ -275,7 +290,7 @@ public class Jogo implements Serializable {
 	 * Remove um personagem do jogo
 	 * @param p Personagem que deve ser removido
 	 */
-	private void removePersonagem(Personagem p){
+	private void removePersonagem(Personagem p) {
 		if (!personagens1.remove(p))
 			personagens2.remove(p);
 	}
@@ -287,18 +302,35 @@ public class Jogo implements Serializable {
 		return this.mapa;
 	}
 	
+	/**
+	 * Retorna uma lista com os personagens do time atual.
+	 * @return Os personagens do time.
+	 */
 	public List<Personagem> getPersonagensTimeAtual() {
 		return new LinkedList<>(this.timeAtual ? this.personagens2 : this.personagens1);
 	}
 	
+	/**
+	 * Retorna uma lista com os personagens do time 1.
+	 * @return Os personagens do time.
+	 */
 	public List<Personagem> getPersonagensTime1() {
 		return new LinkedList<>(this.personagens1);
 	}
 
+	/**
+	 * Retorna uma lista com os personagens do time 1.
+	 * @return Os personagens do time.
+	 */
 	public List<Personagem> getPersonagensTime2() {
 		return new LinkedList<>(this.personagens2);
 	}
 	
+	/**
+	 * Tenta executar uma ordem dada.
+	 * @param o A ordem a ser executada
+	 * @return Se foi possível fazê-lo.
+	 */
 	public boolean executar(Ordem o) {
 		switch (o.getComando()) {
             case ATACAR:
@@ -311,7 +343,7 @@ public class Jogo implements Serializable {
             	return this.usar((String) o.getArg());
             
             case ENCERRAR:
-            	if(!this.acabou()){
+            	if(!this.acabou()) {
             		this.proximoPersonagem();
             		return true;
             	}
@@ -323,10 +355,17 @@ public class Jogo implements Serializable {
 		}
 	}
 	
-	public void exibir(){
+	/**
+	 * Exibe o jogo usando System.out.print.
+	 */
+	public void exibir() {
 		this.exibir(System.out::print);
 	}
 	
+	/**
+	 * Exibe a matriz do jogo.
+	 * @param printer O objeto a aceitar a matriz.
+	 */
 	public void exibir(Consumer<? super String> printer) {
 		printer.accept("  ");
 		for (int i = 0; i < this.mapa.getNColunas(); i++)

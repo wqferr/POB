@@ -5,11 +5,11 @@ import java.awt.Color;
 public class Pixel {
 	private Color color;
 	
-	public Pixel(int color){
+	public Pixel(int color) {
 		this.color = new Color(color);
 	}
 
-	public void setColor(Color color){
+	public void setColor(Color color) {
 		this.color = color;
 	}
 
@@ -17,95 +17,95 @@ public class Pixel {
 	 * Retorna a cor
 	 * @return A cor
 	 */
-	public Color getColor(){
+	public Color getColor() {
 		return this.color;
 	}
 	
-	public int red(){
+	public int red() {
 		return Pixel.red(this.color);
 	}
 	
-	public int green(){
+	public int green() {
 		return Pixel.green(this.color);
 	}
 	
-	public int blue(){
+	public int blue() {
 		return Pixel.blue(this.color);
 	}
 	
-	public int alpha(){
+	public int alpha() {
 		return Pixel.alpha(this.color);
 	}
 	
-	public boolean isBlack(){
+	public boolean isBlack() {
 		return Pixel.isBlack(this.color);
 	}
 	
-	public boolean isWhite(){
+	public boolean isWhite() {
 		return Pixel.isWhite(this.color);
 	}
 	
-	public boolean isRed(){
+	public boolean isRed() {
 		return Pixel.isRed(this.color);
 	}
 	
-	public boolean isGreen(){
+	public boolean isGreen() {
 		return Pixel.isGreen(this.color);
 	}
 	
-	public boolean isBlue(){
+	public boolean isBlue() {
 		return Pixel.isBlue(this.color);
 	}
 	
-	public static int red(int color){
+	public static int red(int color) {
 		return Pixel.red(new Color(color));
 	}
 	
-	public static int green(int color){
+	public static int green(int color) {
 		return Pixel.green(new Color(color));
 	}
 	
-	public static int blue(int color){
+	public static int blue(int color) {
 		return Pixel.blue(new Color(color));
 	}
 	
-	public static int alpha(int color){
+	public static int alpha(int color) {
 		return Pixel.alpha(new Color(color));
 	}
 	
-	public static boolean isBlack(int color){
+	public static boolean isBlack(int color) {
 		return Pixel.isBlack(new Color(color));
 	}
 	
-	public static boolean isWhite(int color){
+	public static boolean isWhite(int color) {
 		return isWhite(Pixel.green(new Color(color)));
 	}
 	
-	public static boolean isRed(int color){
+	public static boolean isRed(int color) {
 		return Pixel.isRed(new Color(color));
 	}
 	
-	public static boolean isGreen(int color){
+	public static boolean isGreen(int color) {
 		return Pixel.isGreen(new Color(color));
 	}
 	
-	public static boolean isBlue(int color){
+	public static boolean isBlue(int color) {
 		return Pixel.isBlue(new Color(color));
 	}
 	
-	public static int red(Color color){
+	public static int red(Color color) {
 		return color.getRed();
 	}
 	
-	public static int green(Color color){
+	public static int green(Color color) {
 		return color.getGreen();
 	}
 	
-	public static int blue(Color color){
+	public static int blue(Color color) {
 		return color.getBlue();
 	}
 	
-	public static int alpha(Color color){
+	public static int alpha(Color color) {
 		return color.getAlpha();
 	}
 	
@@ -114,7 +114,7 @@ public class Pixel {
 	 * @param color Cor 
 	 * @return Se a cor é preta
 	 */
-	public static boolean isBlack(Color color){
+	public static boolean isBlack(Color color) {
 		return (Pixel.red(color) | Pixel.green(color) | Pixel.blue(color))==0x00;
 	}
 	
@@ -123,7 +123,7 @@ public class Pixel {
 	 * @param color Cor 
 	 * @return Se a cor é branca
 	 */
-	public static boolean isWhite(Color color){
+	public static boolean isWhite(Color color) {
 		return (Pixel.red(color) & Pixel.green(color) & Pixel.blue(color))==0xff;
 	}
 	
@@ -132,7 +132,7 @@ public class Pixel {
 	 * @param color Cor 
 	 * @return Se a cor é vermelha
 	 */
-	public static boolean isRed(Color color){
+	public static boolean isRed(Color color) {
 		return (Pixel.red(color) & ~Pixel.green(color) & ~Pixel.blue(color))==0xff;
 	}
 	
@@ -141,7 +141,7 @@ public class Pixel {
 	 * @param color Cor 
 	 * @return Se a cor é verde
 	 */
-	public static boolean isGreen(Color color){
+	public static boolean isGreen(Color color) {
 		return (~Pixel.red(color) & Pixel.green(color) & ~Pixel.blue(color))==0xff;
 	}
 
@@ -150,7 +150,7 @@ public class Pixel {
 	 * @param color Cor 
 	 * @return Se a cor é azul
 	 */
-	public static boolean isBlue(Color color){
+	public static boolean isBlue(Color color) {
 		return (~Pixel.red(color) & ~Pixel.green(color) & Pixel.blue(color))==0xff;
 	}
 }

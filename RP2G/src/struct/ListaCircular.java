@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.ListIterator;
 
 /**
- * @author William Quelho Ferreira
  * Uma lista ordenada em que o último precede o primeiro.
  * Uma chamada a {@link ListIterator#next()} após o último elemento ter sido
  * retornado resulta no iterador voltar ao primeiro elemento. Analogamente,

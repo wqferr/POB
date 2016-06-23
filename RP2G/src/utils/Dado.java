@@ -45,7 +45,7 @@ public class Dado {
 	 * Retorna uma nova rolagem
 	 * @return A face sorteada no lançamento do dado.
 	 */
-	public int rolar(){
+	public int rolar() {
 		this.ladoAtual = (int) this.gerador.getRand(1, this.lados);
 		return this.ladoAtual;
 	}
@@ -54,7 +54,7 @@ public class Dado {
 	 * Retorna o ultimo resultado
 	 * @return O valor sorteado no último lançamento.
 	 */
-	public int getLado(){
+	public int getLado() {
 		return this.ladoAtual;
 	}
 	

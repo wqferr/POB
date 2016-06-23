@@ -43,7 +43,7 @@ public class Cliente {
 		this.jogo = null;
 	}
 	
-	public void setControlador(Controlador con){
+	public void setControlador(Controlador con) {
 		this.controlador = con;
 	}
 	
