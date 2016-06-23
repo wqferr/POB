@@ -7,14 +7,14 @@ public class Random {
 	private long xi;
 	
 	/**
-	 * Construtor com seed padrão
+	 * Construtor com seed padrão.
 	 */
 	public Random() {
 		this(System.nanoTime());
 	}
 	
 	/**
-	 * Construtor com seed específica
+	 * Construtor com seed específica.
 	 * @param seed Seed para ser utilizada na geração dos números aleatórios.
 	 */
 	public Random(long seed) {
@@ -22,7 +22,7 @@ public class Random {
 	}
 	
 	/**
-	 * Construtor com seed, P, M e A especificados
+	 * Construtor com seed, P, M e A especificados.
 	 * @param seed Seed para ser utilizada na geração dos números aleatórios.
 	 * @param p Coeficiente utilizado pela equação de geração de números aleatórios.
 	 * @param m Coeficiente utilizado pela equação de geração de números aleatórios.
@@ -36,7 +36,7 @@ public class Random {
 	}
 	
 	/**
-	 * Define a seed para o gerador
+	 * Define a seed para o gerador.
 	 * @param seed Seed para ser utilizada na geração dos números aleatórios.
 	 */
 	public void setSeed(long seed) {
@@ -44,14 +44,14 @@ public class Random {
 	}
 	
 	/**
-	 * Calcula o próximo número da sequência
+	 * Calcula o próximo número da sequência.
 	 */
 	private void nextRand() {
 		this.xi = (a + m*xi) % p;
 	}
 	
 	/**
-	 * Gera um número aleatório entre [O, P) e retorna-o
+	 * Gera um número aleatório entre [O, P) e retorna-o.
 	 * @return O número gerado.
 	 */
 	public long getRand() {
@@ -59,7 +59,7 @@ public class Random {
 	}
 	
 	/**
-	 * Gera um número aleatório entre [0, max] e retorna-o
+	 * Gera um número aleatório entre [0, max] e retorna-o.
 	 * @param max Valor máximo que pode ser gerado.
 	 * @return O número gerado.
 	 */
@@ -68,7 +68,7 @@ public class Random {
 	}
 	
 	/**
-	 * Gera um número aleatório entre [min, max] e retorna-o
+	 * Gera um número aleatório entre [min, max] e retorna-o.
 	 * @param min Valor mínimo que pode ser gerado.
 	 * @param max Valor máximo que pode ser gerado.
 	 * @return O número gerado.
@@ -79,7 +79,7 @@ public class Random {
 	}
 	
 	/**
-	 * Gera um número real aleatório entre [0,1] e retorna-o
+	 * Gera um número real aleatório entre [0,1] e retorna-o.
 	 * Entre [0, 1]
 	 * @return O número aleatório gerado
 	 */

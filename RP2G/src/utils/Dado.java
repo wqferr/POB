@@ -6,14 +6,14 @@ public class Dado {
 	private Random gerador;
 	
 	/**
-	 * Gerador padrão para um dado de 6 lados
+	 * Gerador padrão para um dado de 6 lados.
 	 */
 	public Dado() {
 		this(6);
 	}
 	
 	/**
-	 * Gerador com lados especificados
+	 * Gerador com lados especificados.
 	 * @param lados Número de lados do dado a ser criado.
 	 */
 	public Dado(int lados) {
@@ -23,7 +23,7 @@ public class Dado {
 	}
 
 	/**
-	 * Cria um dado com o número de lados especificados e usa a seed especifidada para o gerador de números aleatórios 
+	 * Cria um dado com o número de lados especificados e usa a seed especifidada para o gerador de números aleatórios.
 	 * @param lados Número de lados do dado
 	 * @param s Seed do gerador de números aleatórios.
 	 */
@@ -34,7 +34,7 @@ public class Dado {
 	}
 	
 	/**
-	 * Altera a seed do gerador de números aleatórios
+	 * Altera a seed do gerador de números aleatório.
 	 * @param s Seed para o gerador de números aleatórios.
 	 */
 	public void setSeed(long s) {
@@ -42,7 +42,7 @@ public class Dado {
 	}
 	
 	/**
-	 * Retorna uma nova rolagem
+	 * Retorna uma nova rolagem.
 	 * @return A face sorteada no lançamento do dado.
 	 */
 	public int rolar() {
@@ -51,7 +51,7 @@ public class Dado {
 	}
 	
 	/**
-	 * Retorna o ultimo resultado
+	 * Retorna o ultimo resultado.
 	 * @return O valor sorteado no último lançamento.
 	 */
 	public int getLado() {
