@@ -19,15 +19,15 @@ import core.personagem.Personagem.Stat;
  * Classe de Interface Textual para o cliente
  */
 
-public class ClienteTextual implements Controlador {
+public class ControladorTextual implements Controlador {
 	
 	private Scanner in;
 	
-	public ClienteTextual(Scanner in) {
+	public ControladorTextual(Scanner in) {
 		this.in = in;
 	}
 	
-	public ClienteTextual() {
+	public ControladorTextual() {
 		this(new Scanner(System.in));
 	}
 	

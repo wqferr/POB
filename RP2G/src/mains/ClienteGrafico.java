@@ -5,14 +5,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import ui.graphic.JanelaJogo;
-import core.Jogo;
-import core.Ordem;
-import core.Ordem.Comando;
-import core.mapa.Posicao;
 import net.client.Cliente;
-import net.client.Controlador;
 import net.server.Servidor;
+import ui.graphic.JanelaJogo;
 
 /**
  * Classe com a função Main para a interface gráfica do jogo
