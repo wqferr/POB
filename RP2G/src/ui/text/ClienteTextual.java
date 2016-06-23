@@ -35,9 +35,9 @@ public class ClienteTextual {
             System.out.println("INÍCIO DE TURNO");
             System.out.println("===============");
             jogo.exibir();
+            System.out.println("Personagem atual: " + jogo.personagemAtual().getPosicao());
 			while (!jogo.acabou()) {
 				try {
-					System.out.println("Personagem atual: " + jogo.personagemAtual().getPosicao());
 					System.out.println();
                     String cmd = tec.next();
                     
@@ -121,7 +121,7 @@ public class ClienteTextual {
                         case "f":
                         	tec.nextLine();
                             System.out.println("================");
-                            System.out.println("  FIM DE TEXTO  ");
+                            System.out.println("  FIM DE TURNO");
                         	return new Ordem(Comando.ENCERRAR);
                         
                         case "h":

@@ -28,12 +28,8 @@ public class TestClient {
         
         Controlador cont = (Jogo jogo) -> {
         	System.out.println();
-        	Personagem g = Personagem.get("guerreiro");
-        	Personagem m = Personagem.get("mago");
         	
-        	System.out.print(String.format("%d/%d\t", g.getHp(), g.getStat(Stat.HP_MAX)));
-        	System.out.print(String.format("%d/%d\n", m.getHp(), m.getStat(Stat.HP_MAX)));
-        	jogo.exibir(System.out::print);
+        	jogo.exibir();
             if (andou && atacou) {
                 andou = false;
                 atacou = false;
@@ -84,10 +80,10 @@ public class TestClient {
             System.err.println(e);
         }
         
-        JanelaJogo win = new JanelaJogo(c.getJogo(), c);
-        c.setControlador(win);
-        c.getJogo().setOuvinte(win);
-        win.setVisible(true);
+        //JanelaJogo win = new JanelaJogo(c.getJogo(), c);
+        c.setControlador(cont);
+        //c.getJogo().setOuvinte(win);
+        //win.setVisible(true);
         try {
 			c.start();
 		} catch (IOException e) {

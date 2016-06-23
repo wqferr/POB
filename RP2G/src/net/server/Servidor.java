@@ -189,7 +189,6 @@ public class Servidor {
                     break;
 			}
 			s.close();
-			jogo.exibir(System.out::print);
 		} while (!acabou);
 		
 		for (TratadorCliente tc : this.clientes)
