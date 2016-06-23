@@ -233,14 +233,14 @@ public class Mapa implements Serializable{
 	 * @return Lista com as posições de Spawn do time 1
 	 */
 	public List<Posicao> getSpawnPointsTime1(){
-		return this.spawnPointsTime1;
+		return new LinkedList<>(this.spawnPointsTime1);
 	}
 	/**
 	 * Retorna todas as posições de Spawn do time 2 
 	 * @return Lista com as posições de Spawn do time 2
 	 */
 	public List<Posicao> getSpawnPointsTime2(){
-		return this.spawnPointsTime2;
+		return new LinkedList<>(this.spawnPointsTime2);
 	}
 	/**
 	 * Retorna o mapa 
