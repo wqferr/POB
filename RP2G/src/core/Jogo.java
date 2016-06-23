@@ -86,7 +86,7 @@ public class Jogo implements Serializable {
 		} else {
 			int i = 0, j = 0;
 			
-			while (i + j < nSpawns1 + nSpawns2) {
+			while (i + j < todos.size()) {
 				if (i < nSpawns1) {
 					i++;
 					p1.add(li.next());
