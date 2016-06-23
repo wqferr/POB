@@ -8,7 +8,7 @@ import core.personagem.Personagem;
 import core.personagem.Profissao;
 import exception.NomeRepetidoException;
 /**
- * Representa uma Arma que pode ser usado por um personagem para causar dano a seus oponentes, no máximo um por turno 
+ * Representa uma Arma que pode ser usado por um personagem para causar dano a seus oponentes, no máximo um por turno.
  */
 public abstract class Arma extends Item {
 	
@@ -17,8 +17,9 @@ public abstract class Arma extends Item {
 	private int danoBase;
 	private int alcance;
 	private final List<Profissao> equipantes;
+	
 	/**
-	 * Cria uma nova arma 
+	 * Cria uma nova arma.
 	 * @param nome Nome da arma
 	 * @param danoBase Dano de Base da arma
 	 * @param alcance Alcance máximo da arma, maior distância que é possível atacar um oponente
@@ -31,36 +32,41 @@ public abstract class Arma extends Item {
 		this.alcance = alcance;
 		this.equipantes = Arrays.asList(e);
 	}	 
+	
 	/**
-	 * Retorna o dano base da arma
-	 * @return Dano base da arma 
+	 * Retorna o dano base da arma.
+	 * @return Dano base da arma
 	 */
 	public int getDanoBase(){
 		return this.danoBase;
 	}
+	
 	/**
-	 * Retorna o alcance da arma
+	 * Retorna o alcance da arma.
 	 * @return alcance da arma 
 	 */
 	public int getAlcance(){
 		return this.alcance;
 	}
+	
 	/**
-	 * Retorna se arma é ou não equipável pelo personagem recebido
+	 * Retorna se arma é ou não equipável pelo personagem recebido.
 	 * @param p Personagem para verificar a equipabilidade da arma
 	 * @return se a arma é equipável pelo personagem
 	 */
 	public boolean isEquipavel(Profissao p) {
 		return this.equipantes.contains(p);
 	}
+	
 	/**
-	 * Implementação obrigatória da função abstrata	 
+	 * Implementação obrigatória da função abstrata.
 	 */
 	public boolean usar(Personagem p) {
 		return false;
 	}
+	
 	/**
-	 * Metódo abstrato para ser implementado por cada tipo de arma
+	 * Metódo abstrato para ser implementado por cada tipo de arma.
 	 * @param pA Personagem atacante
 	 * @param pB Personagem atacado
 	 * @return Se foi possível realizar o ataque

@@ -5,14 +5,14 @@ import core.personagem.Personagem.Stat;
 import core.personagem.Profissao;
 import exception.NomeRepetidoException;
 /**
- * Uma arma de longo alcance utilizada por arqueiros
+ * Uma arma de longo alcance utilizada por arqueiros.
  */
 public class Arco extends Arma {
 
 	private static final long serialVersionUID = -4413534022371181430L;
 
 	/**
-	 * Cria um arco
+	 * Cria um arco.
 	 * @param nome Nome do arco
 	 * @param danoBase Dano base do arco
 	 * @param alcance Alcançe máximo da flecha
@@ -23,7 +23,7 @@ public class Arco extends Arma {
 	}
 
 	/**
-	 * Calcula o dano causado pelo item do personagem A no personagem B
+	 * Calcula o dano causado pelo item do personagem A no personagem B.
 	 * @param pA Personagem atacante
 	 * @param pB Personagem atacado
 	 * @return O dano causado pelo ataque

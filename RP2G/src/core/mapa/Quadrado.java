@@ -12,10 +12,10 @@ public class Quadrado implements Serializable {
 	private Personagem ocupante;
 
 	/**
-	 * Constrói um quadrado 
-	 * @param posicao Posição 
+	 * Constrói um quadrado.
+	 * @param posicao Posição do quadrado
 	 * @param transponivel Se o quadrado é transponível
-	 * @param ocupante Personagem que irá ocupar o quadrado do mapa
+	 * @param ocupante Personagem que irá ocupar o quadrado do mapa inicialmente
 	 */
 	public Quadrado(Posicao posicao, boolean transponivel, Personagem ocupante) {
 		this.posicao = posicao;
@@ -24,15 +24,15 @@ public class Quadrado implements Serializable {
 	}
 	
 	/**
-	 * Constrói um quadrado intransponível
-	 * @param posicao Posição 
+	 * Constrói um quadrado intransponível.
+	 * @param posicao Posição do quadrado
 	 */
 	public Quadrado(Posicao posicao) {
 		this(posicao, false);
 	}
 
 	/**
-	 * Constrói um quadrado sem nenhum personagem ocupando-o
+	 * Constrói um quadrado sem nenhum personagem ocupando-o.
 	 * @param posicao Posição
 	 * @param transponivel Se o quadrado é transponível
 	 */
@@ -41,7 +41,7 @@ public class Quadrado implements Serializable {
 	}
 
 	/**
-	 * Retorna a posição
+	 * Retorna a posição que este Quadrado ocupa.
 	 * @return Retona a posição
 	 */
 	public Posicao getPosicao() {
@@ -49,7 +49,7 @@ public class Quadrado implements Serializable {
 	} 
 
 	/**
-	 * Retorna o personagem que está no quadrado
+	 * Retorna o personagem que está no quadrado.
 	 * @return O personagem que está ocupando o quadrado
 	 */
 	public Personagem getOcupante() {
@@ -57,7 +57,7 @@ public class Quadrado implements Serializable {
 	}
 
 	/**
-	 * Ocupa um quadrado com um personagem
+	 * Ocupa um quadrado com um personagem.
 	 * @param p Personagem para ocupar um quadrado do mapa
 	 */
 	public void setOcupante(Personagem p) {
@@ -67,7 +67,7 @@ public class Quadrado implements Serializable {
 	}
 
 	/**
-	 * Verifica se uma posição do mapa é tranponível
+	 * Verifica se uma posição do mapa é tranponível.
 	 * @return Se a posição é transponível
 	 */
 	public boolean isTransponivel() {
@@ -75,7 +75,7 @@ public class Quadrado implements Serializable {
 	}
 
 	/**
-	 * Verifica se a posição do mapa está ocupada
+	 * Verifica se a posição do mapa está ocupada.
 	 * @return Se a posição está ocupada
 	 */
 	public boolean isOcupado() {

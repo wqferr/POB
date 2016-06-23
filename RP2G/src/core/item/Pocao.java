@@ -5,16 +5,16 @@ import core.personagem.Personagem.Stat;
 import exception.NomeRepetidoException;
 
 /**
- * Representa um item do tipo Pocao, usado para curar HP(Hit Points(Pontos de vida(Vida do personagem(Quanto dano o personagem suporta antes de morrer))))
- *
+ * Representa um item do tipo Pocao, usado para curar HP.
  */
 public class Pocao extends Item {
 	
 	private static final long serialVersionUID = 4612980588432163127L;
 	
 	private int eficacia;
+	
 	/**
-	 * Cria uma poção que cura HP conforme a eficacia recebida
+	 * Cria uma poção que cura HP conforme a eficacia recebida.
 	 * @param nome Nome da poção
 	 * @param eficacia Quanto a poção cura
 	 * @throws NomeRepetidoException se Outro item tem o mesmo nome
@@ -24,10 +24,10 @@ public class Pocao extends Item {
 		this.eficacia = eficacia;
 	}
 	
-	@Override
 	/**
-	 * Usa a poção no personagem
+	 * Usa a poção no personagem.
 	 */
+	@Override
 	public boolean usar(Personagem p) {
 		if (p.getHp() == p.getStat(Stat.HP_MAX))
 			return false;

@@ -6,14 +6,14 @@ import core.personagem.Profissao;
 import exception.NomeRepetidoException;
 
 /**
- * Item usado por sacerdote
+ * Item usado por sacerdote.
  */
 public class Cajado extends Arma {
 
 	private static final long serialVersionUID = -943910627499639832L;
 
 	/**
-	 * Cria um cajado
+	 * Cria um cajado.
 	 * @param nome Nome do cajado
 	 * @param danoBase Dano base do item
 	 * @param alcance Alcance máximo do item
@@ -24,7 +24,7 @@ public class Cajado extends Arma {
 	}
 
 	/**
-	 * Calcula o dano causado pelo ataque
+	 * Calcula o dano causado pelo ataque.
 	 * @param pA Personagem atacante
 	 * @param pB Personagem alvo
 	 * @return O dano causado pelo ataque

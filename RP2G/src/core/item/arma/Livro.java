@@ -6,14 +6,14 @@ import core.personagem.Profissao;
 import exception.NomeRepetidoException;
 
 /**
- * Arma utilizada por magos para lançar magias 
+ * Arma utilizada por magos para lançar magias.
  */
 public class Livro extends Arma {
 
 	private static final long serialVersionUID = 1807934292753343307L;
 
 	/**
-	 * Cria um livro
+	 * Cria um livro.
 	 * @param nome Nome do livro
 	 * @param danoBase Dano base da arma
 	 * @param alcance Alcance máximo do ataque
@@ -24,7 +24,7 @@ public class Livro extends Arma {
 	}
 
 	/**
-	 * Calcula o dano causado pelo ataque 
+	 * Calcula o dano causado pelo ataque.
 	 * @param pA Personagem atacante
 	 * @param pB Personagem atacado
 	 */

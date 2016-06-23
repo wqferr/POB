@@ -1,9 +1,9 @@
 package core.personagem;
 
 /**
- * @author William Quelho Ferreira
- *
  * Profissões ou "classes" que um personagem pode ter.
+ *
+ * @author William Ferreira
  */
 public enum Profissao {
 	/**

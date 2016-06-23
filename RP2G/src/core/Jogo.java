@@ -20,8 +20,6 @@ import exception.ItensInsuficientesException;
 
 /**
  * Contem as mecânicas básicas para o jogo 
- * @author
- *
  */
 public class Jogo implements Serializable {
 	

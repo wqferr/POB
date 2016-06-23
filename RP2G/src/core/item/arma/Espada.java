@@ -6,14 +6,14 @@ import core.personagem.Profissao;
 import exception.NomeRepetidoException;
 
 /**
- * Arma utilizada por guerreiros
+ * Arma utilizada por guerreiros.
  */
 public class Espada extends Arma {
 		
 	private static final long serialVersionUID = 5447637813030788558L;
 
 	/**
-	 * Cria uma espada
+	 * Cria uma espada.
 	 * @param nome Nome da espada
 	 * @param danoBase Dano base da espada
 	 * @param alcance Alcance máximo do ataque
@@ -24,7 +24,7 @@ public class Espada extends Arma {
 	}
 	
 	/**
-	 * Calcula o dano causado por um ataque de espada
+	 * Calcula o dano causado por um ataque de espada.
 	 * @param pA Personagem atacante
 	 * @param pB Personagem alvo
 	 */

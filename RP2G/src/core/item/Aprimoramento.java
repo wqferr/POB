@@ -4,7 +4,7 @@ import core.personagem.Personagem;
 import core.personagem.Personagem.Stat;
 import exception.NomeRepetidoException;
 /**
- * Um item que quando utilizado aprimora os Atributos do personagem 
+ * Um item que quando utilizado aprimora os Atributos do personagem.
  */
 public class Aprimoramento extends Item {
 	
@@ -14,8 +14,9 @@ public class Aprimoramento extends Item {
 	private final int bonusDex;
 	private final int bonusInt;
 	private final int bonusVel;
+	
 	/**
-	 * Cria um Aprimoramento com os Nome e Bônus recebidos
+     * Cria um Aprimoramento com os Nome e Bônus recebidos.
 	 * @param nome Nome do Aprimoramento
 	 * @param bf Bõnus de Força
 	 * @param bd Bônus de Destreza
@@ -30,9 +31,10 @@ public class Aprimoramento extends Item {
 		this.bonusInt = bi;
 		this.bonusVel = bv;
 	}
+	
 	@Override
 	/**
-	 *Aprimora os Atributos do personagem
+	 *Aprimora os Atributos do personagem.
 	 */
 	public boolean usar(Personagem p) {
 		p.setStat(Stat.FOR, p.getStat(Stat.FOR) + this.bonusFor);

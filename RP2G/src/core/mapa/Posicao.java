@@ -2,8 +2,7 @@ package core.mapa;
 
 import java.io.Serializable;
 /**
- * Um par de numeros inteiros usados para representar as coordendas de um quadrado no mapa
- *
+ * Um par de numeros inteiros usados para representar as coordendas de um quadrado no mapa.
  */
 public class Posicao implements Comparable<Posicao>, Serializable {
 	
@@ -12,7 +11,7 @@ public class Posicao implements Comparable<Posicao>, Serializable {
 	private final int linha;
 	private final int coluna;
 	/**
-	 * Cria uma posição com os números i,j
+	 * Cria uma posição com os números i, j.
 	 * @param i Linha
 	 * @param j Coluna
 	 */
@@ -21,7 +20,7 @@ public class Posicao implements Comparable<Posicao>, Serializable {
 		this.coluna = j;
 	}
 	/**
-	 * Retorna a linha
+	 * Retorna a linha.
 	 * @return linha
 	 */
 	public int getLinha() {
@@ -29,14 +28,16 @@ public class Posicao implements Comparable<Posicao>, Serializable {
 	}
 	
 	/**
-	 * Retorna a coluna
+	 * Retorna a coluna.
 	 * @return coluna
 	 */
 	public int getColuna() {
 		return this.coluna;
 	}
+	
 	/**
-	 * Retorna todos os vizinhos dessa posição
+	 * Retorna todos os vizinhos dessa posição.
+	 * São consideradas apenas posições que compartilham uma coordenada com esta.
 	 * @return Array de posições vizinhas
 	 */
 	public Posicao[] getVizinhos() {
@@ -47,8 +48,9 @@ public class Posicao implements Comparable<Posicao>, Serializable {
 			new Posicao(this.linha-1, this.coluna)
 		};
 	}
+	
 	/**
-	 * Retorna distância entre essa posição e posição p
+	 * Retorna distância entre essa posição e posição p.
 	 * @param p outra Posição 
 	 * @return Distância entre as posições
 	 */
@@ -56,9 +58,9 @@ public class Posicao implements Comparable<Posicao>, Serializable {
 		return Math.abs(p.linha - this.linha)
 				+ Math.abs(p.coluna - this.coluna);
 	}
+	
 	/**
-	 * Compara duas posições retorna a diferença das linhas, caso essa seja menor que zero
-	 * caso contrario retorna a diferença das colunas
+	 * Compara duas posições usando, nesta ordem, a linha e a coluna como critérios.
 	 */
 	@Override
 	public int compareTo(Posicao p) {
@@ -70,7 +72,7 @@ public class Posicao implements Comparable<Posicao>, Serializable {
 	
 	@Override
 	/**
-	 * Compara essa posição à outra.
+	 * Compara esta posição à outra.
 	 * Retorna true caso linhas da primeira seja igual a linha da segunda e coluna da primeira seja igual a coluna da segunda 
 	 */
 	public boolean equals(Object o) {
@@ -84,8 +86,8 @@ public class Posicao implements Comparable<Posicao>, Serializable {
 	}
 	
 	/**
-	 * Converte a posição para uma string na forma
-	 * "(linha) (coluna)"
+	 * Converte a posição para uma string na forma:
+	 * {@code "%d %d", linha, coluna}.
 	 */
 	@Override
 	public String toString() {
