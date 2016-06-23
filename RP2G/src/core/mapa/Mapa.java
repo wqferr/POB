@@ -17,7 +17,6 @@ import utils.Pixel;
 import core.personagem.Personagem;
 import exception.MapaInexistenteException;
 import exception.NomeRepetidoException;
-import exception.PersonagemInexistenteException;
 
 /**
  * Mapa do jogo, uma matriz composta de quadrados.
