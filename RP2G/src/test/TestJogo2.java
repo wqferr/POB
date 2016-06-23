@@ -19,7 +19,6 @@ public class TestJogo2 {
 		
 		while (iter.hasNext()) {
 			Personagem p = iter.next().getValue();
-			System.out.println(p.getProfissao());
 			switch (p.getProfissao()) {
                 case GUERREIRO:
                     p.adicionar("Espada Bastarda");
@@ -42,7 +41,7 @@ public class TestJogo2 {
 			}
 		}
 		
-		Mapa m = Mapa.get("Map0");
+		Mapa m = Mapa.get("Map1");
 		Jogo j = new Jogo(m);
 		
 		Servidor s = new Servidor(j);

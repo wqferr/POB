@@ -8,13 +8,10 @@ import java.util.Scanner;
 import net.client.Cliente;
 import net.client.Controlador;
 import net.server.Servidor;
-import ui.graphic.JanelaJogo;
 import core.Jogo;
 import core.Ordem;
 import core.Ordem.Comando;
 import core.mapa.Posicao;
-import core.personagem.Personagem;
-import core.personagem.Personagem.Stat;
 
 public class TestClient {
 	
