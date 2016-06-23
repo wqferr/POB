@@ -23,7 +23,6 @@ public class ClienteGrafico {
 		Cliente client = new Cliente(null, InetAddress.getByName(scan.nextLine()), Servidor.PORTA_PADRAO);
 		try { client.conectar(); }
 		catch(IOException e) { e.printStackTrace(); }
-		scan.close();
 		
 		JanelaJogo win = new JanelaJogo(client.getJogo(), client);
 		win.setVisible(true);
@@ -32,5 +31,6 @@ public class ClienteGrafico {
 		
 		try { client.start(); }
 		catch(IOException e) { e.printStackTrace(); }
+		scan.close();
 	}
 }

@@ -16,7 +16,7 @@ public class ServidorTextual {
 	public static void main(String[] args) {
 		new DatabaseHandler();
 		
-		@SuppressWarnings("resource") // fechar o Scanner fecharia stdin
+		//@SuppressWarnings("resource") // fechar o Scanner fecharia stdin
 		Scanner scan = new Scanner(System.in);
 		
 		System.out.println("Nome do Mapa:");
@@ -26,5 +26,6 @@ public class ServidorTextual {
 		Servidor server = new Servidor(game);
 		try { server.start(); }
 		catch (IOException e){ System.err.println(e); }
+		scan.close();
 	}
 }

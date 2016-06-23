@@ -8,12 +8,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Iterator;
+import java.util.List;
 import java.util.function.Consumer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import net.client.Cliente;
 import net.client.Controlador;
@@ -33,6 +36,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	private JButton atacarButton;
 	private JButton moverButton;
 	private JButton fimButton;
+	private JTextArea gameInfo;
 	
 	private Jogo jogo;
 	private QuadradoUI[][] mapaGUI;
@@ -46,7 +50,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	 * @param jogo
 	 */
 	public JanelaJogo(Jogo jogo) {
-		this(jogo, null, "Water Emblem Tactics Online II - Revengence of the Lich King | Game of the Year Edition", 800, 60);
+		this(jogo, null);
 	}
 	
 	/**
@@ -55,7 +59,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	 * @param client
 	 */
 	public JanelaJogo(Jogo jogo, Cliente client) {
-		this(jogo, client, "Water Emblem Tactics Online II - Revengence of the Lich King | Game of the Year Edition", 800, 60);
+		this(jogo, client, "Water Emblem Tactics Online II - Revengence of the Lich King | Game of the Year Edition", 1200, 600);
 	}
 	
 	/**
@@ -69,7 +73,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	public JanelaJogo(Jogo jogo, Cliente client, String windowName, int height, int width) {
 		super(windowName);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(height, width);
+		this.setSize(width, height);
 		this.curI = 0;
 		this.curJ = 0;
 		this.curBotao = null;
@@ -88,6 +92,8 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.atacarButton = this.configureButton("Atacar", "atacar");
 		this.moverButton = this.configureButton("Mover", "mover");
 		this.fimButton = this.configureButton("Finalizar", "fim");
+		
+		this.gameInfo = new JTextArea();
 	
 		GridBagConstraints gcons = new GridBagConstraints();
 		gcons.insets = new Insets(0, 0, 0, 0);
@@ -106,6 +112,8 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		gcons.gridx = 0;
 		gcons.gridy = 6;
 		this.panel.add(fimButton, gcons);
+		gcons.gridy = 7;
+		this.panel.add(this.gameInfo);
 		
 		this.mapaGUI = new QuadradoUI[this.jogo.getMapa().getNLinhas()][this.jogo.getMapa().getNColunas()];
 		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++) {
@@ -120,7 +128,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 			}
 		}
 		
-		this.pack();
+		//this.pack();
 		this.markAllDirty();
 		this.updateUI();
 	}
@@ -136,6 +144,11 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		
 		this.mensagemRodada.setText(this.jogo.personagemAtual().getNome() + "{" + this.jogo.personagemAtual().getPosicao().getLinha() + ", " + this.jogo.personagemAtual().getPosicao().getColuna() + "}");
 		this.mensagemVez.setText(this.jogo.getTimeAtual()==this.client.getTime() ? "Sua Vez" : "Vez do Outro");
+		
+		this.gameInfo.setText("");
+		this.imprimirTime(this.jogo.getPersonagensTime1());
+		this.imprimirTime(this.jogo.getPersonagensTime2());
+		
 		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++) {
 			for (int j=0; j<this.jogo.getMapa().getNColunas(); j++) {
 				if (jogo.getMapa().getQuadrado(new Posicao(i, j)).isOcupado()) {
@@ -225,6 +238,12 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		
 		for(Personagem p : this.jogo.getPersonagensTime2())
 			if(p!=null) this.mapaGUI[p.getPosicao().getLinha()][p.getPosicao().getColuna()].setDirty(true);
+	}
+	
+	private void imprimirTime(List<Personagem> time){
+		Iterator<Personagem> it = time.iterator();
+		while (it.hasNext()) this.gameInfo.append(it.next().toString());
+		this.gameInfo.append("\n\n");
 	}
 	
 }

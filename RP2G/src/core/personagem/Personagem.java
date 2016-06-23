@@ -557,4 +557,40 @@ public class Personagem implements Serializable {
 	public boolean isMorto() {
 		return this.hp == 0;
 	}
+	
+	/**
+	 * Retorna as informacoes do personagem em uma String
+	 */
+	public String toString(){
+		String out = new String();
+        out += "Nome: " + this.getNome() + "\n";
+        out += "HP Máximo: " + this.getStat(Stat.HP_MAX) + "\n";
+        out += "HP Atual: " + this.getHp() + "\n";
+        
+        out += "[";
+        int porcentHp = (10*this.getHp()) / this.getStat(Stat.HP_MAX);
+        int i;
+        for (i=0; i<porcentHp; i++) out+="#";
+        while (i < 10) {
+            out+=".";
+            i++;
+        }
+        out +="]\n";
+        
+        out += "\nStats:\n";
+        out += "Força; " + this.getStat(Stat.FOR);
+        out+= "Inteligência: " + this.getStat(Stat.INT) + "\n";
+        out+= "Destreza: " + this.getStat(Stat.DEX) + "\n";
+        out+= "Velocidade: " + this.getStat(Stat.VEL) + "\n";
+        
+        Arma weap = this.getArma();
+        if (weap == null) out += "Nenhuma Arma Equipada\n";
+        else {
+            out += "Arma: " + weap.getNome() + "\n";
+            out += "Dano base: " + weap.getDanoBase() + "\n";
+            out += "Alcance: " + weap.getAlcance() + "\n";
+        }
+        
+        return out;
+	}
 }
