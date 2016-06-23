@@ -13,30 +13,45 @@ import core.mapa.Posicao;
 import core.personagem.Personagem;
 import exception.DesyncException;
 
+/**
+ * Classe que faz a comunicação com o Cliente.
+ */
 public class Servidor {
 	
 	public static final int PORTA_PADRAO = 4479;
 	
 	private ServerSocket ss;
-	private boolean ativo;
 	private TratadorCliente[] clientes;
 	private int porta;
 	
 	private Jogo jogo;
 	
+	/**
+	 * Cria um novo servidor que rodará o jogo dado.
+	 * @param jogo O jogo a ser utilizado.
+	 */
 	public Servidor(Jogo jogo) {
 		this(jogo, PORTA_PADRAO);
 	}
 	
+	/**
+	 * Cria um novo servidor que rodará o jogo dado.
+	 * @param jogo O jogo a ser utilizado.
+	 * @param porta A porta de rede a ser utilizada.
+	 */
 	public Servidor(Jogo jogo, int porta) {
 		this.clientes = new TratadorCliente[Jogo.NRO_JOGADORES];
 		this.jogo = jogo;
 		this.porta = porta;
 	}
 	
+	/**
+	 * Conecta aos clientes e inicia o loop de jogo.
+	 * @throws DesyncException Se houver dessincronia entre os clientes e o servidor.
+	 * @throws IOException Se houver erros na transmissão de dados.
+	 */
 	public void start() throws DesyncException, IOException {
         this.ss = new ServerSocket(this.porta);
-		this.ativo = true;
 		int i = 0;
 		System.err.println("Abrindo servidor.");
 		while (i < this.clientes.length) {
@@ -194,7 +209,6 @@ public class Servidor {
 		for (TratadorCliente tc : this.clientes)
 			tc.close();
 		
-		this.ativo = false;
 		this.ss.close();
 	}
 	
@@ -266,14 +280,10 @@ public class Servidor {
 		throw new DesyncException("Dessincronia detectada.");
 	}
 	
-	public void notificarQueda() throws IOException {
+	private void notificarQueda() throws IOException {
 		this.notificarTodos(Evento.QUEDA_CONEXAO, true);
 		
 		throw new IOException("Queda de um ou mais clientes.");
-	}
-	
-	public boolean isAtivo() {
-		return this.ativo;
 	}
 	
 }

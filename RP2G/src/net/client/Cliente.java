@@ -20,6 +20,9 @@ import core.mapa.Posicao;
 import core.personagem.Personagem;
 import exception.DesyncException;
 
+/**
+ * Classe que faz a comunicação com o Servidor.
+ */
 public class Cliente {
 	
 	private Socket conexao;
@@ -47,10 +50,18 @@ public class Cliente {
 		this.controlador = con;
 	}
 	
+	/**
+	 * Retorna qual time é controlado por este cliente.
+	 * @return O time controlado pelo cliente.
+	 */
 	public int getTime() {
 		return this.time;
 	}
 	
+	/**
+	 * Estabelece a conexão com um servidor.
+	 * @throws IOException Se houver erros na transmissão de dados.
+	 */
 	public void conectar() throws IOException {
 		this.conexao = new Socket(this.ip, this.porta);
 		this.conexao.getOutputStream().flush();
@@ -84,6 +95,11 @@ public class Cliente {
 		System.err.println("Informações transmitidas com êxito.");
 	}
 	
+	/**
+	 * Inicia o loop de jogo.
+	 * Deve ser chamado após {@link Cliente#conectar()}.
+	 * @throws IOException Se houver erros na transmissão de dados.
+	 */
 	public void start() throws IOException {
 		Mensagem msg;
 		while (!jogo.acabou()) {
@@ -154,6 +170,15 @@ public class Cliente {
 		this.conexao.close();
 	}
 	
+	/**
+	 * Retorna o Jogo obtido do servidor.
+	 * Se chamado antes de {@link Cliente#conectar()}, retorna null.
+	 * @return O estado atual do jogo.
+	 */
+	public Jogo getJogo() {
+		return this.jogo;
+	}
+	
 	private Mensagem receber() throws IOException {
 		try {
 			Mensagem msg = (Mensagem) this.in.readObject();
@@ -187,10 +212,6 @@ public class Cliente {
 	
 	private void notificarQueda() throws IOException {
 		throw new IOException("Queda de conexão");
-	}
-	
-	public Jogo getJogo() {
-		return this.jogo;
 	}
 
 }
