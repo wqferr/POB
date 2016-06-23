@@ -321,7 +321,7 @@ public class Jogo implements Serializable {
 	}
 	
 	public void exibir(){
-		this.exibir();
+		this.exibir(System.out::print);
 	}
 	
 	public void exibir(Consumer<? super String> printer) {
