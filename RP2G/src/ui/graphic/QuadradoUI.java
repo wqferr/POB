@@ -15,12 +15,22 @@ import javax.swing.JPanel;
 
 import core.mapa.Quadrado;
 
+/**
+ * Classe que armazena um dos quadrados do tabuleiro para a interface gráfica
+ *
+ */
+
 public class QuadradoUI extends JPanel {
 	private static final long serialVersionUID = 653126213653L;
 	private Quadrado tile;
 	private static BufferedImage grass = null, black = null, generic = null;
 	private boolean dirty;
 	
+	/**
+	 * Construtor padrão
+	 * @param tile
+	 * @param mlis
+	 */
 	public QuadradoUI(Quadrado tile, MouseListener mlis) {
 		super();
 		this.setQuadrado(tile);
@@ -38,22 +48,41 @@ public class QuadradoUI extends JPanel {
 		}
 	}
 	
+	/**
+	 * Setter para o quadrado da que o objeto esta tratando
+	 * @param tile
+	 */
 	public void setQuadrado(Quadrado tile) {
 		this.tile = tile;
 	}
 	
+	/**
+	 * Getter para o Quadrado
+	 * @return
+	 */
 	public Quadrado getQuadrado() {
 		return this.tile;
 	}
 	
+	/**
+	 * Setter que define que o quadrado precisa ser redesenhado
+	 * @param dirty
+	 */
 	public void setDirty(boolean dirty) {
 		this.dirty = dirty;
 	}
 	
+	/**
+	 * Getter que retorna se o quadrado precisa ser redesenhado
+	 * @return
+	 */
 	public boolean getDirty() {
 		return this.dirty;
 	}
 	
+	/**
+	 * Override da funcao desenhar o quadrado
+	 */
 	public void paint(Graphics g) {
 		super.paint(g);
 		if (this.dirty) {

@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import core.database.DatabaseHandler;
+import core.database.DatabaseHandler.DataType;
 import core.item.Aprimoramento;
 import core.item.Item;
 import core.item.Pocao;
@@ -32,6 +33,12 @@ import core.item.arma.Livro;
 import core.mapa.Mapa;
 import core.personagem.Personagem;
 import core.personagem.Profissao;
+
+/**
+ * Classe com a Interface Grafica para o banco de dados
+ * @author wheatley
+ *
+ */
 
 public class JanelaDatabase extends JFrame implements ActionListener {
 	private static final long serialVersionUID = -398592414626114074L;
@@ -44,16 +51,33 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 	private JTextField textBox[];
 	private JFileChooser mapaChooser;
 	private JButton adicionarButton;
+	private JButton removerButton;
 	private DatabaseHandler dataHandler;
 	
+	/**
+	 * Construtor padrão
+	 */
 	public JanelaDatabase() {
 		this("Adicionar Elemento", 500, 600);
 	}
 	
+	/**
+	 * Construtor com parâmetros definidos menos o nome do arquivo
+	 * @param windowName
+	 * @param height
+	 * @param width
+	 */
 	public JanelaDatabase(String windowName, int height, int width) {
 		this(windowName, height, width, "db/registry.dat");
 	}
 	
+	/**
+	 * Construtor com todos os parâmetros definidos
+	 * @param windowName
+	 * @param height
+	 * @param width
+	 * @param fileName
+	 */
 	public JanelaDatabase(String windowName, int height, int width, String fileName) {
 		super(windowName);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,7 +86,6 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.PAGE_AXIS));
 		this.panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		this.panel.setPreferredSize(new Dimension(width, height));
-		//this.panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		
 		this.tipoDropDown = new JComboBox<String>(new String[]{"Personagem", "Arma", "Poção", "Aprimoramento", "Mapa"});
 		this.tipoDropDown.addActionListener(this);
@@ -71,6 +94,10 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 		this.adicionarButton = new JButton("Adicionar");
 		this.adicionarButton.addActionListener(this);
 		this.adicionarButton.setActionCommand("adicionar");
+		
+		this.removerButton = new JButton(" Remover");
+		this.removerButton.addActionListener(this);
+		this.removerButton.setActionCommand("remover");
 		
 		this.armaDropDown = new JComboBox<String>(new String[]{"Espada", "Arco", "Livro", "Cajado"});
 		this.profissoesDropDown = new JComboBox<String>(new String[]{"GUERREIRO", "MAGO", "ARQUEIRO", "SACERDOTE"});
@@ -92,6 +119,9 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 		this.panel.add(this.databaseText);
 	}
 	
+	/**
+	 * Listener para a Janela
+	 */
 	public void actionPerformed(ActionEvent event) {
 		if (event.getActionCommand().equals("escolhaTipo")) {
 			this.panel.removeAll();
@@ -143,14 +173,14 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 				this.panel.add(this.mapaChooser);
 			}
 			
-			this.add(this.adicionarButton);
+			this.panel.add(this.adicionarButton);
+			this.panel.add(this.removerButton);
 			this.panel.add(this.databaseText);
 			this.panel.revalidate();
 			this.panel.repaint();
 		}
 		
 		else if (event.getActionCommand().equals("adicionar")) {
-			Object obj = null;
 			boolean valid = true;
 			String nome = new String("Invalido");
 			if (!(this.textBox[0].getText().equals(""))) {
@@ -164,7 +194,6 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 					ImageIcon icone = null;
 					int hp = 0, forc=0, dext=0, inte=0, vel=0;
 					try{
-						//TODO ICONE
 						prof = Profissao.valueOf((String)this.profissoesDropDown.getSelectedItem());
 						icone = new ImageIcon(ImageIO.read(new File(this.textBox[1].getText())));
 						hp = Integer.parseInt(this.textBox[2].getText());
@@ -174,7 +203,7 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 						vel = Integer.parseInt(this.textBox[6].getText());
 					}catch(Exception e) { System.err.println(e);}
 	
-					try { obj = new Personagem(nome, prof, hp, vel, forc, dext, inte, icone); }
+					try { new Personagem(nome, prof, hp, vel, forc, dext, inte, icone); }
 					catch(Exception e) { System.err.println(e); valid = false;}
 				}
 				else if (this.tipoDropDown.getSelectedItem().equals("Arma")) {
@@ -186,13 +215,13 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 					
 					try{
 						if (((String)this.armaDropDown.getSelectedItem()).equals("Espada"))
-							obj = new Espada(nome, dano, alcance);
+							new Espada(nome, dano, alcance);
 						else if (((String)this.armaDropDown.getSelectedItem()).equals("Arco"))
-							obj = new Arco(nome, dano, alcance);
+							new Arco(nome, dano, alcance);
 						else if (((String)this.armaDropDown.getSelectedItem()).equals("Livro"))
-							obj = new Livro(nome, dano, alcance);
+							new Livro(nome, dano, alcance);
 						else if (((String)this.armaDropDown.getSelectedItem()).equals("Cajado"))
-							obj = new Cajado(nome, dano, alcance);
+							new Cajado(nome, dano, alcance);
 					}catch(Exception e) { System.err.println(e); valid = false;}
 				}
 				else if (this.tipoDropDown.getSelectedItem().equals("Poção")) {
@@ -200,7 +229,7 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 					try{ potencia = Integer.parseInt(this.textBox[1].getText());
 					}catch(Exception e) { System.err.println(e); }
 	
-					try { obj = new Pocao(nome, potencia); }
+					try { new Pocao(nome, potencia); }
 					catch(Exception e) { System.err.println(e); valid = false;}
 				}
 				else if (this.tipoDropDown.getSelectedItem().equals("Aprimoramento")) {
@@ -212,7 +241,7 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 						bonVel = Integer.parseInt(this.textBox[4].getText());
 					}catch(Exception e) { System.err.println(e); }
 					
-					try { obj = new Aprimoramento(nome, bonFor, bonDex, bonInt, bonVel); }
+					try { new Aprimoramento(nome, bonFor, bonDex, bonInt, bonVel); }
 					catch(Exception e) { System.err.println(e); valid = false;}
 				}
 				else if (this.tipoDropDown.getSelectedItem().equals("Mapa")) {
@@ -221,19 +250,29 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 						imagem = this.mapaChooser.getSelectedFile();
 					}catch(Exception e) { System.err.println(e);}
 					
-					try { obj = new Mapa(nome, ImageIO.read(imagem)); }
+					try { new Mapa(nome, ImageIO.read(imagem)); }
 					catch(Exception e) { System.err.println(e); valid = false;}
 				}
 			}
 			
-			if (valid) this.dataHandler.writeToDatabase(obj);
+			if (valid) this.dataHandler.writeAllDatabase();
 			else System.err.println("Elemento Invalido");
+			this.showDatabase();
+		}
+		
+		else if (event.getActionCommand().equals("remover")){
+			String nome = this.textBox[0].getText();
+			DataType type;
+			if (this.tipoDropDown.getSelectedItem().equals("Personagem")) type = DataType.PERSONAGEM;
+			else if (this.tipoDropDown.getSelectedItem().equals("Mapa")) type = DataType.MAPA;
+			else type = DataType.ITEM;
+			
+			this.dataHandler.removeFromDatabase(nome, type);
 			this.showDatabase();
 		}
 	}
 	
-	
-	public void showDatabase() {
+	private void showDatabase() {
 		this.databaseText.setText("");
 		Iterator<Entry<String, Item>> itemIt = Item.getIterator();
 		Iterator<Entry<String, Personagem>> persIt = Personagem.getIterator();

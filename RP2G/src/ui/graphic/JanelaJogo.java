@@ -41,14 +41,31 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	private String curBotao;
 	private Cliente client;
 	
+	/**
+	 * Construtor basico
+	 * @param jogo
+	 */
 	public JanelaJogo(Jogo jogo) {
 		this(jogo, null, "Water Emblem Tactics Online II - Revengence of the Lich King | Game of the Year Edition", 800, 60);
 	}
 	
+	/**
+	 * Construtor com Cliente definido
+	 * @param jogo
+	 * @param client
+	 */
 	public JanelaJogo(Jogo jogo, Cliente client) {
 		this(jogo, client, "Water Emblem Tactics Online II - Revengence of the Lich King | Game of the Year Edition", 800, 60);
 	}
 	
+	/**
+	 * Construtor completo
+	 * @param jogo
+	 * @param client
+	 * @param windowName
+	 * @param height
+	 * @param width
+	 */
 	public JanelaJogo(Jogo jogo, Cliente client, String windowName, int height, int width) {
 		super(windowName);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -108,11 +125,16 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.updateUI();
 	}
 	
+	/**
+	 * Funcao para atualizar a interface de 
+	 * forma a manter o que é mostrado na tela 
+	 * de acordo com o jogo
+	 */
 	public void updateUI() {
 		this.markAllDirty();
 		this.mapaGUI[this.curI][this.curJ].setDirty(true);
 		
-		this.mensagemRodada.setText(this.jogo.personagemAtual().getNome());
+		this.mensagemRodada.setText(this.jogo.personagemAtual().getNome() + "{" + this.jogo.personagemAtual().getPosicao().getLinha() + ", " + this.jogo.personagemAtual().getPosicao().getColuna() + "}");
 		this.mensagemVez.setText(this.jogo.getTimeAtual()==this.client.getTime() ? "Sua Vez" : "Vez do Outro");
 		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++) {
 			for (int j=0; j<this.jogo.getMapa().getNColunas(); j++) {
@@ -130,6 +152,9 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.markAllDirty();
 	}
 	
+	/**
+	 * Listener para a janela
+	 */
 	public void actionPerformed(ActionEvent e) {	
 		if (e.getActionCommand().equals("atacar")) this.curBotao = new String("atacar");
 		else if(e.getActionCommand().equals("mover")) this.curBotao = new String("mover");
@@ -137,6 +162,9 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		else this.curBotao = null;
 	}
 	
+	/**
+	 * Listener para as posicoes do tabuleiro
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		this.curI = ((QuadradoUI)e.getSource()).getQuadrado().getPosicao().getLinha();
@@ -155,7 +183,10 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 
 	@Override
 	public void mouseExited(MouseEvent e) {}
-
+	
+	/**
+	 * Funcao que retorna a proxima ordem ao jogo
+	 */
 	@Override
 	public Ordem proximaOrdem(Jogo j) {
 		try{ while (this.curBotao==null) Thread.sleep(10); }
@@ -169,7 +200,10 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.curBotao = null;
 		return order;
 	}
-
+	
+	/**
+	 * Fucao que atualiza a Interface quando houver mudanças no jogo
+	 */
 	@Override
 	public void accept(Void t) {
 		this.updateUI();

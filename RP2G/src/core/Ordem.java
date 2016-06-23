@@ -79,6 +79,9 @@ public class Ordem {
 		return this.c;
 	}
 	
+	/**
+	 * Converte a ordem para string
+	 */
 	@Override
 	public String toString() {
 		return this.c + ": " + String.valueOf(this.arg);

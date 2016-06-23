@@ -11,6 +11,10 @@ import core.mapa.Mapa;
 import core.personagem.Personagem;
 import exception.ItemInvalidoException;
 
+/**
+ * Classe com a funcao Main sem utilizar cliente mas utilizando DataBase
+ */
+
 public class TestJogo2 {
 
 	public static void main(String[] args) {

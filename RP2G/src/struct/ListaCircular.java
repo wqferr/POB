@@ -28,6 +28,9 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 		No prx;
 		E val;
 		
+		/**
+		 * Cosntrutor padrão de No
+		 */
 		No() {
 			this.val = null;
 			
@@ -35,6 +38,11 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 			this.ant = this;
 		}
 		
+		/**
+		 * Cosntrutor com argumentos definidos de No
+		 * @param ant
+		 * @param val
+		 */
 		No(No ant, E val) {
 			this.val = val;
 			
@@ -46,6 +54,10 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 			ListaCircular.this.tamanho++;
 		}
 		
+		/**
+		 * Remocao de No
+		 * @return
+		 */
 		E remover() {
 			this.ant.prx = this.prx;
 			this.prx.ant = this.ant;
@@ -54,6 +66,11 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 		}
 	}
 	
+	 /**
+	  * Iterador da lista circular
+	  * @author wheatley
+	  *
+	  */
 	private class Iterador implements ListIterator<E>, Serializable {
 		
 		private static final long serialVersionUID = -7623555157932589100L;
@@ -62,12 +79,18 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 		No ultRetorno;
 		int idx;
 		
+		/**
+		 * Construtor do Iterador
+		 */
 		Iterador() {
 			this.atual = cabeca;
 			this.idx = -1;
 			this.ultRetorno = ListaCircular.this.cabeca;
 		}
-
+		
+		/**
+		 * Adicao de um No novo
+		 */
 		@Override
 		public void add(E e) {
 			if (e == null)
@@ -75,17 +98,26 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 			new No(this.atual, e);
 			this.ultRetorno = ListaCircular.this.cabeca;
 		}
-
+		
+		/**
+		 * Retorna se ainda há elemento na lsita
+		 */
 		@Override
 		public boolean hasNext() {
 			return this.atual.prx.val != null;
 		}
-
+		
+		/**
+		 * Retorna se há elementos anteriores na lista
+		 */
 		@Override
 		public boolean hasPrevious() {
 			return this.atual.val != null;
 		}
-
+		
+		/**
+		 * Move para o proximo elemento e retorna-o
+		 */
 		@Override
 		public E next() {
 			this.atual = this.atual.prx;
@@ -95,14 +127,20 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 			this.idx = this.nextIndex();
 			return this.atual.val;
 		}
-
+		
+		/**
+		 * Retorna o próximo índice 
+		 */
 		@Override
 		public int nextIndex() {
 			if (ListaCircular.this.tamanho == 0)
 				return -1;
 			return (this.idx + 1) % ListaCircular.this.tamanho;
 		}
-
+		
+		/**
+		 * Move para o elemento anterior e retorna-o
+		 */
 		@Override
 		public E previous() {
 			if (this.atual == ListaCircular.this.cabeca)
@@ -113,14 +151,20 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 			this.idx = this.previousIndex();
 			return val;
 		}
-
+		
+		/**
+		 * Retorna o indice anterior
+		 */
 		@Override
 		public int previousIndex() {
 			if (ListaCircular.this.tamanho == 0)
 				return -1;
 			return (this.idx + ListaCircular.this.tamanho - 1) % ListaCircular.this.tamanho;
 		}
-
+		
+		/**
+		 * Remocao de um no da lista
+		 */
 		@Override
 		public void remove() {
 			if (this.ultRetorno == ListaCircular.this.cabeca)
@@ -133,7 +177,10 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
             else
                 this.idx = this.idx % ListaCircular.this.tamanho;
 		}
-
+		
+		/**
+		 * Define um no na Lista
+		 */
 		@Override
 		public void set(E e) {
 			if (e == null)
@@ -167,7 +214,10 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 			n = new No(n, e);
 		this.tamanho = c.size();
 	}
-
+	
+	/**
+	 * Retorna o iterador da lista 
+	 */
 	@Override
 	public ListIterator<E> listIterator(int arg0) {
 		if (arg0 < 0 || arg0 > this.tamanho)
@@ -179,12 +229,18 @@ public class ListaCircular<E> extends AbstractSequentialList<E> implements Seria
 		}
 		return li;
 	}
-
+	
+	/**
+	 * Retorna o tamanho da lista
+	 */
 	@Override
 	public int size() {
 		return this.tamanho;
 	}
 	
+	/**
+	 * Limpa a lista
+	 */
 	@Override
 	public void clear() {
 		this.cabeca = new No();

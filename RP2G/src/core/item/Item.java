@@ -61,6 +61,15 @@ public abstract class Item implements Comparable<Item>, Serializable {
 	}
 	
 	/**
+	 * Remove um item do bando de dados
+	 * @param nome
+	 */
+	public static void remove(String nome){
+		if (!Item.registro.containsKey(nome)) throw new ItemInexistenteException();
+		Item.registro.remove(nome);
+	}
+	
+	/**
 	 * Retorna um iterador para o mapa de itens.
 	 * @return O iterador
 	 */
@@ -83,6 +92,9 @@ public abstract class Item implements Comparable<Item>, Serializable {
 		return this.nome.compareTo(outro.nome);
 	}
 	
+	/**
+	 * Compara dois itens e retorna se sao iguais.
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (o == null || !(o instanceof Item))

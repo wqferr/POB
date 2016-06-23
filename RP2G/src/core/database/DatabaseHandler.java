@@ -15,6 +15,9 @@ import java.util.Map.Entry;
 import core.item.Item;
 import core.mapa.Mapa;
 import core.personagem.Personagem;
+import exception.ItemInexistenteException;
+import exception.MapaInexistenteException;
+import exception.PersonagemInexistenteException;
 
 /**
  * Classe para gerenciar a base de dados de Itens, Mapas e Personagens.
@@ -55,6 +58,15 @@ public class DatabaseHandler {
 	}
 	
 	/**
+	 * Enumeracao dos tipos de dados
+	 */
+	public static enum DataType{
+		PERSONAGEM,
+		ITEM,
+		MAPA;
+	}
+	
+	/**
 	 * Lê o arquivo binário e atualiza os registros de Item, Personagem e Mapa.
 	 */
 	public void readAllDatabase() {
@@ -83,10 +95,9 @@ public class DatabaseHandler {
 	}
 	
 	/**
-	 * Adiciona um objeto ao arquivo binário.
-	 * @param obj O objeto a ser adicionado.
+	 * Reescreve o arquivo binario com o database atual
 	 */
-	public void writeToDatabase(Object obj) {
+	public void writeAllDatabase() {
 		FileOutputStream fileOutStream = null;
 		ObjectOutputStream objectOutStream = null;
 		try {
@@ -98,6 +109,27 @@ public class DatabaseHandler {
 		
 		try  { objectOutStream.close(); }
 		catch(Exception e) { System.err.println(e); }
+	}
+	
+	/**
+	 * Remove o Objeto de nome e tipo especificado,
+	 * reescrevendo o arquivo depois
+	 * @param nome
+	 * @param type
+	 */
+	public void removeFromDatabase(String nome, DataType type){
+		boolean found = true;
+		try {
+			if (type == DataType.PERSONAGEM) Personagem.remove(nome);
+			else if (type == DataType.MAPA) Mapa.remove(nome);
+			else if (type == DataType.ITEM) Item.remove(nome);
+		}
+		catch (ItemInexistenteException | MapaInexistenteException | PersonagemInexistenteException e){
+			found = false;
+			System.err.println("Não existe!");
+		}
+		
+		if (found) this.writeAllDatabase();
 	}
 	
 	/**

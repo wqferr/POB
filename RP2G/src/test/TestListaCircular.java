@@ -10,6 +10,11 @@ import org.junit.Test;
 
 import struct.ListaCircular;
 
+/**
+ * Classe de teste para a Lista Circular
+ *
+ */
+
 public class TestListaCircular {
 	
 	private static ListaCircular<Integer> lista;

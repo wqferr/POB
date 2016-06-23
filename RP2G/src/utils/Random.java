@@ -1,5 +1,11 @@
 package utils;
 
+/**
+ * Classe de gerador de numeros aleatórios
+ * @author wheatley
+ *
+ */
+
 public class Random {
 	private long p;
 	private long m;

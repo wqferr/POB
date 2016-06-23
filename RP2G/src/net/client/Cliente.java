@@ -35,10 +35,21 @@ public class Cliente {
 	private Jogo jogo;
 	private int time;
 	
+	/**
+	 * Contrutor padrao do cliente
+	 * @param con
+	 * @param ip
+	 */
 	public Cliente(Controlador con, InetAddress ip) {
 		this(con, ip, Servidor.PORTA_PADRAO);
 	}
 	
+	/**
+	 * Construtor completo do cliente
+	 * @param con
+	 * @param ip
+	 * @param porta
+	 */
 	public Cliente(Controlador con, InetAddress ip, int porta) {
 		this.controlador = con;
 		this.ip = ip;
@@ -46,6 +57,10 @@ public class Cliente {
 		this.jogo = null;
 	}
 	
+	/**
+	 * Define o controlador.
+	 * @param con
+	 */
 	public void setControlador(Controlador con) {
 		this.controlador = con;
 	}

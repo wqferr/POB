@@ -2,13 +2,28 @@ package utils;
 
 import java.awt.Color;
 
+/**
+ * Classe Pixel com funções para facilitar o manuseamento
+ * de pontos das imagens
+ * @author wheatley
+ *
+ */
+
 public class Pixel {
 	private Color color;
 	
+	/**
+	 * Cosntrutor padrão
+	 * @param color
+	 */
 	public Pixel(int color) {
 		this.color = new Color(color);
 	}
-
+	
+	/**
+	 * Setter para a cor
+	 * @param color
+	 */
 	public void setColor(Color color) {
 		this.color = color;
 	}

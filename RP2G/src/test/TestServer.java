@@ -12,6 +12,10 @@ import core.personagem.Profissao;
 import exception.ItemInvalidoException;
 import exception.NomeRepetidoException;
 
+/**
+ * Classe com a funcao Main para o Servidor
+ */
+
 public class TestServer {
 
 	public static void main(String[] args) {

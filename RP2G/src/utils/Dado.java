@@ -1,5 +1,11 @@
 package utils;
 
+/**
+ * Classe de Dado para aleatorizar o ROG
+ * @author wheatley
+ *
+ */
+
 public class Dado {
 	private int lados;
 	private int ladoAtual;

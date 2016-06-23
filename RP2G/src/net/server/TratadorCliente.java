@@ -66,7 +66,9 @@ public class TratadorCliente implements Closeable {
 		}
 	}
 	
-	@Override
+	/**
+	 * Chama o método close() da conexão.
+	 */
 	public void close() throws IOException {
 		this.conexao.close();
 	}

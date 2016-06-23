@@ -218,10 +218,18 @@ public class Personagem implements Serializable {
 		return this.nome;
 	}
 	
+	/**
+	 * Define-se time
+	 * @param t
+	 */
 	public void setTime(int t) {
 		this.time = t;
 	}
 	
+	/**
+	 * Retorna o time
+	 * @return
+	 */
 	public int getTime() {
 		return this.time;
 	}
@@ -433,14 +441,36 @@ public class Personagem implements Serializable {
 		return this.arma;
 	}
 	
+	/**
+	 * Retorna o icone do personagem
+	 * @return
+	 */
+	public ImageIcon getIcone() {
+		return this.icone;
+	}
+	
+	/**
+	 * Retorna se o personagem pode usar aquele item dado por uma String
+	 * @param item
+	 * @return
+	 */
 	public boolean podeUsar(String item) {
 		return this.podeUsar(Item.get(item));
 	}
 	
+	/**
+	 * Retorna se o personagem pode usar aquele item
+	 * @param item
+	 * @return
+	 */
 	public boolean podeUsar(Item item) {
 		return this.getNroItens(item) > 0;
 	}
 	
+	/**
+	 * Retorna uma lista contendo todos os itens equipados pelo personagem
+	 * @return
+	 */
 	public List<Par<Item, Integer>> getItens() {
 		List<Par<Item, Integer>> l = new LinkedList<>();
 		for (Map.Entry<Item, Integer> e : this.inventario.entrySet())
@@ -476,7 +506,7 @@ public class Personagem implements Serializable {
         return this.usar(Item.get(nome));
 	}
 	/**
-	 * 
+	 * Busca no registro de Personagens pelo nome dado
 	 * @param nome
 	 * @return
 	 */
@@ -487,7 +517,7 @@ public class Personagem implements Serializable {
 		return p;
 	}
 	/**
-	 * 
+	 * Adiciona no registro de Personagens o personagem novo
 	 * @param pers
 	 * @throws NomeRepetidoException
 	 */
@@ -495,26 +525,36 @@ public class Personagem implements Serializable {
 		if (Personagem.registro.putIfAbsent(pers.getNome(), pers) != null)
 			throw new NomeRepetidoException(pers.getNome());
 	}
+	
 	/**
-	 * 
+	 * Remove um personagem do bando de dados
+	 * @param nome
+	 */
+	public static void remove(String nome){
+		if (!Personagem.registro.containsKey(nome)) throw new PersonagemInexistenteException();
+		Personagem.registro.remove(nome);
+	}
+	
+	/**
+	 * Retorna o iterador do registro
 	 * @return
 	 */
 	public static Iterator<Entry<String, Personagem>> getIterator() {
 		return Personagem.registro.entrySet().iterator();
 	}
 	
+	/**
+	 * Retorna o numero de personagens do registro
+	 * @return
+	 */
 	public static int getNroPersonagens() {
 		return registro.size();
 	}
 	/**
-	 *
+	 * Retorna se o personagem esta morto
 	 * @return
 	 */
 	public boolean isMorto() {
 		return this.hp == 0;
-	}
-	
-	public ImageIcon getIcone() {
-		return this.icone;
 	}
 }

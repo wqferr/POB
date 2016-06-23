@@ -14,6 +14,10 @@ import core.Ordem;
 import core.Ordem.Comando;
 import core.mapa.Posicao;
 
+/**
+ * Classe com a funcao Main para o Cliente
+ */
+
 public class TestClient {
 	
 	private static boolean andou = false;

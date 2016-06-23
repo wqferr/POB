@@ -63,6 +63,10 @@ public class Jogo implements Serializable {
 		this.setOuvinte(null);
 	}
 	
+	/**
+	 * Cosntrutor basico apenas com mapa
+	 * @param m
+	 */
 	public Jogo(Mapa m) {
 		List<Personagem> p1 = new LinkedList<>();
 		List<Personagem> p2 = new LinkedList<>();
@@ -110,6 +114,10 @@ public class Jogo implements Serializable {
 		this.setOuvinte(null);
 	}
 	
+	/**
+	 * Define o ouvinte do Jogo
+	 * @param c
+	 */
 	public void setOuvinte(Consumer<Void> c) {
 		this.ouvinte = c == null ? OUVINTE_DEFAULT : c;
 	}
@@ -130,6 +138,10 @@ public class Jogo implements Serializable {
 		}
 	}
 	
+	/**
+	 * Retorna o time atual
+	 * @return
+	 */
 	public int getTimeAtual() {
 		return this.timeAtual ? 2 : 1;
 	}
@@ -150,6 +162,7 @@ public class Jogo implements Serializable {
 		this.andou = false;
 		return this.pAtual;
 	}
+	
 	/**
 	 * Retorna o personagem que pode agir no turno atual
 	 * @return Personagem que pode agir no turno atual
@@ -158,6 +171,11 @@ public class Jogo implements Serializable {
 		return this.pAtual;
 	}
 	
+	/**
+	 * Retorna se o personagem atual pode se mover até a posição dada
+	 * @param nova
+	 * @return
+	 */
 	public boolean podeMover(Posicao nova) {
 		return this.mapa.alcancavel(this.pAtual.getPosicao(), nova, this.pAtual.getStat(Stat.VEL));
 	}

@@ -17,6 +17,7 @@ import utils.Pixel;
 import core.personagem.Personagem;
 import exception.MapaInexistenteException;
 import exception.NomeRepetidoException;
+import exception.PersonagemInexistenteException;
 
 /**
  * Mapa do jogo, uma matriz composta de quadrados.
@@ -255,6 +256,15 @@ public class Mapa implements Serializable{
 	public static void add(Mapa mapa) throws NomeRepetidoException {
 		if (Mapa.registro.putIfAbsent(mapa.getNome(), mapa) != null)
 			throw new NomeRepetidoException(mapa.getNome());
+	}
+	
+	/**
+	 * Remove um mapa do bando de dados
+	 * @param nome
+	 */
+	public static void remove(String nome){
+		if (!Mapa.registro.containsKey(nome)) throw new MapaInexistenteException();
+		Mapa.registro.remove(nome);
 	}
 	
 	/**

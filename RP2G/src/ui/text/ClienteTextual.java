@@ -19,6 +19,12 @@ import core.mapa.Posicao;
 import core.personagem.Personagem;
 import core.personagem.Personagem.Stat;
 
+/**
+ * Classe de Interface Textual para o cliente
+ * @author wheatley
+ *
+ */
+
 public class ClienteTextual {
 
 	public static void main(String[] args) {

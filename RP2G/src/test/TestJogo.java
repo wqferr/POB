@@ -14,6 +14,10 @@ import core.mapa.Mapa;
 import core.personagem.Personagem;
 import core.personagem.Profissao;
 
+/**
+ * Classe com a funcao Main para o jogo sem utilizar ciente nem DataBase
+ */
+
 public class TestJogo {
 
 	public static void main(String[] args) throws Exception{

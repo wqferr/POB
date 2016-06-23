@@ -97,7 +97,9 @@ public class Mensagem implements Serializable {
 		return this.msg;
 	}
 	
-	@Override
+	/**
+	 * Converte a mensagem para string
+	 */
 	public String toString() {
 		return String.format("Mensagem: [%s, %s]", this.evento, this.msg);
 	}
