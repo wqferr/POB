@@ -1,4 +1,6 @@
-package ui.graphic;
+package mains;
+
+import ui.graphic.JanelaDatabase;
 
 /**
  * Classe com a funcao Main para o DataBase

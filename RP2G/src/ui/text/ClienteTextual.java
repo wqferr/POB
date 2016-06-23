@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import net.client.Controlador;
-import struct.Par;
+import utils.struct.Par;
 import core.Jogo;
 import core.Ordem;
 import core.Ordem.Comando;

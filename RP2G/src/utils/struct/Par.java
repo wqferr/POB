@@ -1,4 +1,4 @@
-package struct;
+package utils.struct;
 
 /**
  * Interface que armazena um par de Objetos.
