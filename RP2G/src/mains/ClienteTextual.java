@@ -10,9 +10,8 @@ import ui.text.ControladorTextual;
 
 public class ClienteTextual {
 	
-	public static void main(String[] args) throws UnknownHostException {
+	public static void main(String[] args) {
 		Scanner tec = new Scanner(System.in);
-		System.out.println(InetAddress.getLocalHost());
 		System.out.print("Digite o IP do servidor: ");
 		String host = tec.nextLine().trim();
 		Cliente c = null;

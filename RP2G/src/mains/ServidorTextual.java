@@ -1,6 +1,8 @@
 package mains;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -26,6 +28,13 @@ public class ServidorTextual {
 		Jogo game = new Jogo(map, rng);
 		
 		Servidor server = new Servidor(game, rng);
+		
+		try {
+			System.out.println(InetAddress.getLocalHost());
+		} catch (UnknownHostException e1) {
+			System.out.println("Não foi possível recuperar seu endereço IP");
+		}
+		
 		try { server.start(); }
 		catch (IOException e){ System.err.println(e); }
 	}
