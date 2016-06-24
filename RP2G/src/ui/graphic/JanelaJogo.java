@@ -17,12 +17,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import net.client.Cliente;
 import net.client.Controlador;
+import utils.struct.Par;
 import core.Jogo;
 import core.Ordem;
 import core.Ordem.Comando;
+import core.item.Item;
 import core.mapa.Posicao;
 import core.personagem.Personagem;
 
@@ -36,7 +39,10 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	private JButton atacarButton;
 	private JButton moverButton;
 	private JButton fimButton;
+	private JButton useButton;
 	private JTextArea gameInfo;
+	private JFrame infoFrame; 
+	private JTextField itemTextbox;
 	
 	private Jogo jogo;
 	private QuadradoUI[][] mapaGUI;
@@ -83,37 +89,30 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.jogo.setOuvinte(this);
 		this.client = client;
 		
+		Dimension stdSize = new Dimension(125, 25);
+		
 		this.mensagemVez = new JLabel(this.jogo.getTimeAtual()==this.client.getTime() ? "Sua Vez" : "Vez do Outro");
 		this.mensagemRodada = new JLabel(this.jogo.personagemAtual().getNome());
 		this.mensagemPos = new JLabel("Posicao: {0, 0}");
-		this.mensagemRodada.setPreferredSize(new Dimension(125, 25));
-		this.mensagemPos.setPreferredSize(new Dimension(125, 25));
+		this.mensagemVez.setPreferredSize(stdSize);
+		this.mensagemRodada.setPreferredSize(stdSize);
+		this.mensagemPos.setPreferredSize(stdSize);
 		
 		this.atacarButton = this.configureButton("Atacar", "atacar");
 		this.moverButton = this.configureButton("Mover", "mover");
 		this.fimButton = this.configureButton("Finalizar", "fim");
+		this.useButton = this.configureButton("Usar", "usar");
 		
 		this.gameInfo = new JTextArea();
-	
+		this.infoFrame = new JFrame("Game info");
+		this.gameInfo.setPreferredSize(new Dimension(200, 500));
+		this.infoFrame.add(this.gameInfo);
+		
+		this.itemTextbox = new JTextField();
+		this.itemTextbox.setPreferredSize(stdSize);
+		
 		GridBagConstraints gcons = new GridBagConstraints();
 		gcons.insets = new Insets(0, 0, 0, 0);
-		gcons.gridx = 0;
-		gcons.gridy = 0;
-		this.panel.add(mensagemVez, gcons);
-		gcons.gridx = 1;
-		this.panel.add(mensagemRodada, gcons);
-		gcons.gridx = 0;
-		gcons.gridy = 1;
-		this.panel.add(mensagemPos, gcons);
-		gcons.gridy = 5;
-		this.panel.add(atacarButton, gcons);
-		gcons.gridx = 1;
-		this.panel.add(moverButton, gcons);
-		gcons.gridx = 0;
-		gcons.gridy = 6;
-		this.panel.add(fimButton, gcons);
-		gcons.gridy = 7;
-		this.panel.add(this.gameInfo);
 		
 		this.mapaGUI = new QuadradoUI[this.jogo.getMapa().getNLinhas()][this.jogo.getMapa().getNColunas()];
 		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++) {
@@ -122,15 +121,47 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 				mapaGUI[i][j].setName(i + (" "+ j));
 				mapaGUI[i][j].setPreferredSize(new Dimension(40, 40));
 
-				gcons.gridx = j + 10;
-				gcons.gridy = i + 10;
+				gcons.gridx = j + 15;
+				gcons.gridy = i + 15;
 				this.panel.add(mapaGUI[i][j], gcons);
 			}
 		}
 		
-		//this.pack();
+		gcons.gridx = 0;
+		gcons.gridy = 0;
+		this.panel.add(mensagemVez, gcons);
+		gcons.gridx = 1;
+		gcons.gridy = 0;
+		this.panel.add(mensagemRodada, gcons);
+		gcons.gridx = 0;
+		gcons.gridy = 1;
+		this.panel.add(mensagemPos, gcons);
+		gcons.gridx = 0;
+		gcons.gridy = 2;
+		this.panel.add(atacarButton, gcons);
+		gcons.gridx = 1;
+		gcons.gridy = 2;
+		this.panel.add(moverButton, gcons);
+		gcons.gridx = 0;
+		gcons.gridy = 3;
+		this.panel.add(fimButton, gcons);
+		gcons.gridx = 1;
+		gcons.gridy = 3;
+		this.panel.add(useButton, gcons);
+		gcons.gridx = 0;
+		gcons.gridy = 4;
+		JLabel men = new JLabel("Nome do Item");
+		men.setPreferredSize(stdSize);
+		this.panel.add(men, gcons);
+		gcons.gridx = 0;
+		gcons.gridy = 5;
+		this.panel.add(this.itemTextbox, gcons);
+		
+		this.pack();
 		this.markAllDirty();
 		this.updateUI();
+		this.infoFrame.pack();
+		this.infoFrame.setLocation(this.getX() + this.getWidth(), this.getY());
 	}
 	
 	/**
@@ -158,6 +189,12 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 			}
 		}
 		
+		this.gameInfo.setText(this.gameInfo.getText());
+		this.infoFrame.validate();
+		this.infoFrame.paint(this.panel.getGraphics());
+		this.infoFrame.revalidate();
+		this.infoFrame.repaint();
+		
 		this.panel.validate();
 		this.panel.paint(this.panel.getGraphics());
 		this.panel.revalidate();
@@ -172,6 +209,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		if (e.getActionCommand().equals("atacar")) this.curBotao = new String("atacar");
 		else if(e.getActionCommand().equals("mover")) this.curBotao = new String("mover");
 		else if (e.getActionCommand().equals("fim")) this.curBotao = new String("fim");
+		else if (e.getActionCommand().equals("usar")) this.curBotao = new String("usar");
 		else this.curBotao = null;
 	}
 	
@@ -209,6 +247,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		if (this.curBotao.equals("atacar")) order = new Ordem(Comando.ATACAR, new Posicao(this.curI, this.curJ));
 		else if (this.curBotao.equals("mover")) order = new Ordem(Comando.MOVER, new Posicao(this.curI, this.curJ));
 		else if (this.curBotao.equals("fim")) order = new Ordem(Comando.ENCERRAR);
+		else if (this.curBotao.equals("usar")) order = new Ordem(Comando.USAR, this.itemTextbox.getText());
 		
 		this.curBotao = null;
 		return order;
@@ -242,8 +281,21 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	
 	private void imprimirTime(List<Personagem> time){
 		Iterator<Personagem> it = time.iterator();
-		while (it.hasNext()) this.gameInfo.append(it.next().toString());
-		this.gameInfo.append("\n\n");
+		while (it.hasNext()) {
+			Personagem p = it.next();
+			this.gameInfo.append(p.toString());
+			this.gameInfo.append("Inventario:\n");
+			Iterator<Par<Item, Integer>> itemIt = p.getItens().iterator();
+			while (itemIt.hasNext()) this.gameInfo.append(itemIt.next().getV1().getNome());
+			this.gameInfo.append("\n\n\n");
+		}
 	}
 	
+	/**
+	 * Overload do metodo setVisible para incluir os pop-ups
+	 */
+	public void setVisible(boolean b){
+		super.setVisible(b);
+		this.infoFrame.setVisible(b);
+	}
 }
