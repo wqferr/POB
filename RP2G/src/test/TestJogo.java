@@ -30,13 +30,7 @@ public class TestJogo {
         p1.setArma("Espada Bastarda");
         p2.adicionar(new Livro("Bola de Fogo", 4, 5));
         p2.setArma("Bola de Fogo");
-		
-        Mapa m = null;
-		m = new Mapa("Map1", ImageIO.read(new File("db/Map1.png")));
-		Jogo j = new Jogo(m, Arrays.asList(p1), Arrays.asList(p2));
-        
-        JanelaJogo jan = new JanelaJogo(j);
-        jan.setVisible(true);
+	
 	}
 
 }

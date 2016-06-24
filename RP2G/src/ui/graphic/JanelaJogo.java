@@ -41,7 +41,8 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	private JButton fimButton;
 	private JButton useButton;
 	private JTextArea gameInfo;
-	private JFrame infoFrame; 
+	private JFrame infoFrame;
+	private JFrame tableFrame;
 	private JTextField itemTextbox;
 	
 	private Jogo jogo;
@@ -77,7 +78,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	 * @param width
 	 */
 	public JanelaJogo(Jogo jogo, Cliente client, String windowName, int height, int width) {
-		super(windowName);
+		super("Comandos");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(width, height);
 		this.curI = 0;
@@ -89,7 +90,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		this.jogo.setOuvinte(this);
 		this.client = client;
 		
-		Dimension stdSize = new Dimension(125, 25);
+		Dimension stdSize = new Dimension(160, 25);
 		
 		this.mensagemVez = new JLabel(this.jogo.getTimeAtual()==this.client.getTime() ? "Sua Vez" : "Vez do Outro");
 		this.mensagemRodada = new JLabel(this.jogo.personagemAtual().getNome());
@@ -113,19 +114,6 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		
 		GridBagConstraints gcons = new GridBagConstraints();
 		gcons.insets = new Insets(0, 0, 0, 0);
-		
-		this.mapaGUI = new QuadradoUI[this.jogo.getMapa().getNLinhas()][this.jogo.getMapa().getNColunas()];
-		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++) {
-			for (int j=0; j<this.jogo.getMapa().getNColunas(); j++) {
-				mapaGUI[i][j] = new QuadradoUI(jogo.getMapa().getQuadrado(new Posicao(i, j)), this);
-				mapaGUI[i][j].setName(i + (" "+ j));
-				mapaGUI[i][j].setPreferredSize(new Dimension(40, 40));
-
-				gcons.gridx = j + 15;
-				gcons.gridy = i + 15;
-				this.panel.add(mapaGUI[i][j], gcons);
-			}
-		}
 		
 		gcons.gridx = 0;
 		gcons.gridy = 0;
@@ -153,15 +141,33 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		JLabel men = new JLabel("Nome do Item");
 		men.setPreferredSize(stdSize);
 		this.panel.add(men, gcons);
-		gcons.gridx = 0;
-		gcons.gridy = 5;
+		gcons.gridx = 1;
+		gcons.gridy = 4;
 		this.panel.add(this.itemTextbox, gcons);
 		
+		this.tableFrame = new JFrame(windowName);
+		JPanel tablePanel = (JPanel) this.tableFrame.getContentPane();
+		tablePanel.setLayout(new GridBagLayout());
+		this.mapaGUI = new QuadradoUI[this.jogo.getMapa().getNLinhas()][this.jogo.getMapa().getNColunas()];
+		for (int i=0; i<this.jogo.getMapa().getNLinhas(); i++) {
+			for (int j=0; j<this.jogo.getMapa().getNColunas(); j++) {
+				mapaGUI[i][j] = new QuadradoUI(jogo.getMapa().getQuadrado(new Posicao(i, j)), this);
+				mapaGUI[i][j].setName(i + (" "+ j));
+				mapaGUI[i][j].setPreferredSize(new Dimension(40, 40));
+
+				gcons.gridx = j;
+				gcons.gridy = i;
+				tablePanel.add(mapaGUI[i][j], gcons);
+			}
+		}
+		
+		this.tableFrame.pack();
 		this.pack();
 		this.markAllDirty();
 		this.updateUI();
 		this.infoFrame.pack();
-		this.infoFrame.setLocation(this.getX() + this.getWidth(), this.getY());
+		this.tableFrame.setLocation(this.getX() + this.getWidth(), this.getY());
+		this.infoFrame.setLocation(this.tableFrame.getX() + this.tableFrame.getWidth(), this.tableFrame.getY());
 	}
 	
 	/**
@@ -189,11 +195,15 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 			}
 		}
 		
-		this.gameInfo.setText(this.gameInfo.getText());
 		this.infoFrame.validate();
 		this.infoFrame.paint(this.panel.getGraphics());
 		this.infoFrame.revalidate();
 		this.infoFrame.repaint();
+		
+		this.tableFrame.validate();
+		this.tableFrame.paint(this.panel.getGraphics());
+		this.tableFrame.revalidate();
+		this.tableFrame.repaint();
 		
 		this.panel.validate();
 		this.panel.paint(this.panel.getGraphics());
@@ -284,6 +294,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 		while (it.hasNext()) {
 			Personagem p = it.next();
 			this.gameInfo.append(p.toString());
+			this.gameInfo.append("Posicao: {" + p.getPosicao().getLinha() + ", " + p.getPosicao().getColuna() + "}\n");
 			this.gameInfo.append("Inventario:\n");
 			Iterator<Par<Item, Integer>> itemIt = p.getItens().iterator();
 			while (itemIt.hasNext()) this.gameInfo.append(itemIt.next().getV1().getNome());
@@ -297,5 +308,6 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	public void setVisible(boolean b){
 		super.setVisible(b);
 		this.infoFrame.setVisible(b);
+		this.tableFrame.setVisible(b);
 	}
 }
