@@ -47,10 +47,10 @@ public class TestJogo2 {
 		}
 		
 		Mapa m = Mapa.get("Map1");
-		Random r = new Random();
-		Jogo j = new Jogo(m, r);
+		long seed = System.nanoTime();
+		Jogo j = new Jogo(m, new Random(seed));
 		
-		Servidor s = new Servidor(j, r);
+		Servidor s = new Servidor(j, seed);
 		try {
             s.start();
 		} catch (IOException e) {

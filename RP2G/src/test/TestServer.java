@@ -40,10 +40,11 @@ public class TestServer {
 		} catch (ItemInvalidoException e) {}
 		
 		Mapa m = Mapa.get("Map1");
-		Random r = new Random();
+		long seed = System.nanoTime();
+		Random r = new Random(seed);
 		Jogo j = new Jogo(m, Arrays.asList(p1), Arrays.asList(p2), r);
 		
-		Servidor s = new Servidor(j, r);
+		Servidor s = new Servidor(j, seed);
 		try {
             s.start();
 		} catch (IOException e) {
