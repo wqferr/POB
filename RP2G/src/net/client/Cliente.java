@@ -95,7 +95,7 @@ public class Cliente {
 		try {
 			rng = (Random) this.in.readObject();
 		} catch (ClassNotFoundException e1) {}
-		Personagem.D_20.setSeed(rng.nextLong());
+		long seed = rng.nextLong();
 		
 		System.err.println("Recebendo database.");
 		DatabaseHandler.readAllStream(this.in);
@@ -110,6 +110,7 @@ public class Cliente {
 			
 			jogo = new Jogo(m, p1, p2, rng);
 		} catch (ClassNotFoundException e) {}
+        Personagem.D_20.setSeed(seed);
 		
 		System.err.println("Informações transmitidas com êxito.");
 	}

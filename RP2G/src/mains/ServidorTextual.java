@@ -1,8 +1,8 @@
 package mains;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -10,33 +10,62 @@ import net.server.Servidor;
 import core.Jogo;
 import core.database.DatabaseHandler;
 import core.mapa.Mapa;
+import core.personagem.Personagem;
+import exception.ItemInvalidoException;
 
 /**
  * Classe com o método Main para o servidor
  */
 
 public class ServidorTextual {
+	
 	public static void main(String[] args) {
 		new DatabaseHandler();
 		
-		//@SuppressWarnings("resource") // fechar o Scanner fecharia stdin
+		Iterator<Entry<String, Personagem>> iter = Personagem.getIterator();
+		
+		while (iter.hasNext()) {
+			Personagem p = iter.next().getValue();
+			switch (p.getProfissao()) {
+                case GUERREIRO:
+                    p.adicionar("Espada Bastarda");
+                    p.adicionar("Whey");
+                    try {
+                        p.setArma("Espada Bastarda");
+                    } catch (ItemInvalidoException e1) {}
+                    break;
+                    
+                case MAGO:
+                	p.adicionar("Bola de Fogo");
+                	p.adicionar("Pot");
+                    try {
+                        p.setArma("Bola de Fogo");
+                    } catch (ItemInvalidoException e) {}
+                	break;
+                	
+                default:
+                    break;
+			}
+		}
+		
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		
 		System.out.println("Nome do Mapa:");
 		Mapa map = Mapa.get(scan.nextLine());
 		Random rng = new Random();
-		Jogo game = new Jogo(map, rng);
-		
-		Servidor server = new Servidor(game, rng);
-		
-		try {
-			System.out.println(InetAddress.getLocalHost());
-		} catch (UnknownHostException e1) {
-			System.out.println("Não foi possível recuperar seu endereço IP");
-		}
-		
-		try { server.start(); }
-		catch (IOException e){ System.err.println(e); }
-		scan.close();
+        Jogo game = new Jogo(map, rng);
+        
+        Servidor server = new Servidor(game, rng);
+        
+        try {
+            server.start();
+        } catch (IOException e) {
+            System.err.println(e);
+        } finally {
+            try {
+                server.close();
+            } catch (IOException e) {}
+        }
 	}
 }
