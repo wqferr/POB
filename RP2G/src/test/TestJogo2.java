@@ -3,7 +3,6 @@ package test;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import java.util.Random;
 
 import net.server.Servidor;
 import core.Jogo;
@@ -48,7 +47,7 @@ public class TestJogo2 {
 		
 		Mapa m = Mapa.get("Map1");
 		long seed = System.nanoTime();
-		Jogo j = new Jogo(m, new Random(seed));
+		Jogo j = new Jogo(m);
 		
 		Servidor s = new Servidor(j, seed);
 		try {

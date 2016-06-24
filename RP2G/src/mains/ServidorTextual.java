@@ -3,7 +3,6 @@ package mains;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.Scanner;
 
 import net.server.Servidor;
@@ -53,10 +52,9 @@ public class ServidorTextual {
 		
 		System.out.println("Nome do Mapa:");
 		Mapa map = Mapa.get(scan.nextLine());
-		long seed = System.nanoTime();
-        Jogo game = new Jogo(map, new Random(seed));
-        
-        Servidor server = new Servidor(game, seed);
+		
+        Jogo game = new Jogo(map);
+        Servidor server = new Servidor(game, System.nanoTime());
         
         try {
             server.start();

@@ -2,7 +2,6 @@ package test;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Random;
 
 import net.server.Servidor;
 import core.Jogo;
@@ -40,11 +39,9 @@ public class TestServer {
 		} catch (ItemInvalidoException e) {}
 		
 		Mapa m = Mapa.get("Map1");
-		long seed = System.nanoTime();
-		Random r = new Random(seed);
-		Jogo j = new Jogo(m, Arrays.asList(p1), Arrays.asList(p2), r);
+		Jogo j = new Jogo(m, Arrays.asList(p1), Arrays.asList(p2));
 		
-		Servidor s = new Servidor(j, seed);
+		Servidor s = new Servidor(j, System.nanoTime());
 		try {
             s.start();
 		} catch (IOException e) {

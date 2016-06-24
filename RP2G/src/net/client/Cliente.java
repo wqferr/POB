@@ -6,7 +6,6 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 import net.Mensagem;
@@ -107,7 +106,7 @@ public class Cliente {
 			@SuppressWarnings("unchecked")
 			List<Personagem> p2 = (List<Personagem>) this.in.readObject();
 			
-			jogo = new Jogo(m, p1, p2, new Random(seed));
+			jogo = new Jogo(m, p1, p2);
 		} catch (ClassNotFoundException e) {}
         Personagem.D_20.setSeed(seed);
 		

@@ -1,13 +1,11 @@
 package core;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.function.Consumer;
 
 import utils.struct.ListaCircular;
@@ -47,13 +45,9 @@ public class Jogo implements Serializable {
 	 * @param p1 Lista de personagens do time um 
 	 * @param p2 Lista de personagens do time dois
 	 */
-	public Jogo(Mapa m, List<Personagem> p1, List<Personagem> p2, Random rng) {
+	public Jogo(Mapa m, List<Personagem> p1, List<Personagem> p2) {
 		this.mapa = m;
 
-		if (rng != null) {
-			Collections.shuffle(p1);
-			Collections.shuffle(p2);
-		}
 		init(m.getSpawnPointsTime1(), p1, 1);
 		init(m.getSpawnPointsTime2(), p2, 2);
 		this.personagens1 = new ListaCircular<>(p1);
@@ -70,7 +64,7 @@ public class Jogo implements Serializable {
 	 * Cosntrutor basico apenas com mapa
 	 * @param m
 	 */
-	public Jogo(Mapa m, Random rng) {
+	public Jogo(Mapa m) {
 		List<Personagem> p1 = new LinkedList<>();
 		List<Personagem> p2 = new LinkedList<>();
 		List<Personagem> todos = new LinkedList<>();
@@ -79,8 +73,6 @@ public class Jogo implements Serializable {
 		while (iter.hasNext())
 			todos.add(iter.next().getValue());
 		
-		if (rng != null)
-            Collections.shuffle(todos, rng);
 		ListIterator<Personagem> li = todos.listIterator();
 		
 		int nSpawns1 = m.getSpawnPointsTime1().size();
