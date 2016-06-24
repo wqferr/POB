@@ -564,21 +564,8 @@ public class Personagem implements Serializable {
 	public String toString(){
 		String out = new String();
         out += "Nome: " + this.getNome() + "\n";
-        out += "HP Máximo: " + this.getStat(Stat.HP_MAX) + "\n";
         out += "HP Atual: " + this.getHp() + "\n";
-        
-        out += "[";
-        int porcentHp = (10*this.getHp()) / this.getStat(Stat.HP_MAX);
-        int i;
-        for (i=0; i<porcentHp; i++) out+="#";
-        while (i < 10) {
-            out+=".";
-            i++;
-        }
-        out +="]\n";
-        
-        out += "\nStats:\n";
-        out += "Força; " + this.getStat(Stat.FOR);
+        out += "Força; " + this.getStat(Stat.FOR) + "\n";
         out+= "Inteligência: " + this.getStat(Stat.INT) + "\n";
         out+= "Destreza: " + this.getStat(Stat.DEX) + "\n";
         out+= "Velocidade: " + this.getStat(Stat.VEL) + "\n";
