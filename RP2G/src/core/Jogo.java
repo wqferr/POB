@@ -276,7 +276,12 @@ public class Jogo implements Serializable {
 	 */
 	public boolean usar(String item) {
 		try {
-            return this.pAtual.usar(item);
+            this.ouvinte.accept(null);
+            if (this.pAtual.usar(item)) {
+                this.ouvinte.accept(null);
+                return true;
+            }
+            return false;
 		} catch (ItensInsuficientesException e) {
 			return false;
 		}
