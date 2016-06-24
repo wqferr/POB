@@ -64,7 +64,7 @@ public abstract class Item implements Comparable<Item>, Serializable {
 	 * Remove um item do bando de dados
 	 * @param nome
 	 */
-	public static void remove(String nome){
+	public static void remove(String nome) {
 		if (!Item.registro.containsKey(nome)) throw new ItemInexistenteException();
 		Item.registro.remove(nome);
 	}

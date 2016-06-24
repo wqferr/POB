@@ -58,9 +58,9 @@ public class DatabaseHandler {
 	}
 	
 	/**
-	 * Enumeracao dos tipos de dados
+	 * Enumeracao dos tipos de dados.
 	 */
-	public static enum DataType{
+	public static enum DataType {
 		PERSONAGEM,
 		ITEM,
 		MAPA;
@@ -113,18 +113,18 @@ public class DatabaseHandler {
 	
 	/**
 	 * Remove o Objeto de nome e tipo especificado,
-	 * reescrevendo o arquivo depois
-	 * @param nome
-	 * @param type
+	 * reescrevendo o arquivo depois.
+	 * @param nome O nome do objeto a ser removido
+	 * @param type O tipo do objeto a ser removido
 	 */
-	public void removeFromDatabase(String nome, DataType type){
+	public void removeFromDatabase(String nome, DataType type) {
 		boolean found = true;
 		try {
 			if (type == DataType.PERSONAGEM) Personagem.remove(nome);
 			else if (type == DataType.MAPA) Mapa.remove(nome);
 			else if (type == DataType.ITEM) Item.remove(nome);
 		}
-		catch (ItemInexistenteException | MapaInexistenteException | PersonagemInexistenteException e){
+		catch (ItemInexistenteException | MapaInexistenteException | PersonagemInexistenteException e) {
 			found = false;
 			System.err.println("Não existe!");
 		}

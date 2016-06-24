@@ -6,7 +6,7 @@ package exception;
  */
 
 
-public class MapaInexistenteException extends RuntimeException{
+public class MapaInexistenteException extends RuntimeException {
 	private static final long serialVersionUID = 543237124L;
 
 	public MapaInexistenteException() {

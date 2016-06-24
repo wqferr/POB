@@ -250,7 +250,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	 */
 	@Override
 	public Ordem proximaOrdem(Jogo j) {
-		try{ while (this.curBotao==null) Thread.sleep(10); }
+		try { while (this.curBotao==null) Thread.sleep(10); }
 		catch(Exception e) { e.printStackTrace(); }
 		
 		Ordem order = null;
@@ -289,7 +289,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 			if(p!=null) this.mapaGUI[p.getPosicao().getLinha()][p.getPosicao().getColuna()].setDirty(true);
 	}
 	
-	private void imprimirTime(List<Personagem> time){
+	private void imprimirTime(List<Personagem> time) {
 		Iterator<Personagem> it = time.iterator();
 		while (it.hasNext()) {
 			Personagem p = it.next();
@@ -305,7 +305,7 @@ public class JanelaJogo extends JFrame implements ActionListener, MouseListener,
 	/**
 	 * Overload do metodo setVisible para incluir os pop-ups
 	 */
-	public void setVisible(boolean b){
+	public void setVisible(boolean b) {
 		super.setVisible(b);
 		this.infoFrame.setVisible(b);
 		this.tableFrame.setVisible(b);

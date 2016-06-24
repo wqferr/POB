@@ -194,7 +194,7 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 					Profissao prof = Profissao.GUERREIRO;
 					ImageIcon icone = null;
 					int hp = 0, forc=0, dext=0, inte=0, vel=0;
-					try{
+					try {
 						prof = Profissao.valueOf((String)this.profissoesDropDown.getSelectedItem());
 						icone = new ImageIcon(ImageIO.read(new File(this.textBox[1].getText())));
 						hp = Integer.parseInt(this.textBox[2].getText());
@@ -209,12 +209,12 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 				}
 				else if (this.tipoDropDown.getSelectedItem().equals("Arma")) {
 					int dano = 0, alcance = 0;
-					try{
+					try {
 						dano = Integer.parseInt(this.textBox[1].getText());
 						alcance = Integer.parseInt(this.textBox[2].getText());
 					}catch(Exception e) { System.err.println(e); }
 					
-					try{
+					try {
 						if (((String)this.armaDropDown.getSelectedItem()).equals("Espada"))
 							new Espada(nome, dano, alcance);
 						else if (((String)this.armaDropDown.getSelectedItem()).equals("Arco"))
@@ -227,7 +227,7 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 				}
 				else if (this.tipoDropDown.getSelectedItem().equals("Poção")) {
 					int potencia = 0;
-					try{ potencia = Integer.parseInt(this.textBox[1].getText());
+					try { potencia = Integer.parseInt(this.textBox[1].getText());
 					}catch(Exception e) { System.err.println(e); }
 	
 					try { new Pocao(nome, potencia); }
@@ -235,7 +235,7 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 				}
 				else if (this.tipoDropDown.getSelectedItem().equals("Aprimoramento")) {
 					int bonFor = 0, bonDex = 0, bonInt = 0, bonVel = 0;
-					try{
+					try {
 						bonFor = Integer.parseInt(this.textBox[1].getText());
 						bonDex = Integer.parseInt(this.textBox[2].getText());
 						bonInt = Integer.parseInt(this.textBox[3].getText());
@@ -247,7 +247,7 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 				}
 				else if (this.tipoDropDown.getSelectedItem().equals("Mapa")) {
 					File imagem = null;
-					try{
+					try {
 						imagem = this.mapaChooser.getSelectedFile();
 					}catch(Exception e) { System.err.println(e);}
 					
@@ -261,7 +261,7 @@ public class JanelaDatabase extends JFrame implements ActionListener {
 			this.showDatabase();
 		}
 		
-		else if (event.getActionCommand().equals("remover")){
+		else if (event.getActionCommand().equals("remover")) {
 			String nome = this.textBox[0].getText();
 			DataType type;
 			if (this.tipoDropDown.getSelectedItem().equals("Personagem")) type = DataType.PERSONAGEM;

@@ -20,7 +20,7 @@ import core.personagem.Profissao;
 
 public class TestJogo {
 
-	public static void main(String[] args) throws Exception{
+	public static void main(String[] args) throws Exception {
 		new DatabaseHandler();
 		
 		Personagem p1 = null, p2 = null;

@@ -74,36 +74,31 @@ public class Personagem implements Serializable {
 
 	
 	/**
-	 * Constrói um guerreiro padrão.
-	 * Vide próximo construtor.
-	 * 
 	 * @param nome O nome do personagem.
+	 * @throws NomeRepetidoException Se já houver personagem com esse nome.
 	 */
-	public Personagem(String nome) throws NomeRepetidoException{
+	public Personagem(String nome) throws NomeRepetidoException {
 		this(nome, Profissao.GUERREIRO);
 	}
 	
 	/**
-	 * Constrói um personagem padrão.
-	 * Vide próximo construtor.
-	 * 
 	 * @param nome O nome do personagem.
 	 * @param prof A profissão do personagem.
+	 * @throws NomeRepetidoException Se já houver personagem com esse nome.
 	 */
-	public Personagem(String nome, Profissao prof) throws NomeRepetidoException{
+	public Personagem(String nome, Profissao prof) throws NomeRepetidoException {
 		this(nome, prof, 10, 3);
 	}
 	
 	/**
-	 * Constrói um personagem padrão.
-	 * 
 	 * @param nome O nome do personagem.
 	 * @param prof A profissão do personagem.
 	 * @param maxHp O HP máximo do personagem.
 	 * @param vel A velocidade do personagem.
+	 * @throws NomeRepetidoException Se já houver personagem com esse nome.
 	 */
 
-	public Personagem(String nome, Profissao prof, int maxHp, int vel) throws NomeRepetidoException{
+	public Personagem(String nome, Profissao prof, int maxHp, int vel) throws NomeRepetidoException {
 		this(nome, prof, maxHp, vel, 5, 5, 5);
 	}
 	
@@ -117,8 +112,9 @@ public class Personagem implements Serializable {
 	 * @param ist A força inicial do personagem.
 	 * @param iint A inteligência inicial do personagem.
 	 * @param idex A dextreza inicial do personagem.
+	 * @throws NomeRepetidoException Se já houver personagem com esse nome.
 	 */
-	public Personagem(String nome, Profissao prof, int maxHp, int vel, int ist, int iint, int idex) throws NomeRepetidoException{
+	public Personagem(String nome, Profissao prof, int maxHp, int vel, int ist, int iint, int idex) throws NomeRepetidoException {
 		this(nome, prof, maxHp, vel, ist, iint, idex, null);
 	}
 	
@@ -133,6 +129,7 @@ public class Personagem implements Serializable {
 	 * @param iint A inteligência inicial do personagem.
 	 * @param idex A dextreza inicial do personagem.
 	 * @param icone O ícone usado para representar o personagem na interface gráfica.
+	 * @throws NomeRepetidoException Se já houver personagem com esse nome.
 	 */
 	public Personagem(String nome, Profissao prof, int maxHp, int vel, int ist, int iint, int idex, ImageIcon icone) throws NomeRepetidoException {
 		this.nome = nome;
@@ -219,16 +216,16 @@ public class Personagem implements Serializable {
 	}
 	
 	/**
-	 * Define-se time
-	 * @param t
+	 * Define-se time.
+	 * @param t O novo time
 	 */
 	public void setTime(int t) {
 		this.time = t;
 	}
 	
 	/**
-	 * Retorna o time
-	 * @return
+	 * Retorna o time.
+	 * @return O time do personagem
 	 */
 	public int getTime() {
 		return this.time;
@@ -316,6 +313,7 @@ public class Personagem implements Serializable {
 	/**
 	 * Adiciona {@code q} unidades do item ao inventário do personagem.
 	 * @param s O nome do item a ser adicionado.
+	 * @param q A quantidade a ser adicionada.
 	 * 
 	 * @throws ItemInexistenteException Se não existir item com esse nome.
 	 */
@@ -442,34 +440,34 @@ public class Personagem implements Serializable {
 	}
 	
 	/**
-	 * Retorna o icone do personagem
-	 * @return
+	 * Retorna o icone do personagem.
+	 * @return O ícone do personagem
 	 */
 	public ImageIcon getIcone() {
 		return this.icone;
 	}
 	
 	/**
-	 * Retorna se o personagem pode usar aquele item dado por uma String
-	 * @param item
-	 * @return
+	 * Retorna se o personagem pode usar aquele item dado por uma String.
+	 * @param item O item a ser usado.
+	 * @return Se pode usar o item.
 	 */
 	public boolean podeUsar(String item) {
 		return this.podeUsar(Item.get(item));
 	}
 	
 	/**
-	 * Retorna se o personagem pode usar aquele item
-	 * @param item
-	 * @return
+	 * Retorna se o personagem pode usar aquele item.
+	 * @param item O item a ser usado.
+	 * @return Se pode usar o item.
 	 */
 	public boolean podeUsar(Item item) {
 		return this.getNroItens(item) > 0;
 	}
 	
 	/**
-	 * Retorna uma lista contendo todos os itens equipados pelo personagem
-	 * @return
+	 * Retorna uma lista contendo todos os itens equipados pelo personagem.
+	 * @return A lista de itens do personagem.
 	 */
 	public List<Par<Item, Integer>> getItens() {
 		List<Par<Item, Integer>> l = new LinkedList<>();
@@ -499,16 +497,15 @@ public class Personagem implements Serializable {
 	 * @param nome O nome do item a ser usado.
 	 * @return Se foi possivel usar o item.
 	 * @throws ItemInexistenteException Se não existir item com esse nome.
-	 * @throws ItensInsuficientesException Se o personagem não possuir esse item.
 	 * @throws ItemInvalidoException Se o item especificado pelo nome não for usável.
 	 */
 	public boolean usar(String nome) {
         return this.usar(Item.get(nome));
 	}
 	/**
-	 * Busca no registro de Personagens pelo nome dado
-	 * @param nome
-	 * @return
+	 * Busca no registro de Personagens pelo nome dado.
+	 * @param nome Nome do personagem.
+	 * @return O personagem correspondente.
 	 */
 	public static Personagem get(String nome) {
 		Personagem p = Personagem.registro.get(nome);
@@ -517,9 +514,9 @@ public class Personagem implements Serializable {
 		return p;
 	}
 	/**
-	 * Adiciona no registro de Personagens o personagem novo
-	 * @param pers
-	 * @throws NomeRepetidoException
+	 * Adiciona no registro de Personagens o personagem novo.
+	 * @param pers O personagem a ser cadastrado.
+	 * @throws NomeRepetidoException Se já houver um personagem com aquele nome.
 	 */
 	public static void add(Personagem pers) throws NomeRepetidoException {
 		if (Personagem.registro.putIfAbsent(pers.getNome(), pers) != null)
@@ -527,41 +524,38 @@ public class Personagem implements Serializable {
 	}
 	
 	/**
-	 * Remove um personagem do bando de dados
-	 * @param nome
+	 * Remove um personagem do bando de dados.
+	 * @param nome O nome do personagem.
 	 */
-	public static void remove(String nome){
+	public static void remove(String nome) {
 		if (!Personagem.registro.containsKey(nome)) throw new PersonagemInexistenteException();
 		Personagem.registro.remove(nome);
 	}
 	
 	/**
-	 * Retorna o iterador do registro
-	 * @return
+	 * Retorna o iterador do registro.
+	 * @return O iterador.
 	 */
 	public static Iterator<Entry<String, Personagem>> getIterator() {
 		return Personagem.registro.entrySet().iterator();
 	}
 	
 	/**
-	 * Retorna o numero de personagens do registro
-	 * @return
+	 * Retorna o numero de personagens do registro.
+	 * @return O número de personagens no registro.
 	 */
 	public static int getNroPersonagens() {
 		return registro.size();
 	}
 	/**
-	 * Retorna se o personagem esta morto
-	 * @return
+	 * Retorna se o personagem esta morto.
+	 * @return Se o personagem está morto.
 	 */
 	public boolean isMorto() {
 		return this.hp == 0;
 	}
 	
-	/**
-	 * Retorna as informacoes do personagem em uma String
-	 */
-	public String toString(){
+	public String toString() {
 		String out = new String();
         out += "Nome: " + this.getNome() + "\n";
         out += "HP Atual: " + this.getHp() + "\n";

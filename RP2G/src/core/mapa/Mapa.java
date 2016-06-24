@@ -21,7 +21,7 @@ import exception.NomeRepetidoException;
 /**
  * Mapa do jogo, uma matriz composta de quadrados.
  */
-public class Mapa implements Serializable{
+public class Mapa implements Serializable {
 	private static final long serialVersionUID = 63278163812368321L;
 	
 	private String nome;
@@ -35,7 +35,7 @@ public class Mapa implements Serializable{
 	 * @param nome Nome do mapa
 	 * @param topologia Matriz de quadrados
 	 */
-	public Mapa(String nome, Quadrado[][] topologia) throws NomeRepetidoException{
+	public Mapa(String nome, Quadrado[][] topologia) throws NomeRepetidoException {
 		this.nome = nome;
 		this.topologia = topologia;
 		this.spawnPointsTime1 = new LinkedList<Posicao>();
@@ -49,7 +49,7 @@ public class Mapa implements Serializable{
 	 * @param bool Matriz de Boolean que representa a acessibilidade das posições do mapa
 	 * @throws NomeRepetidoException Se já existe outro mapa com o mesmo nome
 	 */
-	public Mapa(String nome, boolean[][] bool) throws NomeRepetidoException{
+	public Mapa(String nome, boolean[][] bool) throws NomeRepetidoException {
 		this.nome = nome;
 		if (bool.length == 0) throw new IllegalArgumentException("Mapa deve ter ao menos 1 linha");
 		if (bool[0].length == 0) throw new IllegalArgumentException("Mapa deve ter ao menos 1 coluna");
@@ -76,7 +76,7 @@ public class Mapa implements Serializable{
 	 * @param imagem Imagem para criação do mapa
 	 * @throws NomeRepetidoException Se já existe outro mapa com o mesmo nome
 	 */
-	public Mapa(String nome, BufferedImage imagem) throws NomeRepetidoException{
+	public Mapa(String nome, BufferedImage imagem) throws NomeRepetidoException {
 		this.nome = nome;
 		this.topologia = new Quadrado[imagem.getHeight()][imagem.getWidth()];
 		this.spawnPointsTime1 = new LinkedList<Posicao>();
@@ -263,7 +263,7 @@ public class Mapa implements Serializable{
 	 * Remove um mapa do bando de dados
 	 * @param nome
 	 */
-	public static void remove(String nome){
+	public static void remove(String nome) {
 		if (!Mapa.registro.containsKey(nome)) throw new MapaInexistenteException();
 		Mapa.registro.remove(nome);
 	}
