@@ -130,10 +130,10 @@ public class ControladorTextual implements Controlador {
                         return new Ordem(Comando.ENCERRAR);
                     
                     case "h":
-                        System.out.println("m i j\tMover para linha i coluna j");
-                        System.out.println("a i j\tAtacar linha i coluna j");
+                        System.out.println("m l c\tMover para linha l coluna c");
+                        System.out.println("a l c\tAtacar linha l coluna c");
+                        System.out.println("i l c\tExibir informações da posição l c");
                         System.out.println("u n  \tUsar item de nome n");
-                        System.out.println("i    \t");
                         System.out.println("l    \tLista itens do personagem atual");
                         System.out.println("M    \tExibir mapa novamente");
                         System.out.println("f    \tEncerrar o turno");
