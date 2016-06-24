@@ -53,10 +53,10 @@ public class ServidorTextual {
 		
 		System.out.println("Nome do Mapa:");
 		Mapa map = Mapa.get(scan.nextLine());
-		Random rng = new Random();
-        Jogo game = new Jogo(map, rng);
+		long seed = System.nanoTime();
+        Jogo game = new Jogo(map, new Random(seed));
         
-        Servidor server = new Servidor(game, rng);
+        Servidor server = new Servidor(game, seed);
         
         try {
             server.start();

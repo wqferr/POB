@@ -91,11 +91,10 @@ public class Cliente {
 		
 		this.time = Integer.parseInt(msg.getMsg());
 		this.notificar(Evento.CONFIRMACAO);
-		Random rng = null;
+		long seed = 0;
 		try {
-			rng = (Random) this.in.readObject();
+			seed = (Long) this.in.readObject();
 		} catch (ClassNotFoundException e1) {}
-		long seed = rng.nextLong();
 		
 		System.err.println("Recebendo database.");
 		DatabaseHandler.readAllStream(this.in);
@@ -108,7 +107,7 @@ public class Cliente {
 			@SuppressWarnings("unchecked")
 			List<Personagem> p2 = (List<Personagem>) this.in.readObject();
 			
-			jogo = new Jogo(m, p1, p2, rng);
+			jogo = new Jogo(m, p1, p2, new Random(seed));
 		} catch (ClassNotFoundException e) {}
         Personagem.D_20.setSeed(seed);
 		

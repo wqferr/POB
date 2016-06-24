@@ -4,7 +4,6 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Random;
 import java.util.Scanner;
 
 import net.Mensagem;
@@ -27,14 +26,14 @@ public class Servidor implements Closeable {
 	private int porta;
 	
 	private Jogo jogo;
-	private Random rng;
+	private long seed;
 	
 	/**
 	 * Cria um novo servidor que rodará o jogo dado.
 	 * @param jogo O jogo a ser utilizado.
 	 */
-	public Servidor(Jogo jogo, Random rng) {
-		this(jogo, PORTA_PADRAO, rng);
+	public Servidor(Jogo jogo, long seed) {
+		this(jogo, PORTA_PADRAO, seed);
 	}
 	
 	/**
@@ -42,11 +41,11 @@ public class Servidor implements Closeable {
 	 * @param jogo O jogo a ser utilizado.
 	 * @param porta A porta de rede a ser utilizada.
 	 */
-	public Servidor(Jogo jogo, int porta, Random rng) {
+	public Servidor(Jogo jogo, int porta, long seed) {
 		this.clientes = new TratadorCliente[Jogo.NRO_JOGADORES];
 		this.jogo = jogo;
 		this.porta = porta;
-		this.rng = rng;
+		this.seed = seed;
 	}
 	
 	/**
@@ -88,8 +87,8 @@ public class Servidor implements Closeable {
 		if (!conf)
 			this.notificarDessincronia();
 		
-		this.enviar(rng);
-		Personagem.D_20.setSeed(rng.nextLong());
+		this.enviar(this.seed);
+		Personagem.D_20.setSeed(this.seed);
 	
 		System.err.println("Enviando database.");
 		for (TratadorCliente tc : this.clientes)
