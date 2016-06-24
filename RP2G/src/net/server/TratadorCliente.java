@@ -38,7 +38,12 @@ public class TratadorCliente implements Closeable {
 	 * @throws IOException Se houver erro durante a transmissão.
 	 */
 	public void enviar(Object obj) throws IOException {
-		System.err.println("Enviado a " + i + ": " + obj);
+		System.err.print("Enviado a " + i + ": ");
+		if (obj instanceof Mensagem)
+            System.err.println(obj);
+		else
+            System.err.println(obj.getClass());
+		
 		this.out.writeObject(obj);
 	}
 	

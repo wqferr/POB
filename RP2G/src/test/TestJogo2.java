@@ -55,6 +55,10 @@ public class TestJogo2 {
             s.start();
 		} catch (IOException e) {
 			System.err.println(e);
+		} finally {
+			try {
+                s.close();
+			} catch (IOException e) {}
 		}
 	}
 

@@ -1,5 +1,6 @@
 package net.server;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -17,7 +18,7 @@ import exception.DesyncException;
 /**
  * Classe que faz a comunicação com o Cliente.
  */
-public class Servidor {
+public class Servidor implements Closeable {
 	
 	public static final int PORTA_PADRAO = 4479;
 	
@@ -208,11 +209,6 @@ public class Servidor {
 			}
 			s.close();
 		} while (!acabou);
-		
-		for (TratadorCliente tc : this.clientes)
-			tc.close();
-		
-		this.ss.close();
 	}
 	
 	private void enviar(Object obj) throws IOException {
@@ -287,6 +283,12 @@ public class Servidor {
 		this.notificarTodos(Evento.QUEDA_CONEXAO, true);
 		
 		throw new IOException("Queda de um ou mais clientes.");
+	}
+
+	public void close() throws IOException {
+		for (TratadorCliente tc : this.clientes)
+			tc.close();
+		this.ss.close();
 	}
 	
 }

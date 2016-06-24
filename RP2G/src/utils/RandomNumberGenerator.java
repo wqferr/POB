@@ -6,7 +6,7 @@ package utils;
  *
  */
 
-public class Random {
+public class RandomNumberGenerator {
 	private long p;
 	private long m;
 	private long a;
@@ -15,7 +15,7 @@ public class Random {
 	/**
 	 * Construtor com seed padrão.
 	 */
-	public Random() {
+	public RandomNumberGenerator() {
 		this(System.nanoTime());
 	}
 	
@@ -23,7 +23,7 @@ public class Random {
 	 * Construtor com seed específica.
 	 * @param seed Seed para ser utilizada na geração dos números aleatórios.
 	 */
-	public Random(long seed) {
+	public RandomNumberGenerator(long seed) {
 		this(seed, 2147483648l, 843314861, 453816693);
 	}
 	
@@ -34,7 +34,7 @@ public class Random {
 	 * @param m Coeficiente utilizado pela equação de geração de números aleatórios.
 	 * @param a Coeficiente utilizado pela equação de geração de números aleatórios.
 	 */
-	public Random(long seed, long p, long m, long a) {
+	public RandomNumberGenerator(long seed, long p, long m, long a) {
 		this.xi = (seed % p);
 		this.p = p;
 		this.m = m;

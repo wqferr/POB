@@ -9,7 +9,7 @@ package utils;
 public class Dado {
 	private int lados;
 	private int ladoAtual;
-	private Random gerador;
+	private RandomNumberGenerator gerador;
 	
 	/**
 	 * Gerador padrão para um dado de 6 lados.
@@ -24,7 +24,7 @@ public class Dado {
 	 */
 	public Dado(int lados) {
 		this.lados = lados;
-		this.gerador = new Random();
+		this.gerador = new RandomNumberGenerator();
 		this.ladoAtual = this.rolar();
 	}
 
@@ -35,7 +35,7 @@ public class Dado {
 	 */
 	public Dado(int lados, long s) {
 		this.lados = lados;
-		this.gerador = new Random(s);
+		this.gerador = new RandomNumberGenerator(s);
 		this.ladoAtual = this.rolar();
 	}
 	
