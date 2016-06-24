@@ -182,7 +182,7 @@ public class Jogo implements Serializable {
 	 * @return se foi possível mover o personagem para a posição desejada
 	 */
 	public boolean mover(Posicao nova) {
-		if (this.andou)
+		if (this.andou || !this.mapa.contem(nova))
 			return false;
 		if (this.mapa.isOcupado(nova))
 			return false;
@@ -202,7 +202,7 @@ public class Jogo implements Serializable {
 	 * @return se o personagem pode atacar.
 	 */
 	public boolean podeAtacar(Posicao alvo) {
-		if (!this.mapa.isOcupado(alvo) || this.pAtual.getArma() == null)
+		if (!this.mapa.contem(alvo) || !this.mapa.isOcupado(alvo) || this.pAtual.getArma() == null)
 			return false;
 		return alvo.distancia(this.pAtual.getPosicao()) <= this.pAtual.getArma().getAlcance();
 	}
@@ -213,7 +213,7 @@ public class Jogo implements Serializable {
 	 * @return se foi possível atacar
 	 */
 	public boolean atacar(Posicao alvo) {
-		if (this.atacou)
+		if (this.atacou || !this.mapa.contem(alvo))
 			return false;
 		
 		if (this.pAtual == this.mapa.getQuadrado(alvo).getOcupante())

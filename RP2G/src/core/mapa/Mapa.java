@@ -134,6 +134,8 @@ public class Mapa implements Serializable{
 	 * @return distância entre os pontos
 	 */
 	public int distancia(Posicao p1, Posicao p2) {
+		if (!this.contem(p2))
+			return -1;
 		Queue<Par<Posicao, Integer>> proximas = new LinkedList<>();
 		Set<Posicao> visitados = new TreeSet<>();
 		proximas.add(new Par<>(p1, 0));
